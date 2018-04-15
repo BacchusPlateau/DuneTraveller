@@ -63,7 +63,7 @@ extension GameScene {
                 
             default:
                 // MARK  is this correct?
-                print ("sortRewards: key = " + key)
+                //print ("sortRewards: key = " + key)
                 if (value is Int) {
                     
                     addToInventory(newInventory: key, amount: value as! Int)
@@ -196,14 +196,14 @@ extension GameScene {
             let currentAmount:Int = defaults.integer(forKey:newInventory)
             let newAmount:Int = currentAmount + amount
             
-            print ("set \(newAmount) for \(newInventory)")
+        //    print ("set \(newAmount) for \(newInventory)")
             
             defaults.set(newAmount, forKey:newInventory)
             checkForItemThatMightOpen(newInventory: newInventory, amount: newAmount)
             
         } else {
             
-            print ("set \(amount) for \(newInventory)")
+      //      print ("set \(amount) for \(newInventory)")
             
             defaults.set(amount, forKey:newInventory)
             checkForItemThatMightOpen(newInventory: newInventory, amount: amount)
@@ -321,7 +321,7 @@ extension GameScene {
             availableInventorySlots.remove(at: 0)
         }
         
-        print ("Empty Slot: " + emptySpot)
+   //     print ("Empty Slot: " + emptySpot)
         
         return emptySpot
     }

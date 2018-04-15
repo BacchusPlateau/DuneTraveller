@@ -190,6 +190,60 @@ extension GameScene {
         
     }
     
+
+    
+    func touchMoved(toPoint pos : CGPoint) {
+        
+    }
+    
+    func touchUp(atPoint pos : CGPoint) {
+        touchEnded(toPoint: pos)
+    }
+    
+    // MOUSE DOWN
+    
+    override func mouseDown(with event: NSEvent) {
+        self.touchDown(atPoint: event.location(in: self))
+    }
+    
+    func touchDown(atPoint pos : CGPoint) {
+        touchDownSansPath(atPoint: pos)
+    }
+    
+    func touchDownSansPath(atPoint pos : CGPoint) {
+        
+        print("touchDownSansPath")
+        
+        
+        thePlayer.position = pos
+        
+        
+       
+        
+    }
+    
+    override func mouseDragged(with event: NSEvent) {
+        self.touchMoved(toPoint: event.location(in: self))
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        self.touchUp(atPoint: event.location(in: self))
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        /*
+         switch event.keyCode {
+         case 0x31:
+         if let label = self.label {
+         label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
+         }
+         default:
+         print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
+         }
+         */
+    }
+    
+    
     /*
     func touchDown(atPoint pos : CGPoint) {
         
@@ -230,36 +284,7 @@ extension GameScene {
         */
     }
     */
-    func touchDownSansPath(atPoint pos : CGPoint) {
-        
-        if (pos.x < thePlayer.position.x) {
-            
-            // to the left of the player
-            
-            touchingDown = true
-            thePlayer.removeAction(forKey: "Idle")
-            offsetFromTouchDownToPlayer = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
-            
-            if(touchDownSprite.parent == nil) {
-                touchDownSprite = SKSpriteNode(imageNamed: "TouchDown")
-                self.addChild(touchDownSprite)
-                touchDownSprite.position = pos
-            } else {
-                touchDownSprite.position = pos
-            }
-            
-            if(touchFollowSprite.parent == nil) {
-                touchFollowSprite = SKSpriteNode(imageNamed: "TouchDown")
-                self.addChild(touchFollowSprite)
-                touchFollowSprite.position = pos
-            } else {
-                touchFollowSprite.position = pos
-            }
-            
-        }
-        
-        
-    }
+    
     
     // MARK: Melle or Ranged pre-Attack
     
@@ -557,10 +582,8 @@ extension GameScene {
     
     func touchEnded(toPoint pos:CGPoint) {
         
-        createLineWith(array:pathArray)
-        pathArray.removeAll()
-        
-        currentOffset = CGPoint.zero
+     //   print("touch ended")
+    
         
     }
     

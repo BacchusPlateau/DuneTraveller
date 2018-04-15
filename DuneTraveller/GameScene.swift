@@ -196,8 +196,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 
-                print ("Available inventory slots:")
-                print(self.availableInventorySlots)
+          //      print ("Available inventory slots:")
+          //      print(self.availableInventorySlots)
             /*
                 if(UIDevice.current.userInterfaceIdiom == .pad && !self.hasCustomPadScene) {
                     
@@ -263,7 +263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let someItem:WorldItem = node as? WorldItem {
                 setUpItem(theItem:someItem)
             } else if let someEnemy:Enemy = node as? Enemy {
-                print ("found enemy node")
+        //        print ("found enemy node")
                 setUpEnemy(theEnemy: someEnemy)
             }
         }
@@ -465,42 +465,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func touchDown(atPoint pos : CGPoint) {
-   
-    }
+
     
-    func touchMoved(toPoint pos : CGPoint) {
-       
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        
-    }
-    
-    override func mouseDown(with event: NSEvent) {
-        self.touchDown(atPoint: event.location(in: self))
-    }
-    
-    override func mouseDragged(with event: NSEvent) {
-        self.touchMoved(toPoint: event.location(in: self))
-    }
-    
-    override func mouseUp(with event: NSEvent) {
-        self.touchUp(atPoint: event.location(in: self))
-    }
-    
-    override func keyDown(with event: NSEvent) {
-        /*
-        switch event.keyCode {
-        case 0x31:
-            if let label = self.label {
-                label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-            }
-        default:
-            print("keyDown: \(event.characters!) keyCode: \(event.keyCode)")
-        }
- */
-    }
     
     
   //  override func update(_ currentTime: TimeInterval) {

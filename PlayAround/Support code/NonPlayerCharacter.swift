@@ -103,19 +103,19 @@ class NonPlayerCharacter: SKSpriteNode {
             
             self.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.player.rawValue | BodyType.npc.rawValue | BodyType.attackArea.rawValue
             
-            print ("NPC is colliding with items and player")
+ //           print ("NPC is colliding with items and player")
             
         } else if (!isCollidableWithPlayer && isCollidableWithItems) {
             
             self.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.npc.rawValue | BodyType.attackArea.rawValue
             
-            print ("NPC is colliding with items")
+  //          print ("NPC is colliding with items")
             
         } else if (isCollidableWithPlayer && !isCollidableWithItems) {
             
             self.physicsBody?.collisionBitMask = BodyType.player.rawValue | BodyType.npc.rawValue | BodyType.attackArea.rawValue
             
-            print ("NPC is colliding with player")
+//            print ("NPC is colliding with player")
             
         } else {
             self.physicsBody?.collisionBitMask = 0

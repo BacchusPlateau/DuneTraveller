@@ -942,7 +942,7 @@ class Enemy : SKSpriteNode {
     }
     
     func getProjectileData(name:String) {
-        print("get projectile data for:" + name)
+     //   print("get projectile data for:" + name)
         let path = Bundle.main.path(forResource:"GameData", ofType: "plist")
         let dict:NSDictionary = NSDictionary(contentsOfFile: path!)!
         

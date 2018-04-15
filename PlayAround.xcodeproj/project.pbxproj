@@ -100,7 +100,6 @@
 		BA186D711FF4313F00D8E3E5 /* PlayAround.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PlayAround.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA186D741FF4313F00D8E3E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA186D781FF4313F00D8E3E5 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		BA186D7A1FF4313F00D8E3E5 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		BA186D7C1FF4313F00D8E3E5 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		BA186D7F1FF4313F00D8E3E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA186D811FF4313F00D8E3E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -255,7 +254,6 @@
 			isa = PBXGroup;
 			children = (
 				BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */,
-				BA186D7A1FF4313F00D8E3E5 /* GameScene.swift */,
 				BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */,
 				BAAEBDD82013D477008BC7B2 /* GameScene_Helpers.swift */,
 				BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */,
