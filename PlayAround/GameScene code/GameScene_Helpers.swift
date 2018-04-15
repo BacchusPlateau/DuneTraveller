@@ -161,18 +161,18 @@ extension GameScene {
             
             transitionInProgress = true
             
-            let deviceCheck = SharedHelpers.checkIfSKSExists(baseSKSName: theLevel)
-            let fullSKSNameToLoad:String = deviceCheck.0
+      //      let deviceCheck = SharedHelpers.checkIfSKSExists(baseSKSName: theLevel)
+       //     let fullSKSNameToLoad:String = deviceCheck.0
             
             
-            if let scene = GameScene(fileNamed: fullSKSNameToLoad) {
+            if let scene = GameScene(fileNamed: "Grassland") {
                 
                 //cleanUpScene()
                 
                 scene.currentLevel = theLevel
                 scene.scaleMode = .aspectFill
                 scene.entryNode = toWhere
-                scene.hasCustomPadScene = deviceCheck.1
+                scene.hasCustomPadScene = false
                 
                 let transition:SKTransition = SKTransition.fade(with:SKColor.black, duration:2)
                 

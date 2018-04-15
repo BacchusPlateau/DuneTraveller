@@ -19,6 +19,7 @@ extension GameScene {
         }
     }
     
+    /*
     @objc func tappedView(_ sender:UITapGestureRecognizer) {
         
         let point:CGPoint = sender.location(in: self.view)
@@ -107,6 +108,6 @@ extension GameScene {
         move(theXAmount: -100, theYAmount: 0, theAnimation: "WalkLeft")
         
     }
-    
+    */
     
 }

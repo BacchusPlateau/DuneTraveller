@@ -190,6 +190,7 @@ extension GameScene {
         
     }
     
+    /*
     func touchDown(atPoint pos : CGPoint) {
         
       //  if (thePlayer.action(forKey: "PlayerMoving") != nil) {
@@ -228,7 +229,7 @@ extension GameScene {
         // swipedRight()
         */
     }
-    
+    */
     func touchDownSansPath(atPoint pos : CGPoint) {
         
         if (pos.x < thePlayer.position.x) {
@@ -439,7 +440,7 @@ extension GameScene {
         }
         
     }
-    
+    /*
     func touchMoved(toPoint pos : CGPoint) {
         
         if (thePlayer.action(forKey: "PlayerMoving") != nil && pathArray.count > 4) {
@@ -486,7 +487,10 @@ extension GameScene {
             break
         }
     }
+    */
     
+    
+    /*
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if (thePlayer.isDead) {
@@ -517,7 +521,8 @@ extension GameScene {
             break
         }
     }
-    
+ */
+    /*
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         if (thePlayer.isDead) {
@@ -548,6 +553,7 @@ extension GameScene {
             break
         }
     }
+ */
     
     func touchEnded(toPoint pos:CGPoint) {
         
@@ -587,7 +593,7 @@ extension GameScene {
         let line = SKShapeNode()
         line.path = path
         line.lineWidth = 10
-        line.strokeColor = UIColor.white
+      //  line.strokeColor = UIColor.white
         line.alpha = pathAlpha
         
         self.addChild(line)

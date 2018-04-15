@@ -133,7 +133,7 @@ extension GameScene {
                 }
             case "CameraOffset":
                 if(value is String) {
-                    let somePoint:CGPoint = CGPointFromString(value as! String)
+                    let somePoint:CGPoint = NSPointFromString(value as! String)
                     cameraXOffset = somePoint.x
                     cameraYOffset = somePoint.y
                 }

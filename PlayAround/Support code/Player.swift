@@ -284,7 +284,7 @@ class Player : SKSpriteNode {
             case "Size":
                 if (value is String) {
                     
-                    meleeAnimationSize = CGSizeFromString(value as! String)
+                    meleeAnimationSize = NSSizeFromString(value as! String)
                 }
             case "Animation":
                 if (value is String) {

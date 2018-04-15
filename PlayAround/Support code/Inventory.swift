@@ -28,7 +28,7 @@ class Inventory : SKSpriteNode {
                 }
             case "CountOffset":
                 if (value is String) {
-                    offset = CGPointFromString(value as! String)
+                    offset = NSPointFromString(value as! String)
                 }
             default:
                 continue

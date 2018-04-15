@@ -732,7 +732,7 @@ class Enemy : SKSpriteNode {
                 }
             case "Size":
                 if (value is String) {
-                    meleeSize = CGSizeFromString(value as! String)
+                    meleeSize = NSSizeFromString(value as! String)
                 }
             case "ScaleTo":
                 if (value is CGFloat) {
