@@ -330,7 +330,7 @@ extension GameScene {
             {
                 for(key, value) in levelDict {
                     
-                 //   print("key = \(key), currentLevel = \(currentLevel)")
+                    print("key = \(key), currentLevel = \(currentLevel)")
                     
                     if(key == currentLevel) {
                         
@@ -380,7 +380,7 @@ extension GameScene {
                 {
                     
                     for(key,value) in itemsData {
-//print("key = \(key)")
+print("key = \(key)")
                         if(key==theItem.name) {
                             
                             useDictWithWorldItem(theDict: value as! [String:Any], theItem: theItem)

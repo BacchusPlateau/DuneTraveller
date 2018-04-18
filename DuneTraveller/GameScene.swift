@@ -36,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let tapRec = UITapGestureRecognizer()
     let tapRecDouble = UITapGestureRecognizer()
     */
-    public var currentLevel:String = ""
+    public var currentLevel:String = "Grassland"
     
     var infoLabel1:SKLabelNode = SKLabelNode()
     var infoLabel2:SKLabelNode = SKLabelNode()
@@ -60,6 +60,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var pathArray = [CGPoint]()
     var currentOffset:CGPoint = CGPoint.zero
+    
+    var destinationPoint:CGPoint = CGPoint.zero
     
     var playerFacing:Facing = .front
     var playerFacingWhenUnlocking:Facing = .none
@@ -335,7 +337,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        
+    
         if (cameraFollowsPlayer) {
             
             self.camera?.position = CGPoint(x: thePlayer.position.x + cameraXOffset, y: thePlayer.position.y + cameraYOffset)

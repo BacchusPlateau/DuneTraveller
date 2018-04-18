@@ -194,31 +194,51 @@ extension GameScene {
     
     func touchMoved(toPoint pos : CGPoint) {
         
+        
+        if (thePlayer.action(forKey: "PlayerMoving") != nil && pathArray.count > 4) {
+            
+            thePlayer.removeAction(forKey: "PlayerMoving")
+        }
+        
+        walkTime += thePlayer.walkSpeedOnPath
+        
+        pathArray.append(getDifference(point: pos))
+        
     }
     
     func touchUp(atPoint pos : CGPoint) {
         touchEnded(toPoint: pos)
     }
     
-    // MOUSE DOWN
+    // MARK:  MOUSE DOWN
     
     override func mouseDown(with event: NSEvent) {
         self.touchDown(atPoint: event.location(in: self))
     }
     
     func touchDown(atPoint pos : CGPoint) {
-        touchDownSansPath(atPoint: pos)
+        
+        pathArray.removeAll()
+        currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
+        pathArray.append(getDifference(point: pos))
+        walkTime = 0
     }
     
     func touchDownSansPath(atPoint pos : CGPoint) {
         
         print("touchDownSansPath")
         
+        destinationPoint = pos
         
-        thePlayer.position = pos
+      //  thePlayer.position = pos
         
+        pathArray.removeAll()
         
-       
+        currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
+        
+        pathArray.append(getDifference(point: pos))
+        
+        walkTime = 0
         
     }
     
@@ -228,6 +248,13 @@ extension GameScene {
     
     override func mouseUp(with event: NSEvent) {
         self.touchUp(atPoint: event.location(in: self))
+    }
+    
+    func getDifference(point:CGPoint) -> CGPoint {
+        
+        let newPoint:CGPoint = CGPoint(x: point.x + currentOffset.x, y: point.y + currentOffset.y)
+        
+        return newPoint
     }
     
     override func keyDown(with event: NSEvent) {
@@ -449,12 +476,7 @@ extension GameScene {
     }
     
 
-    func getDifference(point:CGPoint) -> CGPoint {
-        
-        let newPoint:CGPoint = CGPoint(x: point.x + currentOffset.x, y: point.y + currentOffset.y)
-        
-        return newPoint
-    }
+    
     
     func touchMovedSansPath(toPoint pos : CGPoint) {
         
@@ -582,8 +604,10 @@ extension GameScene {
     
     func touchEnded(toPoint pos:CGPoint) {
         
-     //   print("touch ended")
-    
+        createLineWith(array:pathArray)
+        pathArray.removeAll()
+        
+        currentOffset = CGPoint.zero
         
     }
     
@@ -636,6 +660,8 @@ extension GameScene {
     
     func playerUpdateSansPath() {
         
+        print("playerUpdateSansPath")
+        
         touchDownSprite.position = CGPoint(x:thePlayer.position.x - offsetFromTouchDownToPlayer.x, y:thePlayer.position.y - offsetFromTouchDownToPlayer.y)
         
         if (touchingDown) {
@@ -652,7 +678,7 @@ extension GameScene {
             case .right:
                 thePlayer.position = CGPoint(x:thePlayer.position.x + walkSpeed, y:thePlayer.position.y + diagonalAmount)
             }
-         
+            
             animateWalkSansPath()
         }
         
@@ -860,6 +886,11 @@ extension GameScene {
     }
     
     func makePlayerFollowPath(path:CGMutablePath) {
+        print ("walktime = " + String(walkTime))
+        
+        if (walkTime > 5) {
+            walkTime = 5
+        }
         
         let followAction:SKAction = SKAction.follow(path, asOffset: false, orientToPath: false, duration: walkTime)
         

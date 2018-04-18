@@ -42,7 +42,6 @@
 		BAC1BF6E207A9EFE003DAEB5 /* LeftHurt.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF6A207A9EFE003DAEB5 /* LeftHurt.atlas */; };
 		BAC1BF70207A9F0E003DAEB5 /* Dying.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF6F207A9F0E003DAEB5 /* Dying.atlas */; };
 		BAC1BF782083DA16003DAEB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF772083DA16003DAEB5 /* AppDelegate.swift */; };
-		BAC1BF7A2083DA16003DAEB5 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF792083DA16003DAEB5 /* GameScene.sks */; };
 		BAC1BF7E2083DA16003DAEB5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF7D2083DA16003DAEB5 /* GameScene.swift */; };
 		BAC1BF802083DA16003DAEB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF7F2083DA16003DAEB5 /* ViewController.swift */; };
 		BAC1BF822083DA18003DAEB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF812083DA18003DAEB5 /* Assets.xcassets */; };
@@ -149,7 +148,6 @@
 		BAC1BF6F207A9F0E003DAEB5 /* Dying.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Dying.atlas; sourceTree = "<group>"; };
 		BAC1BF752083DA16003DAEB5 /* DuneTraveller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuneTraveller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAC1BF772083DA16003DAEB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BAC1BF792083DA16003DAEB5 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		BAC1BF7B2083DA16003DAEB5 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		BAC1BF7D2083DA16003DAEB5 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		BAC1BF7F2083DA16003DAEB5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -282,7 +280,6 @@
 			isa = PBXGroup;
 			children = (
 				BAC1BF772083DA16003DAEB5 /* AppDelegate.swift */,
-				BAC1BF792083DA16003DAEB5 /* GameScene.sks */,
 				BAC1BF7B2083DA16003DAEB5 /* Actions.sks */,
 				BAC1BF7D2083DA16003DAEB5 /* GameScene.swift */,
 				BAC1BF7F2083DA16003DAEB5 /* ViewController.swift */,
@@ -424,7 +421,6 @@
 				BAC1BFB22083E3F6003DAEB5 /* LeftHurt.atlas in Resources */,
 				BAC1BFAB2083E3DC003DAEB5 /* VillagerLeftWalking.atlas in Resources */,
 				BAC1BFB32083E3FC003DAEB5 /* RightHurt.atlas in Resources */,
-				BAC1BF7A2083DA16003DAEB5 /* GameScene.sks in Resources */,
 				BAC1BFA12083E395003DAEB5 /* GUI.sks in Resources */,
 				BAC1BFA02083E395003DAEB5 /* Actions.sks in Resources */,
 				BAC1BF8D2083DF7D003DAEB5 /* GameData.plist in Resources */,
