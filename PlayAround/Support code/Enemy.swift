@@ -112,7 +112,7 @@ class Enemy : SKSpriteNode {
     
     func setUpEnemy(theDict:[String:Any]) {
         
-        print(self.name!)
+     //   print(self.name!)
         
         self.physicsBody?.categoryBitMask = BodyType.enemy.rawValue
         self.physicsBody?.collisionBitMask = BodyType.player.rawValue | BodyType.item.rawValue | BodyType.projectile.rawValue |

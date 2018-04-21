@@ -86,15 +86,16 @@ extension GameScene {
         
     }
     
-    func fadeOutInfoText(waitTime:TimeInterval) {
+    func fadeOutInfoText(waitTime:TimeInterval){
         
         infoLabel1.removeAllActions()
         infoLabel2.removeAllActions()
         speechIcon.removeAllActions()
-        
+  
         let wait:SKAction = SKAction.wait(forDuration: waitTime)
-        let fade:SKAction = SKAction.fadeAlpha(to:0, duration: 2)
+        let fade:SKAction = SKAction.fadeAlpha(to: 0, duration: 0.5)
         let run:SKAction = SKAction.run {
+
             self.infoLabel1.text = ""
             self.infoLabel2.text = ""
             self.infoLabel1.alpha = 1
@@ -106,11 +107,15 @@ extension GameScene {
         
         let seq:SKAction = SKAction.sequence([wait, fade, run])
         let seq2:SKAction = SKAction.sequence([wait, fade])
+
+        if(infoLabel2.parent?.isPaused)! {
+            infoLabel2.parent?.isPaused = false
+        }
         
         infoLabel1.run(seq)
         infoLabel2.run(seq2)
         speechIcon.run(seq2)
-        
+
     }
     
     

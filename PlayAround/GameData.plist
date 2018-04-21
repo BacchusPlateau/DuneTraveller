@@ -846,6 +846,8 @@
 				</dict>
 				<key>Villager2</key>
 				<dict>
+					<key>Time</key>
+					<integer>1</integer>
 					<key>Front</key>
 					<string>VillagerFront</string>
 					<key>Back</key>

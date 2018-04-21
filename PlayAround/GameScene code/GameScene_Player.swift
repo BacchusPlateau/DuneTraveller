@@ -886,7 +886,7 @@ extension GameScene {
     }
     
     func makePlayerFollowPath(path:CGMutablePath) {
-        print ("walktime = " + String(walkTime))
+  //      print ("walktime = " + String(walkTime))
         
         if (walkTime > 5) {
             walkTime = 5

@@ -170,6 +170,8 @@ extension GameScene {
     
     func endContactWithNPC (theNPC:NonPlayerCharacter) {
         
+   //     print("endContactWithNPC")
+        
         theNPC.endContactPlayer()
         fadeOutInfoText(waitTime: theNPC.infoTime)
         
@@ -276,7 +278,7 @@ extension GameScene {
     
     
     func contactWithItem (theItem:WorldItem) {
-        print ("contactWithItem: \(theItem.name!)")
+  //      print ("contactWithItem: \(theItem.name!)")
         
         splitTextIntoFields(theText: theItem.getInfo())
         
