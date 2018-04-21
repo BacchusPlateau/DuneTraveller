@@ -180,6 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if(theCamera.childNode(withName: "ProjectileBacking") is SKSpriteNode) {
                     self.projectileBacking = theCamera.childNode(withName: "ProjectileBacking") as! SKSpriteNode
                 }
+           /*
                 if(theCamera.childNode(withName: "RangedButton") is SKSpriteNode) {
                     self.rangedAttackButton = theCamera.childNode(withName: "RangedButton") as! SKSpriteNode
                     self.hasRangedButton = true
@@ -188,7 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     self.meleeAttackButton = theCamera.childNode(withName: "MeleeButton") as! SKSpriteNode
                     self.hasMeleeButton = true
                 }
-                
+             */
                 for i in 1...30 {
                     
                     if (theCamera.childNode(withName: "Slot" + String(i)) is SKSpriteNode) {
@@ -470,8 +471,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     
     
-    
-  //  override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
- //   }
 }
