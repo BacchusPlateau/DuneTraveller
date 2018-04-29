@@ -36,7 +36,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let tapRec = UITapGestureRecognizer()
     let tapRecDouble = UITapGestureRecognizer()
     */
-    public var currentLevel:String = "Grassland"
+    public var currentLevel:String = "PrisonLevel1"
     
     var infoLabel1:SKLabelNode = SKLabelNode()
     var infoLabel2:SKLabelNode = SKLabelNode()
@@ -123,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
-        
+     //   print ("didMove")
         
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
@@ -132,6 +132,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             node, stop in
             
             if let theCamera:SKCameraNode = node as? SKCameraNode {
+                
+                
+              //  print("found camera")
                 
                 self.camera = theCamera
                 

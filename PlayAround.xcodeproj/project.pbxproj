@@ -91,6 +91,7 @@
 		BAC1BFB82083E40F003DAEB5 /* IdleFront.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AC203B82340061284D /* IdleFront.atlas */; };
 		BAC1BFB92083E413003DAEB5 /* IdleLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AB203B82340061284D /* IdleLeft.atlas */; };
 		BAC1BFBA2083E416003DAEB5 /* IdleRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AD203B82340061284D /* IdleRight.atlas */; };
+		BAC7060F20965A5A00D81738 /* PrisonLevel1.sks in Resources */ = {isa = PBXBuildFile; fileRef = BAC7060E20965A5A00D81738 /* PrisonLevel1.sks */; };
 		BACC055720683FB9000C473B /* Coin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BACC055620683FB8000C473B /* Coin.atlas */; };
 /* End PBXBuildFile section */
 
@@ -155,6 +156,7 @@
 		BAC1BF842083DA18003DAEB5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BAC1BF862083DA18003DAEB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAC1BF872083DA18003DAEB5 /* DuneTraveller.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DuneTraveller.entitlements; sourceTree = "<group>"; };
+		BAC7060E20965A5A00D81738 /* PrisonLevel1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PrisonLevel1.sks; sourceTree = "<group>"; };
 		BACC055620683FB8000C473B /* Coin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Coin.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -244,6 +246,7 @@
 				BA186D781FF4313F00D8E3E5 /* Actions.sks */,
 				BAB7E37520151E6B0017AD82 /* GUI.sks */,
 				BA28B46A2014033100C37287 /* LevelTiles.sks */,
+				BAC7060E20965A5A00D81738 /* PrisonLevel1.sks */,
 			);
 			path = SKS;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				BAC1BF9F2083E395003DAEB5 /* DungeonPad.sks in Resources */,
 				BAC1BFAA2083E3DA003DAEB5 /* VillagerFrontWalking.atlas in Resources */,
 				BAC1BFAD2083E3E3003DAEB5 /* FrontAttackFrames.atlas in Resources */,
+				BAC7060F20965A5A00D81738 /* PrisonLevel1.sks in Resources */,
 				BAC1BFB82083E40F003DAEB5 /* IdleFront.atlas in Resources */,
 				BAC1BFB12083E3F2003DAEB5 /* FrontHurt.atlas in Resources */,
 				BAC1BFA72083E3D0003DAEB5 /* Coin.atlas in Resources */,
