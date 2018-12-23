@@ -87,6 +87,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var meleeAttackButton:SKSpriteNode = SKSpriteNode()
     var rangedAttackButton:SKSpriteNode = SKSpriteNode()
+    var dynamicSprite:SKSpriteNode = SKSpriteNode()
     
     var diagonalAmount:CGFloat = 0
     var walkDiagonal:Bool = true
@@ -202,65 +203,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
                 
-          //      print ("Available inventory slots:")
-          //      print(self.availableInventorySlots)
-            /*
-                if(UIDevice.current.userInterfaceIdiom == .pad && !self.hasCustomPadScene) {
-                    
-                    print("no custom iPad SKS file, do our own adjustments")
-                    theCamera.xScale = 1.5
-                    theCamera.yScale = 1.5
-                    
-                    for node in theCamera.children {
-                        
-                        if (node.position.y > 0) {
-                            node.position.y -= 100
-                        } else {
-                            node.position.y += 100
-                        }
-                    }
-                }
-           */
+      
                 
                 stop.pointee = true  //halt transversal of node tree
             }
         }
         
-        if (!hasMeleeButton) {
-            /*
-            tapRec.addTarget(self, action: #selector(GameScene.tappedView(_:)))
-            tapRec.numberOfTapsRequired = 1
-            tapRec.numberOfTouchesRequired = 1
-            self.view!.addGestureRecognizer(tapRec)
-         */
-        }
-        
-        if (!hasRangedButton) {
-            /*
-            tapRecDouble.addTarget(self, action: #selector(GameScene.tappedViewDouble(_:)))
-            tapRecDouble.numberOfTapsRequired = 2
-            tapRecDouble.numberOfTouchesRequired = 1
-            self.view!.addGestureRecognizer(tapRecDouble)
-            */
-        }
-        
-        /*
-         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight))
-         swipeRightRec.direction = .right
-         self.view!.addGestureRecognizer(swipeRightRec)
-         
-         swipeLeftRec.addTarget(self, action: #selector(GameScene.swipedLeft))
-         swipeLeftRec.direction = .left
-         self.view!.addGestureRecognizer(swipeLeftRec)
-         
-         swipeDownRec.addTarget(self, action: #selector(GameScene.swipedDown))
-         swipeDownRec.direction = .down
-         self.view!.addGestureRecognizer(swipeDownRec)
-         
-         swipeUpRec.addTarget(self, action: #selector(GameScene.swipedUp))
-         swipeUpRec.direction = .up
-         self.view!.addGestureRecognizer(swipeUpRec)
-         */
+    
         
         
         
@@ -286,7 +235,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         showExistingInventory()
         
+        self.addChild(dynamicSprite)
+        setUpLevelTiles()
+        
     }
+    
+    func setUpLevelTiles() {
+        
+        let wall = SKSpriteNode(imageNamed: "wall_four_panel")
+        wall.position = CGPoint(x: thePlayer.position.x + 100.0, y: thePlayer.position.y + 100.0)
+        wall.zPosition = 999
+        wall.anchorPoint = CGPoint.zero
+        
+        dynamicSprite.addChild(wall)
+        
+        
+    }
+    
     
     func setUpPlayer() {
         
@@ -350,7 +315,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let width:CGFloat = self.frame.width
         let height:CGFloat = self.frame.height
         
-        let visibleFrame:CGRect = CGRect(x: thePlayer.position.x - (width/2), y: thePlayer.position.y - (height/2), width: width, height: height)
+        let visibleFrame:CGRect = CGRect(x: thePlayer.position.x - (width/2),
+                                         y: thePlayer.position.y - (height/2),
+                                         width: width,
+                                         height: height)
         
         for node in self.children {
             
