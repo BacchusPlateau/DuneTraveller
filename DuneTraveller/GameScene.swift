@@ -27,15 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var thePlayer:Player = Player()
     var moveSpeed:TimeInterval = 1
-    /*
-    let swipeRightRec = UISwipeGestureRecognizer()
-    let swipeLeftRec = UISwipeGestureRecognizer()
-    let swipeUpRec = UISwipeGestureRecognizer()
-    let swipeDownRec = UISwipeGestureRecognizer()
-    let rotateRec = UIRotationGestureRecognizer()
-    let tapRec = UITapGestureRecognizer()
-    let tapRecDouble = UITapGestureRecognizer()
-    */
+
     public var currentLevel:String = "PrisonLevel1"
     
     var infoLabel1:SKLabelNode = SKLabelNode()
@@ -121,6 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentProjectileAmmo:Int = 0
     
     var availableInventorySlots = [String]()
+    var inventoryVisible:Bool = false
     
     override func didMove(to view: SKView) {
         
@@ -184,16 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if(theCamera.childNode(withName: "ProjectileBacking") is SKSpriteNode) {
                     self.projectileBacking = theCamera.childNode(withName: "ProjectileBacking") as! SKSpriteNode
                 }
-           /*
-                if(theCamera.childNode(withName: "RangedButton") is SKSpriteNode) {
-                    self.rangedAttackButton = theCamera.childNode(withName: "RangedButton") as! SKSpriteNode
-                    self.hasRangedButton = true
-                }
-                if(theCamera.childNode(withName: "MeleeButton") is SKSpriteNode) {
-                    self.meleeAttackButton = theCamera.childNode(withName: "MeleeButton") as! SKSpriteNode
-                    self.hasMeleeButton = true
-                }
-             */
+          
                 for i in 1...30 {
                     
                     if (theCamera.childNode(withName: "Slot" + String(i)) is SKSpriteNode) {
@@ -202,9 +186,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                     }
                 }
-                
-      
-                
                 stop.pointee = true  //halt transversal of node tree
             }
         }

@@ -11,17 +11,7 @@ import SpriteKit
 
 extension GameScene {
 
-    func move(theXAmount:CGFloat, theYAmount:CGFloat, theAnimation:String) {
-        
-        let walkAction:SKAction = SKAction(named: theAnimation)!
-        let moveAction:SKAction = SKAction.moveBy(x: theXAmount, y:theYAmount, duration: 1)
-        
-        let group:SKAction = SKAction.group([walkAction, moveAction])
-        
-        thePlayer.run(group)
-        
-     //   print (theAnimation)
-    }
+    
 
     
     
@@ -68,6 +58,18 @@ extension GameScene {
         
         restoreAndFadeInAttackButtons()
         
+    }
+    
+    func move(theXAmount:CGFloat, theYAmount:CGFloat, theAnimation:String) {
+        
+        let walkAction:SKAction = SKAction(named: theAnimation)!
+        let moveAction:SKAction = SKAction.moveBy(x: theXAmount, y:theYAmount, duration: 1)
+        
+        let group:SKAction = SKAction.group([walkAction, moveAction])
+        
+        thePlayer.run(group)
+        
+        //   print (theAnimation)
     }
     
     func rangedAttack(withDict:[String:Any]) {
@@ -173,19 +175,6 @@ extension GameScene {
             
         }
         
-        //Not needed when using the button attack interface
-        /*
-        if (!walkWithPath) {
-            
-            touchingDown = false
-            
-            thePlayer.removeAction(forKey: thePlayer.backWalk)
-            thePlayer.removeAction(forKey: thePlayer.frontWalk)
-            thePlayer.removeAction(forKey: thePlayer.rightWalk)
-            thePlayer.removeAction(forKey: thePlayer.leftWalk)
-            
-        }
-        */
         
         
     }
@@ -242,6 +231,17 @@ extension GameScene {
         
     }
     
+    func toggleInventory() {
+        
+        inventoryVisible = !inventoryVisible
+        print("Inventory visible = \(inventoryVisible)")
+        
+        if let statsBacking = self.camera!.childNode(withName: "StatsBacking") as? SKSpriteNode {
+            statsBacking.alpha = inventoryVisible ? 1 : 0
+        
+        }
+    }
+    
     override func mouseDragged(with event: NSEvent) {
         self.touchMoved(toPoint: event.location(in: self))
     }
@@ -260,12 +260,14 @@ extension GameScene {
     override func keyDown(with event: NSEvent) {
         
          switch event.keyCode {
-         case 0x00: // A
+         case 0x00: // A, attack
             melee()
-         case 0x03: // F
+         case 0x03: // F, fire projectile
             ranged()
-         case 0x31: // Space
+         case 0x31: // Space, pause
             break
+         case 0x22: // I, inventory toggle
+            toggleInventory()
          default:
             break
         }
@@ -488,120 +490,7 @@ extension GameScene {
         }
         
     }
-    /*
-    func touchMoved(toPoint pos : CGPoint) {
-        
-        if (thePlayer.action(forKey: "PlayerMoving") != nil && pathArray.count > 4) {
-        
-           thePlayer.removeAction(forKey: "PlayerMoving")
-        }
-        
-        walkTime += thePlayer.walkSpeedOnPath
-        
-        pathArray.append(getDifference(point: pos))
-    }
     
-    func touchUp(atPoint pos : CGPoint) {
-        //  swipedRight()
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        if (thePlayer.isDead) {
-            return
-        }
-        
-        for t in touches {
-            
-            let pos:CGPoint = t.location(in: self)
-            
-            if(checkIfMeleeButtonPressed(pos: pos)) {
-                
-                melee()
-                
-            } else if (checkIfRangedButtonPressed(pos: pos))  {
-            
-                ranged()
-        
-            } else if (walkWithPath) {
-                
-                self.touchDown(atPoint: pos)
-                
-            } else {
-                
-                self.touchDownSansPath(atPoint: pos)
-                
-            }
-            break
-        }
-    }
-    */
-    
-    
-    /*
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        if (thePlayer.isDead) {
-            return
-        }
-        
-        for t in touches {
-            
-            let pos:CGPoint = t.location(in: self)
-            
-            if(checkIfMeleeButtonPressed(pos: pos)) {
-                
-                //ignore
-                
-            } else if (checkIfRangedButtonPressed(pos: pos))  {
-                
-                //ignore
-                
-            } else if (walkWithPath) {
-                
-                self.touchMoved(toPoint: pos)
-                
-            } else {
-                
-                self.touchMovedSansPath(toPoint: pos)
-            }
-            
-            break
-        }
-    }
- */
-    /*
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        if (thePlayer.isDead) {
-            return
-        }
-        
-        for t in touches {
-            
-            let pos:CGPoint = t.location(in: self)
-            
-            if(checkIfMeleeButtonPressed(pos: pos)) {
-                
-                //ignore
-                
-            } else if (checkIfRangedButtonPressed(pos: pos))  {
-                
-                //ignore
-                
-            } else if (walkWithPath) {
-                
-                self.touchEnded(toPoint: pos)
-                
-            } else {
-                
-                self.touchEndedSansPath(toPoint: pos)
-            }
-            
-            break
-        }
-    }
- */
     
     func touchEnded(toPoint pos:CGPoint) {
         

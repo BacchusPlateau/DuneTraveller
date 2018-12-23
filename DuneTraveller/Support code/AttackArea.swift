@@ -12,7 +12,7 @@ import SpriteKit
 class AttackArea : SKSpriteNode {
     
     var animationName:String = ""
-    var scaleSize:CGFloat = 2
+    var scaleSize:CGFloat = 1
     var damage:Int = 1
     
     func setUp() {
@@ -32,18 +32,20 @@ class AttackArea : SKSpriteNode {
         if (animationName != "") {
             self.run(SKAction(named: animationName)!)
         }
+        
+       
     }
     
     func upAndAway() {
         
-        let grow:SKAction = SKAction.scale(by: scaleSize, duration: 0.5)
+      //  let grow:SKAction = SKAction.scale(by: scaleSize, duration: 0.5)
         let finish:SKAction = SKAction.run {
             
             self.removeFromParent()
             
         }
         
-        let seq:SKAction = SKAction.sequence([grow,finish])
+        let seq:SKAction = SKAction.sequence([finish])
         self.run(seq)
         
         

@@ -809,75 +809,6 @@
 				<key>CameraFollowsPlayer</key>
 				<true/>
 			</dict>
-			<key>NPC</key>
-			<dict>
-				<key>Villager1</key>
-				<dict>
-					<key>Time</key>
-					<integer>1</integer>
-					<key>CollidableWithPlayer</key>
-					<false/>
-					<key>CollidableWithItems</key>
-					<true/>
-					<key>Front</key>
-					<string>VillagerFront</string>
-					<key>Back</key>
-					<string>VillagerBack</string>
-					<key>Left</key>
-					<string>VillagerLeft</string>
-					<key>Right</key>
-					<string>VillagerRight</string>
-					<key>BaseImage</key>
-					<string>VillagerBase</string>
-					<key>InitialSpeech</key>
-					<array>
-						<string>Hey stranger did you hear about the disturbance at the cave last night?</string>
-						<string>My brother heard something strange at the cave last night.</string>
-					</array>
-					<key>ReminderSpeech</key>
-					<array>
-						<string>Did you ever get around to scratching my balls?</string>
-						<string>Tick tock, my balls ain&apos;t gonna scratch themselves.</string>
-					</array>
-					<key>Range</key>
-					<string>VillagerRange</string>
-					<key>Icon</key>
-					<string>VillagerIcon</string>
-				</dict>
-				<key>Villager2</key>
-				<dict>
-					<key>Time</key>
-					<integer>1</integer>
-					<key>Front</key>
-					<string>VillagerFront</string>
-					<key>Back</key>
-					<string>VillagerBack</string>
-					<key>Left</key>
-					<string>VillagerLeft</string>
-					<key>Right</key>
-					<string>VillagerRight</string>
-					<key>BaseImage</key>
-					<string>VillagerBase</string>
-					<key>InitialSpeech</key>
-					<array>
-						<string>Hey stranger did you hear about the disturbance at the cave last night?</string>
-						<string>My brother heard something strange at the cave last night.</string>
-					</array>
-					<key>ReminderSpeech</key>
-					<array>
-						<string>Did you ever get around to scratching my balls?</string>
-						<string>Tick tock, my balls ain&apos;t gonna scratch themselves.</string>
-					</array>
-					<key>Range</key>
-					<string>VillagerRange</string>
-					<key>Icon</key>
-					<string>VillagerIcon</string>
-					<key>CollidableWithItems</key>
-					<true/>
-					<key>CollidableWithPlayer</key>
-					<false/>
-				</dict>
-			</dict>
 			<key>Items</key>
 			<dict>
 				<key>Diamond</key>
@@ -903,52 +834,6 @@
 					<key>AfterContact</key>
 					<dict>
 						<key>DeleteFromLevel</key>
-						<true/>
-					</dict>
-				</dict>
-				<key>Chest</key>
-				<dict>
-					<key>RememberTo</key>
-					<dict>
-						<key>RemainOpen</key>
-						<true/>
-						<key>NeverRewardAgain</key>
-						<true/>
-						<key>NeverShowAgain - OFF</key>
-						<true/>
-					</dict>
-					<key>Requires</key>
-					<dict>
-						<key>TimerName</key>
-						<string>OpenTimer</string>
-						<key>TimeToOpen</key>
-						<integer>5</integer>
-					</dict>
-					<key>Rewards </key>
-					<dict>
-						<key>Diamonds</key>
-						<integer>10</integer>
-					</dict>
-					<key>Text</key>
-					<dict>
-						<key>Time</key>
-						<integer>3</integer>
-						<key>Locked</key>
-						<array>
-							<string>I think I can get it open...just need a few more moments!</string>
-							<string>I can pick this - should have spent more points on dex!</string>
-						</array>
-						<key>Open</key>
-						<string>SCORE!</string>
-					</dict>
-					<key>Appearance</key>
-					<dict>
-						<key>OpenAnimation</key>
-						<string>ChestOpen</string>
-					</dict>
-					<key>AfterContact</key>
-					<dict>
-						<key>DeleteBody</key>
 						<true/>
 					</dict>
 				</dict>

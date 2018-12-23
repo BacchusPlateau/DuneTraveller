@@ -14,7 +14,6 @@
 		BAC1BF852083DA18003DAEB5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF832083DA18003DAEB5 /* Main.storyboard */; };
 		BAC1BF8D2083DF7D003DAEB5 /* GameData.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C2200170FE00670595 /* GameData.plist */; };
 		BAC1BF8E2083DF8A003DAEB5 /* GameScene_Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */; };
-		BAC1BF902083DF8A003DAEB5 /* GameScene_Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */; };
 		BAC1BF912083DF8A003DAEB5 /* GameScene_Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD82013D477008BC7B2 /* GameScene_Helpers.swift */; };
 		BAC1BF922083DF8A003DAEB5 /* GameScene_Physics.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */; };
 		BAC1BF932083DF8A003DAEB5 /* GameScene_Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD62013D20F008BC7B2 /* GameScene_Player.swift */; };
@@ -32,27 +31,8 @@
 		BAC1BFA22083E395003DAEB5 /* LevelTiles.sks in Resources */ = {isa = PBXBuildFile; fileRef = BA28B46A2014033100C37287 /* LevelTiles.sks */; };
 		BAC1BFA32083E3C3003DAEB5 /* LevelStuff.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */; };
 		BAC1BFA42083E3C6003DAEB5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA186D811FF4313F00D8E3E5 /* Assets.xcassets */; };
-		BAC1BFA62083E3CC003DAEB5 /* Chest.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAA4D6412030DE050092BFBE /* Chest.atlas */; };
-		BAC1BFA72083E3D0003DAEB5 /* Coin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BACC055620683FB8000C473B /* Coin.atlas */; };
 		BAC1BFA82083E3D4003DAEB5 /* Impact.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF65207A8995003DAEB5 /* Impact.atlas */; };
-		BAC1BFA92083E3D7003DAEB5 /* VillagerBackWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */; };
-		BAC1BFAA2083E3DA003DAEB5 /* VillagerFrontWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */; };
-		BAC1BFAB2083E3DC003DAEB5 /* VillagerLeftWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */; };
-		BAC1BFAC2083E3DF003DAEB5 /* VillagerRightWalking.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */; };
-		BAC1BFAD2083E3E3003DAEB5 /* FrontAttackFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31C02001675400670595 /* FrontAttackFrames.atlas */; };
 		BAC1BFAE2083E3E7003DAEB5 /* AttackingFrames.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */; };
-		BAC1BFAF2083E3EB003DAEB5 /* Dying.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF6F207A9F0E003DAEB5 /* Dying.atlas */; };
-		BAC1BFB02083E3EE003DAEB5 /* BackHurt.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF67207A9EFD003DAEB5 /* BackHurt.atlas */; };
-		BAC1BFB12083E3F2003DAEB5 /* FrontHurt.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF68207A9EFE003DAEB5 /* FrontHurt.atlas */; };
-		BAC1BFB22083E3F6003DAEB5 /* LeftHurt.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF6A207A9EFE003DAEB5 /* LeftHurt.atlas */; };
-		BAC1BFB32083E3FC003DAEB5 /* RightHurt.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BAC1BF69207A9EFE003DAEB5 /* RightHurt.atlas */; };
-		BAC1BFB42083E3FF003DAEB5 /* BackAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A6203B81F80061284D /* BackAttack.atlas */; };
-		BAC1BFB52083E403003DAEB5 /* LeftAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A5203B81F80061284D /* LeftAttack.atlas */; };
-		BAC1BFB62083E407003DAEB5 /* RightAttack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061A4203B81F80061284D /* RightAttack.atlas */; };
-		BAC1BFB72083E40B003DAEB5 /* IdleBack.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AA203B82330061284D /* IdleBack.atlas */; };
-		BAC1BFB82083E40F003DAEB5 /* IdleFront.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AC203B82340061284D /* IdleFront.atlas */; };
-		BAC1BFB92083E413003DAEB5 /* IdleLeft.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AB203B82340061284D /* IdleLeft.atlas */; };
-		BAC1BFBA2083E416003DAEB5 /* IdleRight.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA2061AD203B82340061284D /* IdleRight.atlas */; };
 		BAC7060F20965A5A00D81738 /* PrisonLevel1.sks in Resources */ = {isa = PBXBuildFile; fileRef = BAC7060E20965A5A00D81738 /* PrisonLevel1.sks */; };
 /* End PBXBuildFile section */
 
@@ -62,13 +42,6 @@
 		BA0F054621D0302800D76AD5 /* OpenTimer.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = OpenTimer.atlas; path = ../../../RolePlayingGames_End_Of_Enemies_Session/RolePlayingGames/OpenTimer.atlas; sourceTree = "<group>"; };
 		BA186D781FF4313F00D8E3E5 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		BA186D811FF4313F00D8E3E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../PlayAround/Assets.xcassets; sourceTree = "<group>"; };
-		BA2061A4203B81F80061284D /* RightAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = RightAttack.atlas; sourceTree = "<group>"; };
-		BA2061A5203B81F80061284D /* LeftAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = LeftAttack.atlas; sourceTree = "<group>"; };
-		BA2061A6203B81F80061284D /* BackAttack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BackAttack.atlas; sourceTree = "<group>"; };
-		BA2061AA203B82330061284D /* IdleBack.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleBack.atlas; sourceTree = "<group>"; };
-		BA2061AB203B82340061284D /* IdleLeft.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleLeft.atlas; sourceTree = "<group>"; };
-		BA2061AC203B82340061284D /* IdleFront.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleFront.atlas; sourceTree = "<group>"; };
-		BA2061AD203B82340061284D /* IdleRight.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = IdleRight.atlas; sourceTree = "<group>"; };
 		BA22677D207044A700160C26 /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
 		BA28B46A2014033100C37287 /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
 		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
@@ -76,15 +49,8 @@
 		BA4E9159204E08A0008F9E93 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		BA5D00FE205DFAB400C0C1A7 /* Projectile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
-		BA5E31C02001675400670595 /* FrontAttackFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontAttackFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
 		BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonPlayerCharacter.swift; sourceTree = "<group>"; };
-		BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerBackWalking.atlas; sourceTree = "<group>"; };
-		BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerLeftWalking.atlas; sourceTree = "<group>"; };
-		BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerFrontWalking.atlas; sourceTree = "<group>"; };
-		BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = VillagerRightWalking.atlas; sourceTree = "<group>"; };
-		BAA4D6412030DE050092BFBE /* Chest.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Chest.atlas; sourceTree = "<group>"; };
-		BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Gestures.swift; sourceTree = "<group>"; };
 		BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Physics.swift; sourceTree = "<group>"; };
 		BAAEBDD42013D139008BC7B2 /* GameScene_PropertyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_PropertyList.swift; sourceTree = "<group>"; };
 		BAAEBDD62013D20F008BC7B2 /* GameScene_Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Player.swift; sourceTree = "<group>"; };
@@ -94,11 +60,6 @@
 		BAC1BF6120715FD4003DAEB5 /* Enemy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		BAC1BF6320795C40003DAEB5 /* EnemyAttackArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnemyAttackArea.swift; sourceTree = "<group>"; };
 		BAC1BF65207A8995003DAEB5 /* Impact.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Impact.atlas; sourceTree = "<group>"; };
-		BAC1BF67207A9EFD003DAEB5 /* BackHurt.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = BackHurt.atlas; sourceTree = "<group>"; };
-		BAC1BF68207A9EFE003DAEB5 /* FrontHurt.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = FrontHurt.atlas; sourceTree = "<group>"; };
-		BAC1BF69207A9EFE003DAEB5 /* RightHurt.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = RightHurt.atlas; sourceTree = "<group>"; };
-		BAC1BF6A207A9EFE003DAEB5 /* LeftHurt.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = LeftHurt.atlas; sourceTree = "<group>"; };
-		BAC1BF6F207A9F0E003DAEB5 /* Dying.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Dying.atlas; sourceTree = "<group>"; };
 		BAC1BF752083DA16003DAEB5 /* DuneTraveller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DuneTraveller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAC1BF772083DA16003DAEB5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BAC1BF7B2083DA16003DAEB5 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -108,7 +69,6 @@
 		BAC1BF862083DA18003DAEB5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAC1BF872083DA18003DAEB5 /* DuneTraveller.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DuneTraveller.entitlements; sourceTree = "<group>"; };
 		BAC7060E20965A5A00D81738 /* PrisonLevel1.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PrisonLevel1.sks; sourceTree = "<group>"; };
-		BACC055620683FB8000C473B /* Coin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Coin.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +113,6 @@
 			isa = PBXGroup;
 			children = (
 				BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */,
-				BAAEBDD02013CED6008BC7B2 /* GameScene_Gestures.swift */,
 				BAAEBDD82013D477008BC7B2 /* GameScene_Helpers.swift */,
 				BAAEBDD22013D069008BC7B2 /* GameScene_Physics.swift */,
 				BAAEBDD62013D20F008BC7B2 /* GameScene_Player.swift */,
@@ -183,28 +142,9 @@
 				BAAEBDE02013FF26008BC7B2 /* LevelStuff.xcassets */,
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
 				BA0F054221D02EC900D76AD5 /* OpenTimer.atlas */,
-				BAA4D6412030DE050092BFBE /* Chest.atlas */,
-				BACC055620683FB8000C473B /* Coin.atlas */,
 				BAC1BF65207A8995003DAEB5 /* Impact.atlas */,
-				BA5E31C6200BFA5600670595 /* VillagerBackWalking.atlas */,
-				BA5E31C8200BFA5600670595 /* VillagerFrontWalking.atlas */,
-				BA5E31C7200BFA5600670595 /* VillagerLeftWalking.atlas */,
-				BA5E31C9200BFA5700670595 /* VillagerRightWalking.atlas */,
-				BA5E31C02001675400670595 /* FrontAttackFrames.atlas */,
 				BA0F054621D0302800D76AD5 /* OpenTimer.atlas */,
 				BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */,
-				BAC1BF6F207A9F0E003DAEB5 /* Dying.atlas */,
-				BAC1BF67207A9EFD003DAEB5 /* BackHurt.atlas */,
-				BAC1BF68207A9EFE003DAEB5 /* FrontHurt.atlas */,
-				BAC1BF6A207A9EFE003DAEB5 /* LeftHurt.atlas */,
-				BAC1BF69207A9EFE003DAEB5 /* RightHurt.atlas */,
-				BA2061A6203B81F80061284D /* BackAttack.atlas */,
-				BA2061A5203B81F80061284D /* LeftAttack.atlas */,
-				BA2061A4203B81F80061284D /* RightAttack.atlas */,
-				BA2061AA203B82330061284D /* IdleBack.atlas */,
-				BA2061AC203B82340061284D /* IdleFront.atlas */,
-				BA2061AB203B82340061284D /* IdleLeft.atlas */,
-				BA2061AD203B82340061284D /* IdleRight.atlas */,
 				BA3FFEBC201E6EFF001E661C /* Support code */,
 				BA3FFEBA201E6E09001E661C /* SKS */,
 				BA3FFEBB201E6E95001E661C /* GameScene code */,
@@ -280,34 +220,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAC1BFB72083E40B003DAEB5 /* IdleBack.atlas in Resources */,
 				BAC1BFAE2083E3E7003DAEB5 /* AttackingFrames.atlas in Resources */,
-				BAC1BFAF2083E3EB003DAEB5 /* Dying.atlas in Resources */,
-				BAC1BFAC2083E3DF003DAEB5 /* VillagerRightWalking.atlas in Resources */,
-				BAC1BFA62083E3CC003DAEB5 /* Chest.atlas in Resources */,
 				BA0F054721D0302C00D76AD5 /* OpenTimer.atlas in Resources */,
-				BAC1BFB62083E407003DAEB5 /* RightAttack.atlas in Resources */,
 				BAC1BFA82083E3D4003DAEB5 /* Impact.atlas in Resources */,
-				BAC1BFB22083E3F6003DAEB5 /* LeftHurt.atlas in Resources */,
-				BAC1BFAB2083E3DC003DAEB5 /* VillagerLeftWalking.atlas in Resources */,
-				BAC1BFB32083E3FC003DAEB5 /* RightHurt.atlas in Resources */,
 				BAC1BFA12083E395003DAEB5 /* GUI.sks in Resources */,
 				BAC1BFA02083E395003DAEB5 /* Actions.sks in Resources */,
 				BAC1BF8D2083DF7D003DAEB5 /* GameData.plist in Resources */,
-				BAC1BFA92083E3D7003DAEB5 /* VillagerBackWalking.atlas in Resources */,
-				BAC1BFAA2083E3DA003DAEB5 /* VillagerFrontWalking.atlas in Resources */,
-				BAC1BFAD2083E3E3003DAEB5 /* FrontAttackFrames.atlas in Resources */,
 				BAC7060F20965A5A00D81738 /* PrisonLevel1.sks in Resources */,
-				BAC1BFB82083E40F003DAEB5 /* IdleFront.atlas in Resources */,
-				BAC1BFB12083E3F2003DAEB5 /* FrontHurt.atlas in Resources */,
-				BAC1BFA72083E3D0003DAEB5 /* Coin.atlas in Resources */,
 				BAC1BFA42083E3C6003DAEB5 /* Assets.xcassets in Resources */,
-				BAC1BFB02083E3EE003DAEB5 /* BackHurt.atlas in Resources */,
-				BAC1BFBA2083E416003DAEB5 /* IdleRight.atlas in Resources */,
-				BAC1BFB52083E403003DAEB5 /* LeftAttack.atlas in Resources */,
-				BAC1BFB92083E413003DAEB5 /* IdleLeft.atlas in Resources */,
 				BAC1BF852083DA18003DAEB5 /* Main.storyboard in Resources */,
-				BAC1BFB42083E3FF003DAEB5 /* BackAttack.atlas in Resources */,
 				BAC1BFA22083E395003DAEB5 /* LevelTiles.sks in Resources */,
 				BAC1BFA32083E3C3003DAEB5 /* LevelStuff.xcassets in Resources */,
 			);
@@ -323,7 +244,6 @@
 				BAC1BF992083E142003DAEB5 /* Projectile.swift in Sources */,
 				BAC1BF972083E142003DAEB5 /* WorldItem.swift in Sources */,
 				BAC1BF962083E142003DAEB5 /* AttackArea.swift in Sources */,
-				BAC1BF902083DF8A003DAEB5 /* GameScene_Gestures.swift in Sources */,
 				BAC1BF9C2083E142003DAEB5 /* EnemyAttackArea.swift in Sources */,
 				BAC1BF982083E142003DAEB5 /* Player.swift in Sources */,
 				BAC1BF952083E142003DAEB5 /* NonPlayerCharacter.swift in Sources */,
