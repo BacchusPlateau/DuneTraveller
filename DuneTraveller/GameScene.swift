@@ -135,7 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
      //   print ("didMove")
-        let wallTileMap = childNode(withName: "background") as? SKTileMapNode
+        let wallTileMap = childNode(withName: "walltiles") as? SKTileMapNode
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
         
@@ -247,14 +247,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 wallsNode.addChild(wall)
                 
                 
-                print("added wall at \(col),\(row)")
+               // print("added wall at \(col),\(row)")
                 
             }
         }
         
         wallsNode.name = "Walls"
         addChild(wallsNode)
-        //wallTileMap.removeFromParent()
+        wallTileMap.removeFromParent()
     }
     
     
