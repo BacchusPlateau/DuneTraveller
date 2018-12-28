@@ -166,13 +166,9 @@ extension GameScene {
             
             transitionInProgress = true
             
-      //      let deviceCheck = SharedHelpers.checkIfSKSExists(baseSKSName: theLevel)
-       //     let fullSKSNameToLoad:String = deviceCheck.0
-            
             
             if let scene = GameScene(fileNamed: "Grassland") {
                 
-                //cleanUpScene()
                 
                 scene.currentLevel = theLevel
                 scene.scaleMode = .aspectFill

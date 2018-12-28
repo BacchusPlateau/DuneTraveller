@@ -16,6 +16,7 @@ enum BodyType:UInt32 {
     case enemy = 32
     case enemyAttackArea = 64
     case enemyProjectile = 128
+    case wall = 256
 }
 
 enum Facing:Int {
@@ -113,12 +114,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currentProjectileAmmo:Int = 0
     
     var availableInventorySlots = [String]()
-    var inventoryVisible:Bool = false
+    var inventoryVisible:Bool = true
+    var wallsNode = SKNode()
+    
+    func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
+        
+        let deltaX = thePlayer.position.x - node.position.x
+        let deltaY = thePlayer.position.y - node.position.y
+        
+        let distance = sqrt(deltaX * deltaX + deltaY * deltaY)
+        if (distance <= radius + (thePlayer.frame.size.width / 2))  {
+            return true
+        } else {
+            return false
+        }
+        
+        
+    }
     
     override func didMove(to view: SKView) {
         
      //   print ("didMove")
-        
+        let wallTileMap = childNode(withName: "background") as? SKTileMapNode
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
         
@@ -189,48 +206,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 stop.pointee = true  //halt transversal of node tree
             }
         }
-        
     
-        
-        
         
         for node in self.children {
             
             if let someItem:WorldItem = node as? WorldItem {
                 setUpItem(theItem:someItem)
             } else if let someEnemy:Enemy = node as? Enemy {
-        //        print ("found enemy node")
                 setUpEnemy(theEnemy: someEnemy)
             }
         }
         
+        setUpLevelTiles(wallTileMap: wallTileMap)
         parsePropertyList()
-        
         setUpPlayer()
-        
         clearStuff(theArray:clearArray)
-        
         sortRewards(rewards:rewardDict)
-        
         populateStats()
-        
         showExistingInventory()
-        
-        self.addChild(dynamicSprite)
-        setUpLevelTiles()
-        
+        toggleInventory()
     }
     
-    func setUpLevelTiles() {
+    
+    
+    func setUpLevelTiles(wallTileMap: SKTileMapNode?) {
         
-        let wall = SKSpriteNode(imageNamed: "wall_four_panel")
-        wall.position = CGPoint(x: thePlayer.position.x + 100.0, y: thePlayer.position.y + 100.0)
-        wall.zPosition = 999
-        wall.anchorPoint = CGPoint.zero
+        guard let wallTileMap = wallTileMap else { return }
+        print("found wall tile map")
+        for row in 0..<wallTileMap.numberOfRows {
+            for col in 0..<wallTileMap.numberOfColumns {
+                
+                guard let tile = tile(in: wallTileMap,
+                                      at: (col, row))
+                    else { continue }
+                guard tile.userData?.object(forKey: "Wall") != nil
+                    else { continue }
+            
+                let wall = Wall()
+                wall.position = wallTileMap.centerOfTile(atColumn: col, row: row)
+                wallsNode.addChild(wall)
+                
+                
+                print("added wall at \(col),\(row)")
+                
+            }
+        }
         
-        dynamicSprite.addChild(wall)
-        
-        
+        wallsNode.name = "Walls"
+        addChild(wallsNode)
+        //wallTileMap.removeFromParent()
     }
     
     
@@ -241,7 +265,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.physicsBody?.isDynamic = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue
+            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue
             thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue
             thePlayer.zPosition = 0
             
@@ -283,7 +307,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    
+    func tile(in tileMap: SKTileMapNode, at coordiates: TileCoordinates) -> SKTileDefinition? {
+        
+        return tileMap.tileDefinition(atColumn: coordiates.column, row: coordiates.row)
+        
+    }
     
     override func update(_ currentTime: TimeInterval) {
         
@@ -404,20 +432,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
-        
-        let deltaX = thePlayer.position.x - node.position.x
-        let deltaY = thePlayer.position.y - node.position.y
-        
-        let distance = sqrt(deltaX * deltaX + deltaY * deltaY)
-        if (distance <= radius + (thePlayer.frame.size.width / 2))  {
-            return true
-        } else {
-            return false
-        }
-        
-        
-    }
+    
     
     
 

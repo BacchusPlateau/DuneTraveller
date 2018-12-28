@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BA0F054721D0302C00D76AD5 /* OpenTimer.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA0F054621D0302800D76AD5 /* OpenTimer.atlas */; };
+		BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3121D6B1EB0091C3D7 /* Types.swift */; };
+		BA5B3F3421D6BB750091C3D7 /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3321D6BB750091C3D7 /* Wall.swift */; };
 		BAC1BF782083DA16003DAEB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF772083DA16003DAEB5 /* AppDelegate.swift */; };
 		BAC1BF7E2083DA16003DAEB5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF7D2083DA16003DAEB5 /* GameScene.swift */; };
 		BAC1BF802083DA16003DAEB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF7F2083DA16003DAEB5 /* ViewController.swift */; };
@@ -47,6 +49,8 @@
 		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Inventory.swift; sourceTree = "<group>"; };
 		BA4E9159204E08A0008F9E93 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		BA5B3F3121D6B1EB0091C3D7 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
+		BA5B3F3321D6BB750091C3D7 /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
 		BA5D00FE205DFAB400C0C1A7 /* Projectile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
@@ -132,6 +136,8 @@
 				BA22677D207044A700160C26 /* Inventory.swift */,
 				BAC1BF6120715FD4003DAEB5 /* Enemy.swift */,
 				BAC1BF6320795C40003DAEB5 /* EnemyAttackArea.swift */,
+				BA5B3F3121D6B1EB0091C3D7 /* Types.swift */,
+				BA5B3F3321D6BB750091C3D7 /* Wall.swift */,
 			);
 			path = "Support code";
 			sourceTree = "<group>";
@@ -242,8 +248,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BAC1BF992083E142003DAEB5 /* Projectile.swift in Sources */,
+				BA5B3F3421D6BB750091C3D7 /* Wall.swift in Sources */,
 				BAC1BF972083E142003DAEB5 /* WorldItem.swift in Sources */,
 				BAC1BF962083E142003DAEB5 /* AttackArea.swift in Sources */,
+				BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */,
 				BAC1BF9C2083E142003DAEB5 /* EnemyAttackArea.swift in Sources */,
 				BAC1BF982083E142003DAEB5 /* Player.swift in Sources */,
 				BAC1BF952083E142003DAEB5 /* NonPlayerCharacter.swift in Sources */,

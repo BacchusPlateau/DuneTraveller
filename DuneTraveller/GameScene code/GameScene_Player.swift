@@ -12,7 +12,61 @@ import SpriteKit
 extension GameScene {
 
     
-
+    func animateWalk() {
+        
+        if (thePlayer.action(forKey: "Hurt") == nil) {
+            
+            var theAnimation:String = ""
+            
+            switch playerFacing {
+            case .right:
+                theAnimation = thePlayer.rightWalk
+            case .left:
+                theAnimation = thePlayer.leftWalk
+            case .front,.none:
+                theAnimation = thePlayer.frontWalk
+            case .back:
+                theAnimation = thePlayer.backWalk
+            }
+            
+            let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
+            thePlayer.run(walkAnimation, withKey: theAnimation)
+            
+        }
+    }
+    
+    func animateWalkSansPath() {
+        
+        if (thePlayer.action(forKey: "Hurt") == nil) {
+            
+            var theAnimation:String = ""
+            
+            switch playerFacing {
+            case .right:
+                theAnimation = thePlayer.rightWalk
+            case .left:
+                theAnimation = thePlayer.leftWalk
+            case .front,.none:
+                theAnimation = thePlayer.frontWalk
+            case .back:
+                theAnimation = thePlayer.backWalk
+            }
+            
+            if (theAnimation != "") {
+                
+                thePlayer.removeAction(forKey: thePlayer.rightWalk)
+                thePlayer.removeAction(forKey: thePlayer.leftWalk)
+                thePlayer.removeAction(forKey: thePlayer.frontWalk)
+                thePlayer.removeAction(forKey: thePlayer.backWalk)
+                
+                let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
+                let repeatAction:SKAction = SKAction.repeatForever(walkAnimation)
+                thePlayer.run(repeatAction, withKey: theAnimation)
+                
+            }
+        }
+        
+    }
     
     
     // MARK: Attack
@@ -60,6 +114,248 @@ extension GameScene {
         
     }
     
+    func checkIfMeleeButtonPressed(pos:CGPoint) -> Bool {
+        
+        var pressed:Bool = false
+        
+        let meleeLocation:CGPoint = convert(meleeAttackButton.position, from:self.camera!)
+        let meleeFrame:CGRect = CGRect(x:meleeLocation.x - (meleeAttackButton.frame.size.width / 2),
+                                       y:meleeLocation.y - (meleeAttackButton.frame.size.height / 2),
+                                       width: meleeAttackButton.frame.size.width,
+                                       height: meleeAttackButton.frame.size.height)
+        
+        if(meleeFrame.contains(pos)) {
+            
+            pressed = true
+         
+            
+        }
+        
+        return pressed
+    }
+    
+    func checkIfRangedButtonPressed(pos:CGPoint) -> Bool {
+        
+        var pressed:Bool = false
+        
+        let rangedLocation:CGPoint = convert(rangedAttackButton.position, from:self.camera!)
+        let rangedFrame:CGRect = CGRect(x:rangedLocation.x - (rangedAttackButton.frame.size.width / 2),
+                                        y:rangedLocation.y - (rangedAttackButton.frame.size.height / 2),
+                                        width: rangedAttackButton.frame.size.width,
+                                        height: rangedAttackButton.frame.size.height)
+        
+        if(rangedFrame.contains(pos)) {
+            
+            pressed = true
+            
+            
+        }
+        
+        return pressed
+    }
+    
+    func createLineWith(array:[CGPoint])  {
+        
+        let path = CGMutablePath()
+        path.move(to:pathArray[0])
+        
+        for point in pathArray {
+            
+            path.addLine(to:point)
+            
+        }
+        
+        let line = SKShapeNode()
+        line.path = path
+        line.lineWidth = 10
+        //  line.strokeColor = UIColor.white
+        line.alpha = pathAlpha
+        
+        self.addChild(line)
+        
+        let fade:SKAction = SKAction.fadeOut(withDuration: 0.3)
+        let runAfter:SKAction = SKAction.run {
+            
+            line.removeFromParent()
+            
+        }
+        
+        line.run(SKAction.sequence([fade, runAfter]))
+        
+        makePlayerFollowPath(path: path)
+        
+    }
+    
+    func damagePlayer(with amount:Int) {
+        
+        if (thePlayer.canBeDamaged) {
+            
+            //print ("can be damaged")
+            
+            hurtAnimation()
+            thePlayer.damaged()
+            
+            if (currentArmor > 0) {
+                subtractArmor(amount: amount)
+            } else {
+                subtractHealth(amount: amount)
+            }
+        }
+        
+    }
+    
+    func getDifference(point:CGPoint) -> CGPoint {
+        
+        let newPoint:CGPoint = CGPoint(x: point.x + currentOffset.x, y: point.y + currentOffset.y)
+        
+        return newPoint
+    }
+    
+    func hurtAnimation() {
+        
+        var theAnimation:String = ""
+        
+        switch playerFacing {
+        case .right:
+            theAnimation = thePlayer.rightHurt
+        case .left:
+            theAnimation = thePlayer.leftHurt
+        case .back:
+            theAnimation = thePlayer.backHurt
+        case .front:
+            theAnimation = thePlayer.frontHurt
+        case .none:
+            break
+        }
+        
+        if (theAnimation != "") {
+            
+            if (thePlayer.action(forKey: theAnimation) != nil) {
+                
+                thePlayer.removeAction(forKey: thePlayer.rightWalk)
+                thePlayer.removeAction(forKey: thePlayer.leftWalk)
+                thePlayer.removeAction(forKey: thePlayer.backWalk)
+                thePlayer.removeAction(forKey: thePlayer.frontWalk)
+                
+                if let hurtAnimation:SKAction = SKAction(named: theAnimation) {
+                    thePlayer.run(hurtAnimation, withKey: "Hurt")
+                }
+            }
+            
+        }
+        
+    }
+    
+    override func keyDown(with event: NSEvent) {
+        
+        switch event.keyCode {
+        case 0x00: // A, attack
+            melee()
+        case 0x03: // F, fire projectile
+            ranged()
+        case 0x31: // Space, pause
+            break
+        case 0x22: // I, inventory toggle
+            toggleInventory()
+        default:
+            break
+        }
+    }
+    
+    func killPlayer() {
+        
+        thePlayer.removeAllActions()
+        print("kill player")
+        
+        var theAnimation:String = ""
+        thePlayer.isDead = true
+        
+        
+        switch playerFacing {
+        case .right:
+            theAnimation = thePlayer.rightDying
+        case .left:
+            theAnimation = thePlayer.leftDying
+        case .back:
+            theAnimation = thePlayer.backDying
+        case .front:
+            theAnimation = thePlayer.frontDying
+        case .none:
+            break
+        }
+        
+        print (theAnimation)
+        if (theAnimation != "") {
+            
+            if let dyingAnimation:SKAction = SKAction(named: theAnimation) {
+                
+                let finish:SKAction = SKAction.run {
+                    self.resetLevel()
+                    print("running the sequence")
+                }
+                
+                let seq:SKAction = SKAction.sequence([dyingAnimation, finish])
+                thePlayer.run(seq)
+                
+            } else {
+                
+                self.resetLevel()
+                
+            }
+            
+        }  else {
+            
+            self.resetLevel()
+            
+        }
+        
+    }
+    
+    func makePlayerFollowPath(path:CGMutablePath) {
+        //      print ("walktime = " + String(walkTime))
+        
+        if (walkTime > 5) {
+            walkTime = 5
+        }
+        
+        let followAction:SKAction = SKAction.follow(path, asOffset: false, orientToPath: false, duration: walkTime)
+        
+        let finish:SKAction = SKAction.run {
+            
+            self.runIdleAnimation()
+            
+        }
+        
+        let seq:SKAction = SKAction.sequence([followAction, finish])
+        
+        thePlayer.run(seq, withKey: "PlayerMoving")
+        
+    }
+    
+    func melee() {
+        
+        if(!disableAttack) {
+            
+            attack()
+            
+        }
+        
+    }
+    
+    // MARK:  MOUSE
+    
+    override func mouseDown(with event: NSEvent) {
+        self.touchDown(atPoint: event.location(in: self))
+    }
+    
+    override func mouseDragged(with event: NSEvent) {
+        self.touchMoved(toPoint: event.location(in: self))
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+        self.touchUp(atPoint: event.location(in: self))
+    }
+    
     func move(theXAmount:CGFloat, theYAmount:CGFloat, theAnimation:String) {
         
         let walkAction:SKAction = SKAction(named: theAnimation)!
@@ -70,6 +366,194 @@ extension GameScene {
         thePlayer.run(group)
         
         //   print (theAnimation)
+    }
+    
+    func playerUpdate() {
+        
+        //runs at the same frame rate as the game (called by the update statement)
+        
+        if (thePlayer.action(forKey: "PlayerMoving") != nil && thePlayer.action(forKey: "Attack") == nil) {
+            
+            if (playerLastLocation != CGPoint.zero) {
+                
+                if (thePlayer.action(forKey: "PlayerMoving") != nil) {
+                    
+                    if (abs(thePlayer.position.x - playerLastLocation.x) > abs(thePlayer.position.y - playerLastLocation.y)) {
+                        //greater movement x
+                        
+                        if (thePlayer.position.x > playerLastLocation.x) {
+                            //right
+                            playerFacing = .right
+                            
+                            if (thePlayer.action(forKey: thePlayer.rightWalk) == nil) {
+                                
+                                animateWalk()
+                            }
+                            
+                        } else {
+                            //left
+                            playerFacing = .left
+                            
+                            if (thePlayer.action(forKey: thePlayer.leftWalk) == nil) {
+                                
+                                animateWalk()
+                            }
+                        }
+                        
+                    } else {
+                        //greater movement y
+                        
+                        if (thePlayer.position.y > playerLastLocation.y) {
+                            //up / back
+                            
+                            playerFacing = .back
+                            
+                            if (thePlayer.action(forKey: thePlayer.backWalk) == nil) {
+                                
+                                animateWalk()
+                            }
+                            
+                        } else {
+                            //down / forward
+                            
+                            playerFacing = .front
+                            
+                            if (thePlayer.action(forKey: thePlayer.frontWalk) == nil) {
+                                
+                                animateWalk()
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
+        
+        playerLastLocation = thePlayer.position
+    }
+    
+    func playerUpdateSansPath() {
+        
+        print("playerUpdateSansPath")
+        
+        touchDownSprite.position = CGPoint(x:thePlayer.position.x - offsetFromTouchDownToPlayer.x, y:thePlayer.position.y - offsetFromTouchDownToPlayer.y)
+        
+        if (touchingDown) {
+            
+            let walkSpeed = thePlayer.walkSpeed
+            
+            switch playerFacing {
+            case .front,.none:
+                thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y - walkSpeed)
+            case .back:
+                thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y + walkSpeed)
+            case .left:
+                thePlayer.position = CGPoint(x:thePlayer.position.x - walkSpeed, y:thePlayer.position.y + diagonalAmount)
+            case .right:
+                thePlayer.position = CGPoint(x:thePlayer.position.x + walkSpeed, y:thePlayer.position.y + diagonalAmount)
+            }
+            
+            animateWalkSansPath()
+        }
+        
+    }
+    
+    func orientCharacter(pos:CGPoint) {
+        
+        if (abs(touchDownSprite.position.x - pos.x) > abs(touchDownSprite.position.y - pos.y)) {
+            //greater movement x
+            
+            if (touchDownSprite.position.x < pos.x) {
+                
+                //right
+                playerFacing = .right
+                
+            } else {
+                
+                //left
+                playerFacing = .left
+                
+            }
+            
+            if (walkDiagonal) {
+                
+                diagonalAmount = ((touchDownSprite.position.y - pos.y) / 100) * (thePlayer.walkSpeed / 2)
+                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = (thePlayer.walkSpeed / 2)
+                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = -(thePlayer.walkSpeed / 2)
+                }
+                
+            }
+            
+        } else {
+            //greater movement y
+            
+            if (touchDownSprite.position.y < pos.y) {
+                //up / back
+                
+                playerFacing = .back
+                
+                
+            } else {
+                //down / forward
+                
+                playerFacing = .front
+                
+            }
+            
+            if (walkDiagonal) {
+                
+                diagonalAmount = -((touchDownSprite.position.x - pos.x) / 100) * (thePlayer.walkSpeed / 2)
+                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = (thePlayer.walkSpeed / 2)
+                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
+                    diagonalAmount = -(thePlayer.walkSpeed / 2)
+                }
+                
+            }
+            
+        }
+        
+        if (thingBeingUnlocked != "") {
+            
+            if (playerFacingWhenUnlocking != playerFacing) {
+                //should refactor this to call removeTimer() in the _Physics file
+                
+                if (self.childNode(withName: thingBeingUnlocked + "Timer") == nil) {
+                    
+                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeAllActions()
+                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeFromParent()
+                    
+                }
+                
+                thingBeingUnlocked = ""
+                fadeOutInfoText(waitTime: 0.5)
+            }
+            
+        }
+        
+    }
+    
+    func ranged() {
+        
+        if(!disableAttack) {
+            
+            if (currentProjectileRequiresAmmo && currentProjectileAmmo > 0) {
+                
+                rangedAttack(withDict: prevPlayerProjectileDict)
+                
+            } else if (!currentProjectileRequiresAmmo) {
+                
+                rangedAttack(withDict: prevPlayerProjectileDict)
+                
+            }
+            
+        }
     }
     
     func rangedAttack(withDict:[String:Any]) {
@@ -175,158 +659,68 @@ extension GameScene {
             
         }
         
-        
-        
     }
     
-
     
-    func touchMoved(toPoint pos : CGPoint) {
+    
+    func resetLevel() {
         
+        var initialLevel:String = ""
+        var initialEntryNode:String = ""
         
-        if (thePlayer.action(forKey: "PlayerMoving") != nil && pathArray.count > 4) {
+        if (defaults.object(forKey: "ContinuePoint") != nil) {
             
-            thePlayer.removeAction(forKey: "PlayerMoving")
-        }
-        
-        walkTime += thePlayer.walkSpeedOnPath
-        
-        pathArray.append(getDifference(point: pos))
-        
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        touchEnded(toPoint: pos)
-    }
-    
-    // MARK:  MOUSE DOWN
-    
-    override func mouseDown(with event: NSEvent) {
-        self.touchDown(atPoint: event.location(in: self))
-    }
-    
-    func touchDown(atPoint pos : CGPoint) {
-        
-        pathArray.removeAll()
-        currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
-        pathArray.append(getDifference(point: pos))
-        walkTime = 0
-    }
-    
-    func touchDownSansPath(atPoint pos : CGPoint) {
-        
-        print("touchDownSansPath")
-        
-        destinationPoint = pos
-        
-      //  thePlayer.position = pos
-        
-        pathArray.removeAll()
-        
-        currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
-        
-        pathArray.append(getDifference(point: pos))
-        
-        walkTime = 0
-        
-    }
-    
-    func toggleInventory() {
-        
-        inventoryVisible = !inventoryVisible
-        print("Inventory visible = \(inventoryVisible)")
-        
-        if let statsBacking = self.camera!.childNode(withName: "StatsBacking") as? SKSpriteNode {
-            statsBacking.alpha = inventoryVisible ? 1 : 0
-        
-        }
-    }
-    
-    override func mouseDragged(with event: NSEvent) {
-        self.touchMoved(toPoint: event.location(in: self))
-    }
-    
-    override func mouseUp(with event: NSEvent) {
-        self.touchUp(atPoint: event.location(in: self))
-    }
-    
-    func getDifference(point:CGPoint) -> CGPoint {
-        
-        let newPoint:CGPoint = CGPoint(x: point.x + currentOffset.x, y: point.y + currentOffset.y)
-        
-        return newPoint
-    }
-    
-    override func keyDown(with event: NSEvent) {
-        
-         switch event.keyCode {
-         case 0x00: // A, attack
-            melee()
-         case 0x03: // F, fire projectile
-            ranged()
-         case 0x31: // Space, pause
-            break
-         case 0x22: // I, inventory toggle
-            toggleInventory()
-         default:
-            break
-        }
-    }
-    
-    
-    /*
-    func touchDown(atPoint pos : CGPoint) {
-        
-      //  if (thePlayer.action(forKey: "PlayerMoving") != nil) {
-            
-      //      thePlayer.removeAction(forKey: "PlayerMoving")
-      //  }
-        
-        pathArray.removeAll()
-        
-        currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
-        
-        pathArray.append(getDifference(point: pos))
-        
-        walkTime = 0
-        
-      /*
-        print ("(\(pos.x),\(pos.y))")
-        
-        if ( pos.y > 0) {
-            
-            if (pos.x > 0) {
-                print ("quadrant 1")
-            } else {
-                print ("quadrant 2")
-            }
+            initialLevel = defaults.string(forKey: "ContinuePoint")!
             
         } else {
-            // y < 0
-            if (pos.x > 0) {
-                print ("quadrant 4")
-            } else {
-                print ("quadrant 3")
-            }
+            
+            initialLevel = currentLevel
         }
         
-        // swipedRight()
-        */
+        if (defaults.object(forKey: "ContinueWhere") != nil) {
+            
+            initialEntryNode = defaults.string(forKey: "ContinueWhere")!
+            
+        }
+        print ("Reset level")
+        loadLevel(theLevel: initialLevel, toWhere: initialEntryNode)
+        
     }
-    */
     
-    
-    // MARK: Melle or Ranged pre-Attack
-    
-    
-    func melee() {
+    func restoreAndFadeInAttackButtons() {
         
-        if(!disableAttack) {
+        rangedAttackButton.removeAllActions()
+        meleeAttackButton.removeAllActions()
+        
+        //   rangedAttackButton.alpha = 1
+        //   meleeAttackButton.alpha = 1
+        
+        let fadeIn:SKAction = SKAction.fadeIn(withDuration: 5)
+        rangedAttackButton.run(fadeIn)
+        meleeAttackButton.run(fadeIn)
+        
+    }
+    
+    func runIdleAnimation() {
+        
+        var animationName:String = ""
+        
+        switch playerFacing {
             
-            attack()
-            
+        case .front,.none:
+            animationName = thePlayer.frontIdle
+        case .back:
+            animationName = thePlayer.backIdle
+        case .left:
+            animationName = thePlayer.leftIdle
+        case .right:
+            animationName = thePlayer.rightIdle
         }
         
+        if (animationName != "") {
+            let idleAnimation:SKAction = SKAction(named: animationName, duration:1)!
+            thePlayer.run(idleAnimation, withKey: "Idle")
+        }
     }
     
     func switchWeaponsIfNeeded(includingAddAmmo:Bool) {
@@ -336,13 +730,13 @@ extension GameScene {
         if(thePlayer.currentProjectile != "") {
             
             if (prevPlayerProjectileName != thePlayer.currentProjectile) {
-            
+                
                 for (key, value) in projectilesDict {
                     
                     switch key {
                         
                     case thePlayer.currentProjectile:
-                       
+                        
                         prevPlayerProjectileName = key
                         prevPlayerProjectileDict = value as! [String : Any]
                         defaults.set(thePlayer.currentProjectile, forKey: "CurrentProjectile")
@@ -380,7 +774,7 @@ extension GameScene {
                     default:
                         continue
                     }
-
+                    
                     currentProjectileRequiresAmmo = foundAmmoEntry
                     setAmmoLabel()
                     
@@ -390,96 +784,94 @@ extension GameScene {
                 
             }
         }
-
+        
     }
     
-    func ranged() {
+    func toggleInventory() {
         
-        if(!disableAttack) {
-            
-            if (currentProjectileRequiresAmmo && currentProjectileAmmo > 0) {
-                
-                rangedAttack(withDict: prevPlayerProjectileDict)
-                
-            } else if (!currentProjectileRequiresAmmo) {
-                
-                rangedAttack(withDict: prevPlayerProjectileDict)
-                
-            }
-            
-        }
-    }
-    
-    func checkIfMeleeButtonPressed(pos:CGPoint) -> Bool {
+        inventoryVisible = !inventoryVisible
         
-        var pressed:Bool = false
-        
-        let meleeLocation:CGPoint = convert(meleeAttackButton.position, from:self.camera!)
-        let meleeFrame:CGRect = CGRect(x:meleeLocation.x - (meleeAttackButton.frame.size.width / 2),
-                                       y:meleeLocation.y - (meleeAttackButton.frame.size.height / 2),
-                                       width: meleeAttackButton.frame.size.width,
-                                       height: meleeAttackButton.frame.size.height)
-        
-        if(meleeFrame.contains(pos)) {
-            
-            pressed = true
-            highlightAndFadeAttackButtons()
-            
+        if let statsBacking = self.camera!.childNode(withName: "StatsBacking") as? SKSpriteNode {
+            statsBacking.alpha = inventoryVisible ? 1 : 0
         }
         
-        return pressed
-    }
-    
-    func checkIfRangedButtonPressed(pos:CGPoint) -> Bool {
-        
-        var pressed:Bool = false
-        
-        let rangedLocation:CGPoint = convert(rangedAttackButton.position, from:self.camera!)
-        let rangedFrame:CGRect = CGRect(x:rangedLocation.x - (rangedAttackButton.frame.size.width / 2),
-                                       y:rangedLocation.y - (rangedAttackButton.frame.size.height / 2),
-                                       width: rangedAttackButton.frame.size.width,
-                                       height: rangedAttackButton.frame.size.height)
-        
-        if(rangedFrame.contains(pos)) {
-            
-            pressed = true
-            highlightAndFadeAttackButtons()
-            
+        if let classLabel = self.camera!.childNode(withName: "ClassLabel") as? SKLabelNode {
+            classLabel.alpha = inventoryVisible ? 1 : 0
         }
         
-        return pressed
+        if let xpLevelLabel = self.camera!.childNode(withName: "XPLevelLabel") as? SKLabelNode {
+            xpLevelLabel.alpha = inventoryVisible ? 1 : 0
+        }
+        
+        if let XPLabel = self.camera!.childNode(withName: "XPLabel") as? SKLabelNode {
+            XPLabel.alpha = inventoryVisible ? 1 : 0
+        }
+        
+        if let currencyLabel = self.camera!.childNode(withName: "CurrencyLabel") as? SKLabelNode {
+            currencyLabel.alpha = inventoryVisible ? 1 : 0
+        }
+        
+        if let healthLabel = self.camera!.childNode(withName: "HealthLabel") as? SKLabelNode {
+            healthLabel.alpha = inventoryVisible ? 1 : 0
+        }
+        
+        if let armorLabel = self.camera!.childNode(withName: "ArmorLabel") as? SKLabelNode {
+            armorLabel.alpha = inventoryVisible ? 1 : 0
+        }
+        
+        
+        if let projectileBacking = self.camera!.childNode(withName: "ProjectileBacking") as? SKSpriteNode {
+            projectileBacking.alpha = inventoryVisible ? 1 : 0
+        }
+        
+        if let projectileIcon = self.camera!.childNode(withName: "ProjectileIcon") as? SKSpriteNode {
+            projectileIcon.alpha = inventoryVisible ? 1 : 0
+        }
+        
+        if let ammoLabel = self.camera!.childNode(withName: "AmmoLabel") as? SKLabelNode {
+            ammoLabel.alpha = inventoryVisible ? 1 : 0
+        }
+        
     }
     
-    func restoreAndFadeInAttackButtons() {
+    
+    func touchDown(atPoint pos : CGPoint) {
         
-        rangedAttackButton.removeAllActions()
-        meleeAttackButton.removeAllActions()
+        pathArray.removeAll()
+        currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
+        pathArray.append(getDifference(point: pos))
+        walkTime = 0
+    }
+    
+    func touchDownSansPath(atPoint pos : CGPoint) {
         
-     //   rangedAttackButton.alpha = 1
-     //   meleeAttackButton.alpha = 1
+        print("touchDownSansPath")
         
-        let fadeIn:SKAction = SKAction.fadeIn(withDuration: 5)
-        rangedAttackButton.run(fadeIn)
-        meleeAttackButton.run(fadeIn)
+        destinationPoint = pos
+        
+        pathArray.removeAll()
+        
+        currentOffset = CGPoint(x: thePlayer.position.x - pos.x, y: thePlayer.position.y - pos.y)
+        
+        pathArray.append(getDifference(point: pos))
+        
+        walkTime = 0
         
     }
     
-    func highlightAndFadeAttackButtons() {
+    func touchMoved(toPoint pos : CGPoint) {
         
-        rangedAttackButton.removeAllActions()
-        meleeAttackButton.removeAllActions()
         
-        rangedAttackButton.alpha = 1
-        meleeAttackButton.alpha = 1
+        if (thePlayer.action(forKey: "PlayerMoving") != nil && pathArray.count > 4) {
+            
+            thePlayer.removeAction(forKey: "PlayerMoving")
+        }
         
-        let fadeOut:SKAction = SKAction.fadeOut(withDuration: 1)
-        rangedAttackButton.run(fadeOut)
-        meleeAttackButton.run(fadeOut)
+        walkTime += thePlayer.walkSpeedOnPath
+        
+        pathArray.append(getDifference(point: pos))
         
     }
-    
-
-    
     
     func touchMovedSansPath(toPoint pos : CGPoint) {
         
@@ -490,6 +882,7 @@ extension GameScene {
         }
         
     }
+    
     
     
     func touchEnded(toPoint pos:CGPoint) {
@@ -516,439 +909,19 @@ extension GameScene {
         
     }
     
-    func createLineWith(array:[CGPoint])  {
-        
-        let path = CGMutablePath()
-        path.move(to:pathArray[0])
-        
-        for point in pathArray {
-            
-            path.addLine(to:point)
-            
-        }
-        
-        let line = SKShapeNode()
-        line.path = path
-        line.lineWidth = 10
-      //  line.strokeColor = UIColor.white
-        line.alpha = pathAlpha
-        
-        self.addChild(line)
-        
-        let fade:SKAction = SKAction.fadeOut(withDuration: 0.3)
-        let runAfter:SKAction = SKAction.run {
-            
-            line.removeFromParent()
-            
-        }
-        
-        line.run(SKAction.sequence([fade, runAfter]))
-        
-        makePlayerFollowPath(path: path)
-        
-    }
-    
-    func playerUpdateSansPath() {
-        
-        print("playerUpdateSansPath")
-        
-        touchDownSprite.position = CGPoint(x:thePlayer.position.x - offsetFromTouchDownToPlayer.x, y:thePlayer.position.y - offsetFromTouchDownToPlayer.y)
-        
-        if (touchingDown) {
-            
-            let walkSpeed = thePlayer.walkSpeed
-            
-            switch playerFacing {
-            case .front,.none:
-                thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y - walkSpeed)
-            case .back:
-                thePlayer.position = CGPoint(x:thePlayer.position.x + diagonalAmount, y:thePlayer.position.y + walkSpeed)
-            case .left:
-                thePlayer.position = CGPoint(x:thePlayer.position.x - walkSpeed, y:thePlayer.position.y + diagonalAmount)
-            case .right:
-                thePlayer.position = CGPoint(x:thePlayer.position.x + walkSpeed, y:thePlayer.position.y + diagonalAmount)
-            }
-            
-            animateWalkSansPath()
-        }
-        
-    }
-    
-    func playerUpdate() {
-        
-        //runs at the same frame rate as the game (called by the update statement)
-        
-        if (thePlayer.action(forKey: "PlayerMoving") != nil && thePlayer.action(forKey: "Attack") == nil) {
-        
-            if (playerLastLocation != CGPoint.zero) {
-                
-                if (thePlayer.action(forKey: "PlayerMoving") != nil) {
-                
-                    if (abs(thePlayer.position.x - playerLastLocation.x) > abs(thePlayer.position.y - playerLastLocation.y)) {
-                        //greater movement x
-                        
-                        if (thePlayer.position.x > playerLastLocation.x) {
-                            //right
-                            playerFacing = .right
-                            
-                            if (thePlayer.action(forKey: thePlayer.rightWalk) == nil) {
-                                
-                                animateWalk()
-                            }
-                            
-                        } else {
-                            //left
-                            playerFacing = .left
-                            
-                            if (thePlayer.action(forKey: thePlayer.leftWalk) == nil) {
-                                
-                                animateWalk()
-                            }
-                        }
-                        
-                    } else {
-                        //greater movement y
-                        
-                        if (thePlayer.position.y > playerLastLocation.y) {
-                            //up / back
-                            
-                            playerFacing = .back
-                            
-                            if (thePlayer.action(forKey: thePlayer.backWalk) == nil) {
-                                
-                                animateWalk()
-                            }
-                            
-                        } else {
-                            //down / forward
-                            
-                            playerFacing = .front
-                            
-                            if (thePlayer.action(forKey: thePlayer.frontWalk) == nil) {
-                                
-                                animateWalk()
-                            }
-                            
-                        }
-                        
-                    }
-                
-                }
-                
-            }
-            
-        }
-        
-        playerLastLocation = thePlayer.position
-    }
-    
-    func orientCharacter(pos:CGPoint) {
-                    
-        if (abs(touchDownSprite.position.x - pos.x) > abs(touchDownSprite.position.y - pos.y)) {
-            //greater movement x
-            
-            if (touchDownSprite.position.x < pos.x) {
-                
-                //right
-                playerFacing = .right
-              
-            } else {
-                
-                //left
-                playerFacing = .left
-                
-            }
-            
-            if (walkDiagonal) {
-                
-                diagonalAmount = ((touchDownSprite.position.y - pos.y) / 100) * (thePlayer.walkSpeed / 2)
-                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = (thePlayer.walkSpeed / 2)
-                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = -(thePlayer.walkSpeed / 2)
-                }
-                
-            }
-            
-        } else {
-            //greater movement y
-            
-            if (touchDownSprite.position.y < pos.y) {
-                //up / back
-                
-                playerFacing = .back
-                
-                
-            } else {
-                //down / forward
-                
-                playerFacing = .front
-                
-            }
-            
-            if (walkDiagonal) {
-                
-                diagonalAmount = -((touchDownSprite.position.x - pos.x) / 100) * (thePlayer.walkSpeed / 2)
-                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = (thePlayer.walkSpeed / 2)
-                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = -(thePlayer.walkSpeed / 2)
-                }
-                
-            }
-            
-        }
-        
-        if (thingBeingUnlocked != "") {
-            
-            if (playerFacingWhenUnlocking != playerFacing) {
-                //should refactor this to call removeTimer() in the _Physics file
-                
-                if (self.childNode(withName: thingBeingUnlocked + "Timer") == nil) {
-                    
-                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeAllActions()
-                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeFromParent()
-                    
-                }
-                
-                thingBeingUnlocked = ""
-                fadeOutInfoText(waitTime: 0.5)
-            }
-            
-        }
-
-    }
-    
-    func animateWalk() {
-        
-        if (thePlayer.action(forKey: "Hurt") == nil) {
-        
-            var theAnimation:String = ""
-            
-            switch playerFacing {
-            case .right:
-                theAnimation = thePlayer.rightWalk
-            case .left:
-                theAnimation = thePlayer.leftWalk
-            case .front,.none:
-                theAnimation = thePlayer.frontWalk
-            case .back:
-                theAnimation = thePlayer.backWalk
-            }
-            
-            let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
-            thePlayer.run(walkAnimation, withKey: theAnimation)
-            
-        }
-    }
-    
-    func animateWalkSansPath() {
-        
-        if (thePlayer.action(forKey: "Hurt") == nil) {
-            
-            var theAnimation:String = ""
-            
-            switch playerFacing {
-            case .right:
-                theAnimation = thePlayer.rightWalk
-            case .left:
-                theAnimation = thePlayer.leftWalk
-            case .front,.none:
-                theAnimation = thePlayer.frontWalk
-            case .back:
-                theAnimation = thePlayer.backWalk
-            }
-            
-            if (theAnimation != "") {
-            
-                thePlayer.removeAction(forKey: thePlayer.rightWalk)
-                thePlayer.removeAction(forKey: thePlayer.leftWalk)
-                thePlayer.removeAction(forKey: thePlayer.frontWalk)
-                thePlayer.removeAction(forKey: thePlayer.backWalk)
-                
-                let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
-                let repeatAction:SKAction = SKAction.repeatForever(walkAnimation)
-                thePlayer.run(repeatAction, withKey: theAnimation)
-                
-            }
-        }
-        
-    }
-    
-    func makePlayerFollowPath(path:CGMutablePath) {
-  //      print ("walktime = " + String(walkTime))
-        
-        if (walkTime > 5) {
-            walkTime = 5
-        }
-        
-        let followAction:SKAction = SKAction.follow(path, asOffset: false, orientToPath: false, duration: walkTime)
-        
-        let finish:SKAction = SKAction.run {
-            
-            self.runIdleAnimation()
-            
-        }
-        
-        let seq:SKAction = SKAction.sequence([followAction, finish])
-        
-        thePlayer.run(seq, withKey: "PlayerMoving")
-        
-    }
-    
-    func runIdleAnimation() {
-        
-        var animationName:String = ""
-        
-        switch playerFacing {
-            
-            case .front,.none:
-                animationName = thePlayer.frontIdle
-            case .back:
-                animationName = thePlayer.backIdle
-            case .left:
-                animationName = thePlayer.leftIdle
-            case .right:
-                animationName = thePlayer.rightIdle
-        }
-        
-        if (animationName != "") {
-            let idleAnimation:SKAction = SKAction(named: animationName, duration:1)!
-            thePlayer.run(idleAnimation, withKey: "Idle")
-        }
-    }
-    
-    func hurtAnimation() {
-        
-        var theAnimation:String = ""
-        
-        switch playerFacing {
-        case .right:
-            theAnimation = thePlayer.rightHurt
-        case .left:
-            theAnimation = thePlayer.leftHurt
-        case .back:
-            theAnimation = thePlayer.backHurt
-        case .front:
-            theAnimation = thePlayer.frontHurt
-        case .none:
-            break
-        }
-        
-        if (theAnimation != "") {
-            
-            if (thePlayer.action(forKey: theAnimation) != nil) {
-                
-                thePlayer.removeAction(forKey: thePlayer.rightWalk)
-                thePlayer.removeAction(forKey: thePlayer.leftWalk)
-                thePlayer.removeAction(forKey: thePlayer.backWalk)
-                thePlayer.removeAction(forKey: thePlayer.frontWalk)
-                
-                if let hurtAnimation:SKAction = SKAction(named: theAnimation) {
-                    thePlayer.run(hurtAnimation, withKey: "Hurt")
-                }
-            }
-            
-        }
-        
+    func touchUp(atPoint pos : CGPoint) {
+        touchEnded(toPoint: pos)
     }
     
     
-    func killPlayer() {
-        
-        thePlayer.removeAllActions()
-        print("kill player")
-        
-        var theAnimation:String = ""
-        thePlayer.isDead = true
-        
-        
-        switch playerFacing {
-        case .right:
-            theAnimation = thePlayer.rightDying
-        case .left:
-            theAnimation = thePlayer.leftDying
-        case .back:
-            theAnimation = thePlayer.backDying
-        case .front:
-            theAnimation = thePlayer.frontDying
-        case .none:
-            break
-        }
-        
-        print (theAnimation)
-        if (theAnimation != "") {
-        
-            if let dyingAnimation:SKAction = SKAction(named: theAnimation) {
-               
-                let finish:SKAction = SKAction.run {
-                    self.resetLevel()
-                    print("running the sequence")
-                }
-                
-                let seq:SKAction = SKAction.sequence([dyingAnimation, finish])
-                thePlayer.run(seq)
-                
-            } else {
-                
-                self.resetLevel()
-                
-            }
-            
-        }  else {
-        
-            self.resetLevel()
-        
-        }
-        
-    }
     
-    func damagePlayer(with amount:Int) {
-        
-        if (thePlayer.canBeDamaged) {
-            
-            //print ("can be damaged")
-            
-            hurtAnimation()
-            thePlayer.damaged()
-            
-            if (currentArmor > 0) {
-                subtractArmor(amount: amount)
-            } else {
-                subtractHealth(amount: amount)
-            }
-        }
-        
-    }
     
-    func resetLevel() {
-        
-        var initialLevel:String = ""
-        var initialEntryNode:String = ""
-        
-        if (defaults.object(forKey: "ContinuePoint") != nil) {
-            
-            initialLevel = defaults.string(forKey: "ContinuePoint")!
-            
-        } else {
-            
-            initialLevel = currentLevel
-        }
-        
-        if (defaults.object(forKey: "ContinueWhere") != nil) {
-            
-            initialEntryNode = defaults.string(forKey: "ContinueWhere")!
-            
-        }
-        print ("Reset level")
-        loadLevel(theLevel: initialLevel, toWhere: initialEntryNode)
-        
-    }
-   
+    
+    
 }
 
-
 // MARK: Key Map
+
 /*
  *  Summary:
  *    Virtual keycodes
