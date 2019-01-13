@@ -32,6 +32,11 @@ extension GameScene {
             let walkAnimation:SKAction = SKAction.init(named: theAnimation)!
             thePlayer.run(walkAnimation, withKey: theAnimation)
             
+            let (col, row) = tileCoordinates(in: wallTileMap!, at: thePlayer.position)
+            print("Player is at \(col),\(row)")
+            
+            fogOfWar(map: wallTileMap!, fromNode: thePlayer.position)
+            
         }
     }
     
@@ -183,6 +188,8 @@ extension GameScene {
         line.run(SKAction.sequence([fade, runAfter]))
         
         makePlayerFollowPath(path: path)
+        
+        
         
     }
     
@@ -786,6 +793,8 @@ extension GameScene {
         }
         
     }
+    
+    
     
     func toggleInventory() {
         

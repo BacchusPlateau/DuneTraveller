@@ -10,6 +10,7 @@
 		BA0F054721D0302C00D76AD5 /* OpenTimer.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA0F054621D0302800D76AD5 /* OpenTimer.atlas */; };
 		BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3121D6B1EB0091C3D7 /* Types.swift */; };
 		BA5B3F3421D6BB750091C3D7 /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3321D6BB750091C3D7 /* Wall.swift */; };
+		BA5B3F3621DAE5AB0091C3D7 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3521DAE5AB0091C3D7 /* Door.swift */; };
 		BAC1BF782083DA16003DAEB5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF772083DA16003DAEB5 /* AppDelegate.swift */; };
 		BAC1BF7E2083DA16003DAEB5 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF7D2083DA16003DAEB5 /* GameScene.swift */; };
 		BAC1BF802083DA16003DAEB5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC1BF7F2083DA16003DAEB5 /* ViewController.swift */; };
@@ -51,6 +52,7 @@
 		BA4E9159204E08A0008F9E93 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		BA5B3F3121D6B1EB0091C3D7 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BA5B3F3321D6BB750091C3D7 /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
+		BA5B3F3521DAE5AB0091C3D7 /* Door.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Door.swift; sourceTree = "<group>"; };
 		BA5D00FE205DFAB400C0C1A7 /* Projectile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = AttackingFrames.atlas; sourceTree = "<group>"; };
 		BA5E31C2200170FE00670595 /* GameData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = GameData.plist; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				BAC1BF6320795C40003DAEB5 /* EnemyAttackArea.swift */,
 				BA5B3F3121D6B1EB0091C3D7 /* Types.swift */,
 				BA5B3F3321D6BB750091C3D7 /* Wall.swift */,
+				BA5B3F3521DAE5AB0091C3D7 /* Door.swift */,
 			);
 			path = "Support code";
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				BAC1BF912083DF8A003DAEB5 /* GameScene_Helpers.swift in Sources */,
 				BAC1BF802083DA16003DAEB5 /* ViewController.swift in Sources */,
 				BAC1BF932083DF8A003DAEB5 /* GameScene_Player.swift in Sources */,
+				BA5B3F3621DAE5AB0091C3D7 /* Door.swift in Sources */,
 				BAC1BF7E2083DA16003DAEB5 /* GameScene.swift in Sources */,
 				BAC1BF782083DA16003DAEB5 /* AppDelegate.swift in Sources */,
 			);

@@ -17,6 +17,7 @@ enum BodyType:UInt32 {
     case enemyAttackArea = 64
     case enemyProjectile = 128
     case wall = 256
+    case door = 512
 }
 
 enum Facing:Int {
@@ -116,6 +117,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var availableInventorySlots = [String]()
     var inventoryVisible:Bool = true
     var wallsNode = SKNode()
+    var wallTileMap: SKTileMapNode?
+    var fogNode:SKSpriteNode = SKSpriteNode()
     
     func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
         
@@ -135,7 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
      //   print ("didMove")
-        let wallTileMap = childNode(withName: "walltiles") as? SKTileMapNode
+        wallTileMap = childNode(withName: "walltiles") as? SKTileMapNode
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
         
@@ -225,36 +228,135 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         populateStats()
         showExistingInventory()
         toggleInventory()
+        fogOfWar(map: wallTileMap!, fromNode: thePlayer.position)
+        
     }
     
+    func fogOfWar(map: SKTileMapNode?, fromNode: CGPoint) {
+        
+        return
+        
+        let (x,y) = tileCoordinates(in: map!, at: fromNode)
+  //      var fog: SKSpriteNode?
+  //      var offset = 1
+        var wallMatrix: [[Int]] = Array(repeating: Array(repeating: 0, count:map!.numberOfRows), count:map!.numberOfColumns)
+        var fogMatrix: [[Int]] = Array(repeating: Array(repeating: 0, count:map!.numberOfRows), count:map!.numberOfColumns)
+        
+        fogNode.removeAllChildren()
+
+        print("Player is at \(x),\(y)")
+
+        for child in wallsNode.children {
+            
+            if let node = child as? SKSpriteNode {
+                
+                let (row,col) = tileCoordinates(in: map!, at: node.position)
+                wallMatrix[row][col] = 1
+                
+            }
+            
+        }
+
+        
+
+        /*
+                
+        while offset < map!.numberOfColumns {
+                    
+            let tileUp = tile(in: map!, at: (x, y+offset))
+            let tileUpRight = tile(in: map!, at: (x+offset, y+offset))
+            let tileRight = tile(in: map!, at: (x+offset, y))
+            let tileDownRight = tile(in: map!, at: (x+offset, y-offset))
+            let tileDown = tile(in: map!, at: (x, y-offset))
+            let tileDownLeft = tile(in: map!, at: (x-offset, y-offset))
+            let tileLeft = tile(in: map!, at: (x-offset, y))
+            let tileUpLeft = tile(in: map!, at: (x-offset, y+offset))
+            
+            offset = offset + 1
+            
+        }
+ */
+        
+    }
     
+    func fogOfWar2(map: SKTileMapNode?, fromNode: CGPoint) {
+        
+        //remove all nodes from fogNode set to reset it
+        //given a col, row from the fromNode, blank out all tiles that are hidden from view
+        //iterate in four cardinal directions on the map, creating black sprites on the fogNode sprite set
+        
+        let (x,y) = tileCoordinates(in: map!, at: fromNode)
+        var fog: SKSpriteNode?
+        
+        //TODO remove all notes from fogNode
+        fogNode.removeAllChildren()
+        
+        print("Player is at \(x),\(y)")
+        
+        //check east
+        for col in (x..<map!.numberOfColumns) {
+            for row in 0..<map!.numberOfRows {
+                
+                guard let tile = tile(in: map!,
+                                      at: (col, row))
+                    else { continue }
+                
+                if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
+                    
+                    for barrier in (col+1..<map!.numberOfColumns) {
+                        
+                        //if this is a border wall don't fog it
+                        fog = SKSpriteNode()
+                        fog?.position = (wallTileMap?.centerOfTile(atColumn: barrier, row: row))!
+                        fog?.color = SKColor.black
+                        fog?.zPosition = 100
+                        fog?.size = CGSize(width: 128, height: 128)
+                        fogNode.addChild(fog!)
+                        print("Added fog at \(barrier),\(row)")
+                        
+                    }
+                    
+                }
+            }
+        }
+        
+    }
     
     func setUpLevelTiles(wallTileMap: SKTileMapNode?) {
         
         guard let wallTileMap = wallTileMap else { return }
-        print("found wall tile map")
+        
         for row in 0..<wallTileMap.numberOfRows {
             for col in 0..<wallTileMap.numberOfColumns {
                 
                 guard let tile = tile(in: wallTileMap,
                                       at: (col, row))
                     else { continue }
-                guard tile.userData?.object(forKey: "Wall") != nil
-                    else { continue }
-            
-                let wall = Wall()
-                wall.position = wallTileMap.centerOfTile(atColumn: col, row: row)
-                wallsNode.addChild(wall)
                 
+                if tile.userData?.object(forKey: "Wall") != nil {
+                    let wall = Wall()
+                    wall.position = wallTileMap.centerOfTile(atColumn: col, row: row)
+                    wallsNode.addChild(wall)
+                   // print("added wall at \(col),\(row)")
+                }
                 
-               // print("added wall at \(col),\(row)")
+                if tile.userData?.object(forKey: "Door") != nil {
+                    let door = Door()
+                    door.position = wallTileMap.centerOfTile(atColumn: col, row: row)
+                    wallsNode.addChild(door)
+                    print("added door at \(col),\(row)")
+                }
                 
             }
         }
         
         wallsNode.name = "Walls"
         addChild(wallsNode)
-        wallTileMap.removeFromParent()
+        
+        fogNode = SKSpriteNode()
+        addChild(fogNode)
+        
+        //wallTileMap.removeFromParent()
     }
     
     
@@ -265,7 +367,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.physicsBody?.isDynamic = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue
+            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue | BodyType.door.rawValue
             thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue
             thePlayer.zPosition = 0
             
@@ -310,6 +412,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func tile(in tileMap: SKTileMapNode, at coordiates: TileCoordinates) -> SKTileDefinition? {
         
         return tileMap.tileDefinition(atColumn: coordiates.column, row: coordiates.row)
+        
+    }
+    
+    func tileCoordinates(in tileMap: SKTileMapNode, at position: CGPoint) -> TileCoordinates {
+        
+        let col = tileMap.tileColumnIndex(fromPosition: position)
+        let row = tileMap.tileRowIndex(fromPosition: position)
+        
+        return (col, row)
         
     }
     
