@@ -234,32 +234,76 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fogOfWar(map: SKTileMapNode?, fromNode: CGPoint) {
         
-        return
+    //    return
         
-        let (x,y) = tileCoordinates(in: map!, at: fromNode)
-  //      var fog: SKSpriteNode?
-  //      var offset = 1
+        let (playerX,playerY) = tileCoordinates(in: map!, at: fromNode)
         var wallMatrix: [[Int]] = Array(repeating: Array(repeating: 0, count:map!.numberOfRows), count:map!.numberOfColumns)
-        var fogMatrix: [[Int]] = Array(repeating: Array(repeating: 0, count:map!.numberOfRows), count:map!.numberOfColumns)
         
         fogNode.removeAllChildren()
 
-        print("Player is at \(x),\(y)")
-
-        for child in wallsNode.children {
+        print("Player is at \(playerX),\(playerY)")
+        
+        var offsetFromPlayer: Int = 1
+        var y: Int = 0
+        var xLeft: Int = 0
+        var xRight: Int = 0
+        
+        while offsetFromPlayer < 7 {
             
-            if let node = child as? SKSpriteNode {
+            print("offsetFromPlayer = \(offsetFromPlayer)")
+            
+            //check entire top row
+            y = playerY + offsetFromPlayer
+            
+            for x in (playerX - offsetFromPlayer)...(playerX + offsetFromPlayer) {
                 
-                let (row,col) = tileCoordinates(in: map!, at: node.position)
-                wallMatrix[row][col] = 1
+                if tileHasBarrier(map: map, x: x, y: y) {
+                    print("Found barrier on top row at \(x),\(y)")
+                    wallMatrix[x][y] = 1
+                    
+                }
+            
+            }
+            
+            //check entire bottom row
+            y = playerY - offsetFromPlayer
+            
+            for x in (playerX - offsetFromPlayer)...(playerX + offsetFromPlayer) {
+                
+                if tileHasBarrier(map: map, x: x, y: y) {
+                    
+                    wallMatrix[x][y] = 1
+                    
+                }
+            
+            }
+            
+            //check sides
+            xLeft = playerX - offsetFromPlayer
+            xRight = playerX + offsetFromPlayer
+            
+            for y in (playerY - offsetFromPlayer)...(playerY + offsetFromPlayer) {
+                
+                if tileHasBarrier(map: map, x: xLeft, y: y) {
+                    
+                    wallMatrix[xLeft][y] = 1
+                    
+                }
+                
+                if tileHasBarrier(map: map, x: xRight, y: y) {
+                    
+                    wallMatrix[xRight][y] = 1
+                    
+                }
                 
             }
             
+            offsetFromPlayer = offsetFromPlayer + 1
         }
-
         
-
-        /*
+        printMatrix(matrix: wallMatrix)
+/*
+      
                 
         while offset < map!.numberOfColumns {
                     
@@ -277,6 +321,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
  */
         
+    }
+    
+    func printMatrix(matrix: [[Int]]) {
+        
+        
+        for y in (0..<matrix.count).reversed() {
+            
+            for x in 0..<matrix.count {
+            
+                print("\(matrix[x][y])", terminator: "")
+                
+            }
+            
+            print("")
+        }
+        
+    }
+    
+    func tileHasBarrier(map: SKTileMapNode?, x: Int, y: Int) -> Bool {
+        
+        var hasBarrier: Bool = false
+        
+        guard let tile = tile(in: map!,
+                              at: (x, y))
+            
+            else { return hasBarrier }
+        
+        if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
+            
+            hasBarrier = true
+            
+        }
+        
+        return hasBarrier
     }
     
     func fogOfWar2(map: SKTileMapNode?, fromNode: CGPoint) {
@@ -327,7 +405,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let wallTileMap = wallTileMap else { return }
         
         for row in 0..<wallTileMap.numberOfRows {
-            for col in 0..<wallTileMap.numberOfColumns {
+            for col in (0..<wallTileMap.numberOfColumns).reversed() {
                 
                 guard let tile = tile(in: wallTileMap,
                                       at: (col, row))
@@ -337,7 +415,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let wall = Wall()
                     wall.position = wallTileMap.centerOfTile(atColumn: col, row: row)
                     wallsNode.addChild(wall)
-                   // print("added wall at \(col),\(row)")
+                    print("added wall at \(col),\(row)")
                 }
                 
                 if tile.userData?.object(forKey: "Door") != nil {
@@ -350,7 +428,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        wallsNode.name = "Walls"
+      //  wallsNode.name = "Walls"
         addChild(wallsNode)
         
         fogNode = SKSpriteNode()
