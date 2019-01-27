@@ -25,6 +25,10 @@ enum Facing:Int {
     case front, back, left, right, none
 }
 
+enum Direction: Int {
+    case North, South, East, West
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var thePlayer:Player = Player()
@@ -239,67 +243,164 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let (playerX,playerY) = tileCoordinates(in: map!, at: fromNode)
         var wallMatrix: [[Int]] = Array(repeating: Array(repeating: 0, count:map!.numberOfRows), count:map!.numberOfColumns)
         
+        print("wallMatrix size = \(wallMatrix.count)")
+        
         fogNode.removeAllChildren()
 
         print("Player is at \(playerX),\(playerY)")
+        wallMatrix[playerX][playerY] = 3
         
         var offsetFromPlayer: Int = 1
-        var y: Int = 0
-        var xLeft: Int = 0
-        var xRight: Int = 0
+        var x: Int = playerX
+        var y: Int = playerY
+
+        var direction: Direction = .North
+    
+        var x1: Int
+        var x2: Int
+        var y1: Int
+        var y2: Int
+        
+        //let offsetFromPlayer = 7
         
         while offsetFromPlayer < 7 {
             
             print("offsetFromPlayer = \(offsetFromPlayer)")
             
-            //check entire top row
-            y = playerY + offsetFromPlayer
+            //determine bounding box for crawl
+            x1 = playerX - offsetFromPlayer
+            x2 = playerX + offsetFromPlayer
+            y1 = playerY - offsetFromPlayer
+            y2 = playerY + offsetFromPlayer
             
-            for x in (playerX - offsetFromPlayer)...(playerX + offsetFromPlayer) {
+            print("x1,y1 is at \(x1),\(y1)")
+            print("x2,y2 is at \(x2),\(y2)")
+            
+            direction = .North
+            
+            for _ in 0...(50) {
+            
+                print(" \(direction)  \(x),\(y)")
                 
-                if tileHasBarrier(map: map, x: x, y: y) {
-                    print("Found barrier on top row at \(x),\(y)")
-                    wallMatrix[x][y] = 1
-                    
+                //mark visited
+                if wallMatrix[x][y] == 0 {
+                    wallMatrix[x][y] = 2
                 }
-            
+                
+                //check and mark diagonals
+                if (x + 1 < wallMatrix.count - 1) && (y + 1 < wallMatrix.count - 1) && wallMatrix[x+1][y+1] != 1 {
+                    if tileHasBarrier(map: map, x: x+1, y: y+1) {
+                        wallMatrix[x+1][y+1] = 1
+                    }
+                }
+                
+                if (x + 1 < wallMatrix.count - 1) && (y - 1 >= 0) && wallMatrix[x+1][y-1] != 1 {
+                    if tileHasBarrier(map: map, x: x+1, y: y-1) {
+                        wallMatrix[x+1][y-1] = 1
+                    }
+                }
+                
+                if (x - 1 >= 0) && (y + 1 < wallMatrix.count - 1) && wallMatrix[x-1][y+1] != 1 {
+                    if tileHasBarrier(map: map, x: x-1, y: y+1) {
+                        wallMatrix[x-1][y+1] = 1
+                    }
+                }
+                
+                if (x - 1 >= 0) && (y - 1 >= 0) && wallMatrix[x-1][y-1] != 1 {
+                    if tileHasBarrier(map: map, x: x-1, y: y-1) {
+                        wallMatrix[x-1][y-1] = 1
+                    }
+                }
+                
+                //check in the diretion we are heading for a barrier
+                //if there is a barrier, change direction
+                switch (direction) {
+                case .North:
+                    if y + 1 > wallMatrix.count - 1 || y > y2 {
+                        direction = .East
+                        print("north a")
+                        break
+                    }
+                    if wallMatrix[x][y + 1] == 1 {
+                        direction = .East
+                        print("north b, y=\(y)")
+                        break
+                    }
+                    if wallMatrix[x][y + 1] != 1 {
+                        if tileHasBarrier(map: map, x: x, y: y + 1) {
+                            wallMatrix[x][y + 1] = 1
+                            direction = .East
+                            print("north c, y=\(y)")
+                            break
+                        }
+                    }
+                    if y + 1 <= y2 {
+                        y = y + 1
+                    } else {
+                        direction = .East
+                        print("north d, y=\(y), y1=\(y2)")
+                    }
+                    break
+                case .South:
+                    if y - 1 == 0 || y - 1 < y1 {
+                        direction = .West
+                        break
+                    }
+                    if wallMatrix[x][y - 1] == 1 {
+                        direction = .West
+                        break;
+                    }
+                    if tileHasBarrier(map: map, x: x, y: y-1) {
+                        wallMatrix[x][y - 1] = 1
+                    }
+                    if y - 1 >= y1 {
+                        y = y - 1
+                    } else {
+                        direction = .West
+                    }
+                    break;
+                case .East:
+                    if x + 1 > x2 || x + 1 > wallMatrix.count - 1 {
+                        direction = .South
+                        break
+                    }
+                    if wallMatrix[x + 1][y] == 1 {
+                        direction = .South
+                        break
+                    }
+                    if tileHasBarrier(map: map, x: x + 1, y: y) {
+                        wallMatrix[x+1][y] = 1
+                    }
+                    if x + 1 <= x2 {
+                        x = x + 1
+                    } else {
+                        direction = .South
+                    }
+                    break
+                case .West:
+                    if x - 1 == 0 || x - 1 < x1 {
+                        direction = .North
+                        break
+                    }
+                    if wallMatrix[x - 1][y] == 1 {
+                        direction = .North
+                        break
+                    }
+                    if tileHasBarrier(map: map, x: x-1, y: y) {
+                        wallMatrix[x-1][y] = 1
+                    }
+                    if x - 1 >= x1 {
+                        x = x - 1
+                    } else {
+                        direction = .North
+                    }
+                    break
+                }
             }
-            
-            //check entire bottom row
-            y = playerY - offsetFromPlayer
-            
-            for x in (playerX - offsetFromPlayer)...(playerX + offsetFromPlayer) {
-                
-                if tileHasBarrier(map: map, x: x, y: y) {
-                    
-                    wallMatrix[x][y] = 1
-                    
-                }
-            
-            }
-            
-            //check sides
-            xLeft = playerX - offsetFromPlayer
-            xRight = playerX + offsetFromPlayer
-            
-            for y in (playerY - offsetFromPlayer)...(playerY + offsetFromPlayer) {
-                
-                if tileHasBarrier(map: map, x: xLeft, y: y) {
-                    
-                    wallMatrix[xLeft][y] = 1
-                    
-                }
-                
-                if tileHasBarrier(map: map, x: xRight, y: y) {
-                    
-                    wallMatrix[xRight][y] = 1
-                    
-                }
-                
-            }
-            
+        
             offsetFromPlayer = offsetFromPlayer + 1
         }
+        
         
         printMatrix(matrix: wallMatrix)
 /*
@@ -323,19 +424,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    
+    
     func printMatrix(matrix: [[Int]]) {
+        
         
         
         for y in (0..<matrix.count).reversed() {
             
+            if y < 10 {
+                print("\(y) |", terminator: "")
+            } else {
+                print("\(y)|", terminator: "")
+            }
+            
             for x in 0..<matrix.count {
             
-                print("\(matrix[x][y])", terminator: "")
-                
+               print("\(matrix[x][y])", terminator: "")
+               // print("\(x), \(y)")
             }
             
             print("")
         }
+        
+        print("  ", terminator: "")
+        
+        for _ in 0..<25 {
+            print("-", terminator: "")
+        }
+        
+        print("")
+        print("   ", terminator: "")
+        for x in 0..<10 {
+            print("\(x)", terminator: "")
+        }
+        
+        for x in 0..<10 {
+            print("\(x)", terminator: "")
+        }
+        
+        for x in 0..<4 {
+            print("\(x)", terminator: "")
+        }
+        
+        
         
     }
     
