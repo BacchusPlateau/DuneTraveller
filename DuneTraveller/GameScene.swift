@@ -238,16 +238,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fogOfWar(map: SKTileMapNode?, fromNode: CGPoint) {
         
-    //    return
-        
         let (playerX,playerY) = tileCoordinates(in: map!, at: fromNode)
         var wallMatrix: [[Int]] = Array(repeating: Array(repeating: 0, count:map!.numberOfRows), count:map!.numberOfColumns)
         
-        print("wallMatrix size = \(wallMatrix.count)")
+  //      print("wallMatrix size = \(wallMatrix.count)")
         
         fogNode.removeAllChildren()
 
-        print("Player is at \(playerX),\(playerY)")
+  //      print("Player is at \(playerX),\(playerY)")
         wallMatrix[playerX][playerY] = 3
         
         var offsetFromPlayer: Int = 1
@@ -260,12 +258,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var x2: Int
         var y1: Int
         var y2: Int
-        
-        //let offsetFromPlayer = 7
+
         
         while offsetFromPlayer < 7 {
             
-            print("offsetFromPlayer = \(offsetFromPlayer)")
+   //         print("offsetFromPlayer = \(offsetFromPlayer)")
             
             //determine bounding box for crawl
             x1 = playerX - offsetFromPlayer
@@ -273,14 +270,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             y1 = playerY - offsetFromPlayer
             y2 = playerY + offsetFromPlayer
             
-            print("x1,y1 is at \(x1),\(y1)")
-            print("x2,y2 is at \(x2),\(y2)")
+ //           print("x1,y1 is at \(x1),\(y1)")
+  //          print("x2,y2 is at \(x2),\(y2)")
             
             direction = .North
             
             for _ in 0...(50) {
             
-                print(" \(direction)  \(x),\(y)")
+       //         print(" \(direction)  \(x),\(y)")
                 
                 //mark visited
                 if wallMatrix[x][y] == 0 {
@@ -318,19 +315,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 case .North:
                     if y + 1 > wallMatrix.count - 1 || y > y2 {
                         direction = .East
-                        print("north a")
+       //                 print("north a")
                         break
                     }
                     if wallMatrix[x][y + 1] == 1 {
                         direction = .East
-                        print("north b, y=\(y)")
+     //                   print("north b, y=\(y)")
                         break
                     }
                     if wallMatrix[x][y + 1] != 1 {
                         if tileHasBarrier(map: map, x: x, y: y + 1) {
                             wallMatrix[x][y + 1] = 1
                             direction = .East
-                            print("north c, y=\(y)")
+     //                       print("north c, y=\(y)")
                             break
                         }
                     }
@@ -338,7 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         y = y + 1
                     } else {
                         direction = .East
-                        print("north d, y=\(y), y1=\(y2)")
+   //                     print("north d, y=\(y), y1=\(y2)")
                     }
                     break
                 case .South:
@@ -402,28 +399,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        printMatrix(matrix: wallMatrix)
-/*
-      
+    //    printMatrix(matrix: wallMatrix)
+        
+        var fog: SKSpriteNode?
+        
+        for x in 0...wallMatrix.count - 1 {
+            for y in 0...wallMatrix.count - 1 {
                 
-        while offset < map!.numberOfColumns {
+                if wallMatrix[x][y] == 0 {
                     
-            let tileUp = tile(in: map!, at: (x, y+offset))
-            let tileUpRight = tile(in: map!, at: (x+offset, y+offset))
-            let tileRight = tile(in: map!, at: (x+offset, y))
-            let tileDownRight = tile(in: map!, at: (x+offset, y-offset))
-            let tileDown = tile(in: map!, at: (x, y-offset))
-            let tileDownLeft = tile(in: map!, at: (x-offset, y-offset))
-            let tileLeft = tile(in: map!, at: (x-offset, y))
-            let tileUpLeft = tile(in: map!, at: (x-offset, y+offset))
-            
-            offset = offset + 1
+                    fog = SKSpriteNode()
+                    fog?.position = (wallTileMap?.centerOfTile(atColumn: x, row: y))!
+                    fog?.color = SKColor.black
+                    fog?.zPosition = 1000
+                    fog?.size = CGSize(width: 128, height: 128)
+                    fogNode.addChild(fog!)
+                    
+                }
+            }
             
         }
- */
         
     }
-    
     
     
     func printMatrix(matrix: [[Int]]) {
@@ -441,7 +438,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             for x in 0..<matrix.count {
             
                print("\(matrix[x][y])", terminator: "")
-               // print("\(x), \(y)")
+               
             }
             
             print("")
@@ -454,7 +451,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         print("")
+        
         print("   ", terminator: "")
+        
         for x in 0..<10 {
             print("\(x)", terminator: "")
         }
@@ -466,7 +465,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for x in 0..<4 {
             print("\(x)", terminator: "")
         }
-        
         
         
     }
@@ -489,48 +487,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return hasBarrier
     }
     
-    func fogOfWar2(map: SKTileMapNode?, fromNode: CGPoint) {
-        
-        //remove all nodes from fogNode set to reset it
-        //given a col, row from the fromNode, blank out all tiles that are hidden from view
-        //iterate in four cardinal directions on the map, creating black sprites on the fogNode sprite set
-        
-        let (x,y) = tileCoordinates(in: map!, at: fromNode)
-        var fog: SKSpriteNode?
-        
-        //TODO remove all notes from fogNode
-        fogNode.removeAllChildren()
-        
-        print("Player is at \(x),\(y)")
-        
-        //check east
-        for col in (x..<map!.numberOfColumns) {
-            for row in 0..<map!.numberOfRows {
-                
-                guard let tile = tile(in: map!,
-                                      at: (col, row))
-                    else { continue }
-                
-                if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
-                    
-                    for barrier in (col+1..<map!.numberOfColumns) {
-                        
-                        //if this is a border wall don't fog it
-                        fog = SKSpriteNode()
-                        fog?.position = (wallTileMap?.centerOfTile(atColumn: barrier, row: row))!
-                        fog?.color = SKColor.black
-                        fog?.zPosition = 100
-                        fog?.size = CGSize(width: 128, height: 128)
-                        fogNode.addChild(fog!)
-                        print("Added fog at \(barrier),\(row)")
-                        
-                    }
-                    
-                }
-            }
-        }
-        
-    }
+    
     
     func setUpLevelTiles(wallTileMap: SKTileMapNode?) {
         
@@ -547,14 +504,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let wall = Wall()
                     wall.position = wallTileMap.centerOfTile(atColumn: col, row: row)
                     wallsNode.addChild(wall)
-                    print("added wall at \(col),\(row)")
+                  //  print("added wall at \(col),\(row)")
                 }
                 
                 if tile.userData?.object(forKey: "Door") != nil {
                     let door = Door()
                     door.position = wallTileMap.centerOfTile(atColumn: col, row: row)
                     wallsNode.addChild(door)
-                    print("added door at \(col),\(row)")
+                  //  print("added door at \(col),\(row)")
                 }
                 
             }
