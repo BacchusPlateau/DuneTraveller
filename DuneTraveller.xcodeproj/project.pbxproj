@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA0F054721D0302C00D76AD5 /* OpenTimer.atlas in Resources */ = {isa = PBXBuildFile; fileRef = BA0F054621D0302800D76AD5 /* OpenTimer.atlas */; };
 		BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3121D6B1EB0091C3D7 /* Types.swift */; };
 		BA5B3F3421D6BB750091C3D7 /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3321D6BB750091C3D7 /* Wall.swift */; };
 		BA5B3F3621DAE5AB0091C3D7 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3521DAE5AB0091C3D7 /* Door.swift */; };
@@ -41,7 +40,6 @@
 /* Begin PBXFileReference section */
 		BA005CFE1FF97F8100BA1311 /* AttackArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttackArea.swift; sourceTree = "<group>"; };
 		BA0F054221D02EC900D76AD5 /* OpenTimer.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = OpenTimer.atlas; sourceTree = "<group>"; };
-		BA0F054621D0302800D76AD5 /* OpenTimer.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = OpenTimer.atlas; path = ../../../RolePlayingGames_End_Of_Enemies_Session/RolePlayingGames/OpenTimer.atlas; sourceTree = "<group>"; };
 		BA186D781FF4313F00D8E3E5 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		BA186D811FF4313F00D8E3E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../PlayAround/Assets.xcassets; sourceTree = "<group>"; };
 		BA22677D207044A700160C26 /* Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Inventory.swift; sourceTree = "<group>"; };
@@ -149,7 +147,6 @@
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
 				BA0F054221D02EC900D76AD5 /* OpenTimer.atlas */,
 				BAC1BF65207A8995003DAEB5 /* Impact.atlas */,
-				BA0F054621D0302800D76AD5 /* OpenTimer.atlas */,
 				BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */,
 				BA3FFEBC201E6EFF001E661C /* Support code */,
 				BA3FFEBA201E6E09001E661C /* SKS */,
@@ -227,7 +224,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BAC1BFAE2083E3E7003DAEB5 /* AttackingFrames.atlas in Resources */,
-				BA0F054721D0302C00D76AD5 /* OpenTimer.atlas in Resources */,
 				BAC1BFA82083E3D4003DAEB5 /* Impact.atlas in Resources */,
 				BAC1BFA12083E395003DAEB5 /* GUI.sks in Resources */,
 				BAC1BFA02083E395003DAEB5 /* Actions.sks in Resources */,
