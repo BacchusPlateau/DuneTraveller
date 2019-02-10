@@ -19,11 +19,13 @@ class Door: SKSpriteNode {
         
         let texture = SKTexture(pixelImageNamed: "door1")
         super.init(texture: texture, color: .white, size: texture.size())
+        zPosition = 50
         
         physicsBody = SKPhysicsBody(rectangleOf: texture.size())
         physicsBody?.isDynamic = false
         physicsBody?.friction = 0
         physicsBody?.allowsRotation = false
+        physicsBody?.restitution = 1
         physicsBody?.affectedByGravity = false
         physicsBody?.categoryBitMask = BodyType.door.rawValue
         

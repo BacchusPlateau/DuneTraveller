@@ -18,6 +18,7 @@ enum BodyType:UInt32 {
     case enemyProjectile = 128
     case wall = 256
     case door = 512
+    case path = 1024
 }
 
 enum Facing:Int {
@@ -532,10 +533,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let somePlayer:Player = self.childNode(withName: "Player") as? Player  {
             thePlayer = somePlayer
             thePlayer.physicsBody?.isDynamic = true
+            thePlayer.physicsBody?.usesPreciseCollisionDetection = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
             thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue | BodyType.door.rawValue
-            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue
+            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue | BodyType.door.rawValue
             thePlayer.zPosition = 0
             
             if(defaults.string(forKey: "PlayerClass") == nil) {
@@ -576,9 +578,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func tile(in tileMap: SKTileMapNode, at coordiates: TileCoordinates) -> SKTileDefinition? {
+    func tile(in tileMap: SKTileMapNode, at coordinates: TileCoordinates) -> SKTileDefinition? {
         
-        return tileMap.tileDefinition(atColumn: coordiates.column, row: coordiates.row)
+        return tileMap.tileDefinition(atColumn: coordinates.column, row: coordinates.row)
         
     }
     

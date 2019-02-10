@@ -172,6 +172,9 @@ extension GameScene {
         
         let line = SKShapeNode()
         line.path = path
+        line.physicsBody?.collisionBitMask = BodyType.door.rawValue | BodyType.wall.rawValue
+        line.physicsBody?.categoryBitMask = BodyType.path.rawValue
+        line.physicsBody?.isDynamic = false
         line.lineWidth = 10
         //  line.strokeColor = UIColor.white
         line.alpha = pathAlpha

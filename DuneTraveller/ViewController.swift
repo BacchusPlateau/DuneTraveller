@@ -31,7 +31,7 @@ class ViewController: NSViewController {
             }
             
             view.ignoresSiblingOrder = true
-          //  view.showsPhysics = true
+        //    view.showsPhysics = true
             view.showsFPS = false
             view.showsNodeCount = false
         }
