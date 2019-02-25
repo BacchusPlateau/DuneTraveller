@@ -35,4 +35,14 @@ class Door: SKSpriteNode {
         super.init(coder: aDecoder)
     }
     
+    func openDoor() {
+        
+        if let openAnimation:SKAction = SKAction(named: "OpenDoor") {
+            
+            self.run(openAnimation)
+            
+        }
+        
+    }
+    
 }

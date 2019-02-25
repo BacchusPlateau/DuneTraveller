@@ -39,16 +39,24 @@ extension GameScene {
         }else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.door.rawValue)
         {
             thePlayer.removeAllActions()
+            
+            let door = contact.bodyA.node as? Door
+            door?.openDoor()
+            
             print("contact with door")
-            splitTextIntoFields(theText: "Opening this door requires a key.")
-            fadeOutInfoText(waitTime: 33)
+         //   splitTextIntoFields(theText: "Opening this door requires a key.")
+         //   fadeOutInfoText(waitTime: 33)
             
         }else if(contact.bodyB.categoryBitMask == BodyType.door.rawValue && contact.bodyA.categoryBitMask == BodyType.player.rawValue)
         {
             thePlayer.removeAllActions()
+            
+            let door = contact.bodyB.node as? Door
+            door?.openDoor()
+            
             print("contact with door")
-            splitTextIntoFields(theText: "Opening this door requires a key.")
-            fadeOutInfoText(waitTime: 33)
+        //    splitTextIntoFields(theText: "Opening this door requires a key.")
+        //    fadeOutInfoText(waitTime: 33)
         }
         //Ranged - items
         else if(contact.bodyA.categoryBitMask == BodyType.item.rawValue && contact.bodyB.categoryBitMask == BodyType.projectile.rawValue)
