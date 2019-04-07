@@ -8,6 +8,7 @@
 import GameplayKit
 
 enum BodyType:UInt32 {
+    case none = 0
     case player = 1
     case item = 2
     case attackArea = 4
@@ -400,7 +401,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-    //    printMatrix(matrix: wallMatrix)
+        printMatrix(matrix: wallMatrix)
         
         var fog: SKSpriteNode?
         
@@ -480,7 +481,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             else { return hasBarrier }
         
         if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
-            
+          //  print("found door")
             hasBarrier = true
             
         }

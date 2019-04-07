@@ -42,6 +42,11 @@ extension GameScene {
             
             let door = contact.bodyA.node as? Door
             door?.openDoor()
+            let (column, row) = tileCoordinates(in: wallTileMap!, at: (door?.position)!)
+            if tile(in: wallTileMap!, at: (column, row)) != nil {
+                wallTileMap!.setTileGroup(nil, forColumn: column, row: row)
+        //        fogOfWar(map: wallTileMap!, fromNode: thePlayer.position)
+            }
             
             print("contact with door")
          //   splitTextIntoFields(theText: "Opening this door requires a key.")
@@ -53,6 +58,12 @@ extension GameScene {
             
             let door = contact.bodyB.node as? Door
             door?.openDoor()
+            let (column, row) = tileCoordinates(in: wallTileMap!, at: (door?.position)!)
+            if tile(in: wallTileMap!, at: (column, row)) != nil {
+                wallTileMap!.setTileGroup(nil, forColumn: column, row: row)
+          //      fogOfWar(map: wallTileMap!, fromNode: thePlayer.position)
+            }
+            
             
             print("contact with door")
         //    splitTextIntoFields(theText: "Opening this door requires a key.")

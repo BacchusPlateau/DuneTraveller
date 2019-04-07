@@ -19,7 +19,7 @@ class Door: SKSpriteNode {
         
         let texture = SKTexture(pixelImageNamed: "door1")
         super.init(texture: texture, color: .white, size: texture.size())
-        zPosition = 50
+        zPosition = 40
         
         physicsBody = SKPhysicsBody(rectangleOf: texture.size())
         physicsBody?.isDynamic = false
@@ -38,8 +38,22 @@ class Door: SKSpriteNode {
     func openDoor() {
         
         if let openAnimation:SKAction = SKAction(named: "OpenDoor") {
+        
+     //       var wait:SKAction = SKAction()
+     //       wait = SKAction.wait(forDuration: 5)
             
-            self.run(openAnimation)
+            let finish:SKAction = SKAction.run {
+                print("removing")
+                self.userData?.removeAllObjects()
+            //    self.removeFromParent()
+                self.physicsBody?.categoryBitMask = BodyType.none.rawValue
+                self.zPosition = -100
+                
+                
+                
+            }
+            
+            self.run(SKAction.sequence([openAnimation, finish]))
             
         }
         
