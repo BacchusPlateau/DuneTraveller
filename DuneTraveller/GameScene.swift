@@ -234,6 +234,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         populateStats()
         showExistingInventory()
         toggleInventory()
+        
+        thePlayer.position = CGPoint(x: -645, y: -630)
+        
         fogOfWar(map: wallTileMap!, fromNode: thePlayer.position)
         
     }
@@ -242,7 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let (playerX,playerY) = tileCoordinates(in: map!, at: fromNode)
         var wallMatrix: [[Int]] = Array(repeating: Array(repeating: 0, count:map!.numberOfRows), count:map!.numberOfColumns)
-        
+        let maxOffset: Int = 7
   //      print("wallMatrix size = \(wallMatrix.count)")
         
         fogNode.removeAllChildren()
@@ -262,7 +265,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         var y2: Int
 
         
-        while offsetFromPlayer < 7 {
+        while offsetFromPlayer < maxOffset {
             
    //         print("offsetFromPlayer = \(offsetFromPlayer)")
             
@@ -272,12 +275,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             y1 = playerY - offsetFromPlayer
             y2 = playerY + offsetFromPlayer
             
- //           print("x1,y1 is at \(x1),\(y1)")
-  //          print("x2,y2 is at \(x2),\(y2)")
+            print("x1,y1 is at \(x1),\(y1)")
+            print("x2,y2 is at \(x2),\(y2)")
             
             direction = .North
             
-            for _ in 0...(50) {
+            for _ in 0...(150) {
             
        //         print(" \(direction)  \(x),\(y)")
                 
@@ -343,10 +346,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 case .South:
                     if y - 1 == 0 || y - 1 < y1 {
                         direction = .West
+                        print("turn west 1, y=\(y), y1=\(y1)")
                         break
                     }
                     if wallMatrix[x][y - 1] == 1 {
                         direction = .West
+                        print("turn west 2, x=\(x), y=\(y)")
                         break;
                     }
                     if tileHasBarrier(map: map, x: x, y: y-1) {
@@ -354,8 +359,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     if y - 1 >= y1 {
                         y = y - 1
+                        print("decrement y, y=\(y)")
                     } else {
                         direction = .West
+                        print("turn west 3, y=\(y), y1=\(y1)")
                     }
                     break;
                 case .East:
@@ -400,6 +407,70 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             offsetFromPlayer = offsetFromPlayer + 1
         }
         
+        //now for another method, this one is basically line of sight
+        
+        x = playerX
+        y = playerY
+        offsetFromPlayer = 1
+        
+        //north
+        while offsetFromPlayer < maxOffset {
+            y += 1
+            if wallMatrix.count > y && tileHasBarrier(map: map, x: x, y: y) {
+                wallMatrix[x][y] = 1
+                break
+            }
+            wallMatrix[x][y] = 2
+            offsetFromPlayer += 1
+        }
+        
+        x = playerX
+        y = playerY
+        offsetFromPlayer = 1
+        
+        //south
+        while offsetFromPlayer < maxOffset {
+            y -= 1
+            if y >= 0 && tileHasBarrier(map: map, x: x, y: y) {
+                wallMatrix[x][y] = 1
+                break
+            }
+            wallMatrix[x][y] = 2
+            offsetFromPlayer += 1
+        }
+        
+        
+        x = playerX
+        y = playerY
+        offsetFromPlayer = 1
+        
+        //east
+        while offsetFromPlayer < maxOffset {
+            x += 1
+            if wallMatrix.count > x && tileHasBarrier(map: map, x: x, y: y) {
+                wallMatrix[x][y] = 1
+                break
+            }
+            wallMatrix[x][y] = 2
+            offsetFromPlayer += 1
+        }
+        
+        x = playerX
+        y = playerY
+        offsetFromPlayer = 1
+        
+        //west
+        while offsetFromPlayer < maxOffset {
+            x -= 1
+            if x >= 0 && tileHasBarrier(map: map, x: x, y: y) {
+                wallMatrix[x][y] = 1
+                break
+            }
+            wallMatrix[x][y] = 2
+            offsetFromPlayer += 1
+        }
+        
+        ///////////////////////////////
         
         printMatrix(matrix: wallMatrix)
         
