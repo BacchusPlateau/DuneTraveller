@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA496A572444D13700C42E70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA496A562444D13700C42E70 /* Assets.xcassets */; };
 		BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3121D6B1EB0091C3D7 /* Types.swift */; };
 		BA5B3F3421D6BB750091C3D7 /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3321D6BB750091C3D7 /* Wall.swift */; };
 		BA5B3F3621DAE5AB0091C3D7 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3521DAE5AB0091C3D7 /* Door.swift */; };
@@ -46,6 +47,7 @@
 		BA28B46A2014033100C37287 /* LevelTiles.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LevelTiles.sks; sourceTree = "<group>"; };
 		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Inventory.swift; sourceTree = "<group>"; };
+		BA496A562444D13700C42E70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA4E9159204E08A0008F9E93 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		BA5B3F3121D6B1EB0091C3D7 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BA5B3F3321D6BB750091C3D7 /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				BA186D811FF4313F00D8E3E5 /* Assets.xcassets */,
+				BA496A562444D13700C42E70 /* Assets.xcassets */,
 				BA0F054221D02EC900D76AD5 /* OpenTimer.atlas */,
 				BAC1BF65207A8995003DAEB5 /* Impact.atlas */,
 				BA5E31BE20015B2C00670595 /* AttackingFrames.atlas */,
@@ -190,12 +193,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "Bret Williams";
 				TargetAttributes = {
 					BAC1BF742083DA16003DAEB5 = {
 						CreatedOnToolsVersion = 9.3;
-						LastSwiftMigration = 1000;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -227,6 +230,7 @@
 				BAC1BFA82083E3D4003DAEB5 /* Impact.atlas in Resources */,
 				BAC1BFA12083E395003DAEB5 /* GUI.sks in Resources */,
 				BAC1BFA02083E395003DAEB5 /* Actions.sks in Resources */,
+				BA496A572444D13700C42E70 /* Assets.xcassets in Resources */,
 				BAC1BF8D2083DF7D003DAEB5 /* GameData.plist in Resources */,
 				BAC7060F20965A5A00D81738 /* PrisonLevel1.sks in Resources */,
 				BAC1BFA42083E3C6003DAEB5 /* Assets.xcassets in Resources */,
@@ -399,13 +403,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = R29T922PDR;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DuneTraveller/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = Aeschinder.DuneTraveller;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -419,13 +424,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = R29T922PDR;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DuneTraveller/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = Aeschinder.DuneTraveller;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
