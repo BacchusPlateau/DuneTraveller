@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BA496A572444D13700C42E70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA496A562444D13700C42E70 /* Assets.xcassets */; };
+		BA496A592444EC0900C42E70 /* SQLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA496A582444EC0900C42E70 /* SQLHelper.swift */; };
 		BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3121D6B1EB0091C3D7 /* Types.swift */; };
 		BA5B3F3421D6BB750091C3D7 /* Wall.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3321D6BB750091C3D7 /* Wall.swift */; };
 		BA5B3F3621DAE5AB0091C3D7 /* Door.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3521DAE5AB0091C3D7 /* Door.swift */; };
@@ -46,6 +47,7 @@
 		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Inventory.swift; sourceTree = "<group>"; };
 		BA496A562444D13700C42E70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BA496A582444EC0900C42E70 /* SQLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLHelper.swift; sourceTree = "<group>"; };
 		BA4E9159204E08A0008F9E93 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		BA5B3F3121D6B1EB0091C3D7 /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BA5B3F3321D6BB750091C3D7 /* Wall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wall.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			children = (
 				BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */,
 				BA005CFE1FF97F8100BA1311 /* AttackArea.swift */,
+				BA496A582444EC0900C42E70 /* SQLHelper.swift */,
 				BA3FFEBD201E7074001E661C /* WorldItem.swift */,
 				BA4E9159204E08A0008F9E93 /* Player.swift */,
 				BA5D00FE205DFAB400C0C1A7 /* Projectile.swift */,
@@ -248,6 +251,7 @@
 				BAC1BF962083E142003DAEB5 /* AttackArea.swift in Sources */,
 				BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */,
 				BAC1BF9C2083E142003DAEB5 /* EnemyAttackArea.swift in Sources */,
+				BA496A592444EC0900C42E70 /* SQLHelper.swift in Sources */,
 				BAC1BF982083E142003DAEB5 /* Player.swift in Sources */,
 				BAC1BF952083E142003DAEB5 /* NonPlayerCharacter.swift in Sources */,
 				BAC1BF9B2083E142003DAEB5 /* Enemy.swift in Sources */,

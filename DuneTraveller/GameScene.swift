@@ -542,24 +542,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func tileHasBarrier(map: SKTileMapNode?, x: Int, y: Int) -> Bool {
-        
-        var hasBarrier: Bool = false
-        
-        guard let tile = tile(in: map!,
-                              at: (x, y))
-            
-            else { return hasBarrier }
-        
-        if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
-          //  print("found door")
-            hasBarrier = true
-            
-        }
-        
-        return hasBarrier
-    }
-    
     
     
     func setUpLevelTiles(wallTileMap: SKTileMapNode?) {
@@ -664,6 +646,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return (col, row)
         
     }
+    
+    func tileHasBarrier(map: SKTileMapNode?, x: Int, y: Int) -> Bool {
+        
+        var hasBarrier: Bool = false
+        
+        guard let tile = tile(in: map!,
+                              at: (x, y))
+            
+            else { return hasBarrier }
+        
+        if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
+          //  print("found door")
+            hasBarrier = true
+            
+        }
+        
+        return hasBarrier
+    }
+    
+    
     
     override func update(_ currentTime: TimeInterval) {
         
