@@ -20,6 +20,7 @@ enum BodyType:UInt32 {
     case wall = 256
     case door = 512
     case path = 1024
+    case note = 2048
 }
 
 enum Facing:Int {
@@ -234,7 +235,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         populateStats()
         showExistingInventory()
         toggleInventory()
+        setUpEncounters()
         
+        //can we set a tile position instead?  (6,7) ?
         thePlayer.position = CGPoint(x: -645, y: -630)
         
         fogOfWar(map: wallTileMap!, fromNode: thePlayer.position)
@@ -275,8 +278,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             y1 = playerY - offsetFromPlayer
             y2 = playerY + offsetFromPlayer
             
-            print("x1,y1 is at \(x1),\(y1)")
-            print("x2,y2 is at \(x2),\(y2)")
+      //      print("x1,y1 is at \(x1),\(y1)")
+      //      print("x2,y2 is at \(x2),\(y2)")
             
             direction = .North
             
@@ -346,12 +349,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 case .South:
                     if y - 1 == 0 || y - 1 < y1 {
                         direction = .West
-                        print("turn west 1, y=\(y), y1=\(y1)")
+                //        print("turn west 1, y=\(y), y1=\(y1)")
                         break
                     }
                     if wallMatrix[x][y - 1] == 1 {
                         direction = .West
-                        print("turn west 2, x=\(x), y=\(y)")
+              //          print("turn west 2, x=\(x), y=\(y)")
                         break;
                     }
                     if tileHasBarrier(map: map, x: x, y: y-1) {
@@ -359,10 +362,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     if y - 1 >= y1 {
                         y = y - 1
-                        print("decrement y, y=\(y)")
+            //            print("decrement y, y=\(y)")
                     } else {
                         direction = .West
-                        print("turn west 3, y=\(y), y1=\(y1)")
+             //           print("turn west 3, y=\(y), y1=\(y1)")
                     }
                     break;
                 case .East:
@@ -472,7 +475,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         ///////////////////////////////
         
-        printMatrix(matrix: wallMatrix)
+   //     printMatrix(matrix: wallMatrix)
         
         var fog: SKSpriteNode?
         
@@ -542,7 +545,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
+    func setUpEncounters() {
+        
+        let note = SKSpriteNode(imageNamed: "note256")
+        let notePosition = CGPoint(x: 256, y: 256)
+        
+        //-1,-1 puts the anchor point at the top right.   0,0 at the bottom left
+     //   note.anchorPoint = CGPoint(x: 0, y: 0)
+        note.position = notePosition
+        note.zPosition = 50
+       // note.size = CGSize(width: thePlayer.size.width / 2, height: thePlayer.size.height / 2)
+        
+        //let physicsBody = SKPhysicsBody(rectangleOf: note.size)
+        let physicsBody = SKPhysicsBody(circleOfRadius: note.size.width / 2)
+        physicsBody.isDynamic = false
+        physicsBody.friction = 0
+        physicsBody.allowsRotation = false
+        physicsBody.restitution = 1
+        physicsBody.affectedByGravity = false
+        physicsBody.categoryBitMask = BodyType.note.rawValue
+        
+        note.physicsBody = physicsBody
+        
+        //must add dynamically created sprites to wallTileMap so that it is on top of the tilemaps
+        wallTileMap?.addChild(note)
+ 
+    }
     
     func setUpLevelTiles(wallTileMap: SKTileMapNode?) {
         
@@ -590,8 +618,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.physicsBody?.usesPreciseCollisionDetection = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue | BodyType.door.rawValue
-            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue | BodyType.door.rawValue
+            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue | BodyType.door.rawValue | BodyType.note.rawValue
+            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue | BodyType.door.rawValue | BodyType.note.rawValue
             thePlayer.zPosition = 0
             
             if(defaults.string(forKey: "PlayerClass") == nil) {

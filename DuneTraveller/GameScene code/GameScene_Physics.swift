@@ -68,6 +68,14 @@ extension GameScene {
             print("contact with door")
         //    splitTextIntoFields(theText: "Opening this door requires a key.")
         //    fadeOutInfoText(waitTime: 33)
+        } else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.note.rawValue) {
+            print("Contact with note")
+            splitTextIntoFields(theText: "You found a note: \"Search the right angles.\"")
+            fadeOutInfoText(waitTime: 5)
+        } else if(contact.bodyB.categoryBitMask == BodyType.note.rawValue && contact.bodyA.categoryBitMask == BodyType.player.rawValue) {
+            print("Contact with note")
+            splitTextIntoFields(theText: "You found a note: \"Search the right angles.\"")
+            fadeOutInfoText(waitTime: 5)
         }
         //Ranged - items
         else if(contact.bodyA.categoryBitMask == BodyType.item.rawValue && contact.bodyB.categoryBitMask == BodyType.projectile.rawValue)
