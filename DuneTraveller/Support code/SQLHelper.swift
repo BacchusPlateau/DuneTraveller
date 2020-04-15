@@ -23,7 +23,7 @@ class SQLHelper {
         
         var db: OpaquePointer? = nil
         if sqlite3_open(databasePath, &db) == SQLITE_OK {
-            print("Successfully opened connection to database at \(databasePath)")
+            //print("Successfully opened connection to database at \(databasePath)")
         } else {
             print("Unable to open database.")
         }

@@ -149,6 +149,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
         
+        setUpDatabasePath()
+        
         self.enumerateChildNodes(withName: "//*") {
             node, stop in
             
@@ -545,18 +547,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func setUpDatabasePath() {
+        
+        let home = FileManager.default.homeDirectoryForCurrentUser
+                
+        let dbUrl = home.appendingPathComponent("ecalpon").appendingPathExtension("db")
+        let dbAbsoluteString = dbUrl.path
+        
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: dbUrl.path) {
+            print("Exists")
+        } else {
+            print("Not exists")
+        }
+                
+        Globals.SharedInstance.databaseUrl = dbAbsoluteString
+        
+        
+        //test connection
+        //let encounterData = EncounterData()
+        //let encounter = encounterData.getEncounter(forId: 0)
+        //print("Encounter name = " + encounter.name)
+        
+    }
+    
     func setUpEncounters() {
         
         let note = SKSpriteNode(imageNamed: "note256")
-        let notePosition = CGPoint(x: 256, y: 256)
+        let notePosition = CGPoint(x: 320, y: 320)
         
-        //-1,-1 puts the anchor point at the top right.   0,0 at the bottom left
-     //   note.anchorPoint = CGPoint(x: 0, y: 0)
+        //  -1,-1 puts the anchor point at the top right.   0,0 at the bottom left
+        //  but this does not move the physics body!  so keep it at default which is 0.5, 0.5
+        
         note.position = notePosition
         note.zPosition = 50
-       // note.size = CGSize(width: thePlayer.size.width / 2, height: thePlayer.size.height / 2)
         
-        //let physicsBody = SKPhysicsBody(rectangleOf: note.size)
         let physicsBody = SKPhysicsBody(circleOfRadius: note.size.width / 2)
         physicsBody.isDynamic = false
         physicsBody.friction = 0
