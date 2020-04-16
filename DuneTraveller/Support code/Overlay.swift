@@ -65,11 +65,19 @@ class OverlayData {
         
             overlay.id = Int(result[i][0])!
             overlay.level = Int(result[i][1])!
-            overlay.volatile = Bool(result[i][2])!  //test this conversion
+            
+            if(result[i][2] == "1") {
+                overlay.volatile = true
+            }
+                        
             overlay.encounterId = Int(result[i][3])!
             overlay.itemIdDependency = Int(result[i][4])!
             overlay.description = result[i][5]
-            overlay.completed = Bool(result[i][6])!
+            
+            if(result[i][6] == "1") {
+                overlay.completed = true
+            }
+            
             overlay.encounterIdDependency = Int(result[i][7])!
             overlay.xCoordinate = Int(result[i][8])!
             overlay.yCoordinate = Int(result[i][9])!

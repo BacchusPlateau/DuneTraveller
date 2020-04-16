@@ -32,12 +32,22 @@ enum Direction: Int {
     case North, South, East, West
 }
 
+enum Level: Int {
+    case prison = 0
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    //TODO: clean this up, remove unused, and group
     
     var thePlayer:Player = Player()
     var moveSpeed:TimeInterval = 1
 
+    //rename this to currentSceneName
     public var currentLevel:String = "PrisonLevel1"
+    
+    var level: Level = .prison
+    
     
     var infoLabel1:SKLabelNode = SKLabelNode()
     var infoLabel2:SKLabelNode = SKLabelNode()
@@ -126,6 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wallsNode = SKNode()
     var wallTileMap: SKTileMapNode?
     var fogNode:SKSpriteNode = SKSpriteNode()
+    var overlay = [Overlay]()
     
     func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
         
@@ -569,12 +580,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //let encounter = encounterData.getEncounter(forId: 0)
         //print("Encounter name = " + encounter.name)
         
+        //let overlayData = OverlayData()
+        //let overlay = overlayData.getOverlayData(forLevel: 0)
+        //if overlay.count > 0 {
+        //    print("Overlay coords for first overlay row is (\(overlay[0].xCoordinate), \(overlay[0].yCoordinate))")
+        //}
+        
     }
     
     func setUpEncounters() {
         
+        let overlayData = OverlayData()
+        overlay = overlayData.getOverlayData(forLevel: level.rawValue)
+        
+        let encounterData = EncounterData()
+        
+        overlay.forEach { item in
+            
+            let encounter = encounterData.getEncounter(forId: item.encounterId)
+            
+            switch encounter.type {
+                
+            case "note":
+                setUpNote(forEncounter: encounter, overlayItem: item)
+                
+            default:
+                break
+                
+            }
+        }
+        
+    }
+    
+    func setUpNote(forEncounter encounter: Encounter, overlayItem: Overlay) {
+        
         let note = SKSpriteNode(imageNamed: "note256")
-        let notePosition = CGPoint(x: 320, y: 320)
+        let notePosition = CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate)
+        
+        //we need to cache the text so we don't have to load it every time
         
         //  -1,-1 puts the anchor point at the top right.   0,0 at the bottom left
         //  but this does not move the physics body!  so keep it at default which is 0.5, 0.5
@@ -592,7 +635,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         note.physicsBody = physicsBody
         
-        //must add dynamically created sprites to wallTileMap so that it is on top of the tilemaps
+        //must add dynamically creat sprites to wallTileMap so that it is on top of the tilemaps
         wallTileMap?.addChild(note)
  
     }
