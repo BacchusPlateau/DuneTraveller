@@ -136,7 +136,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wallsNode = SKNode()
     var wallTileMap: SKTileMapNode?
     var fogNode:SKSpriteNode = SKSpriteNode()
+    
+    //level specific cache
     var overlay = [Overlay]()
+    var encounters = [Encounter]()
+    var notes = [Note]()
     
     func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
         
@@ -592,12 +596,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let overlayData = OverlayData()
         overlay = overlayData.getOverlayData(forLevel: level.rawValue)
+        encounters.removeAll()
         
         let encounterData = EncounterData()
         
         overlay.forEach { item in
             
             let encounter = encounterData.getEncounter(forId: item.encounterId)
+            encounters.append(encounter)
             
             switch encounter.type {
                 
@@ -615,9 +621,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func setUpNote(forEncounter encounter: Encounter, overlayItem: Overlay) {
         
         let note = SKSpriteNode(imageNamed: "note256")
-        let notePosition = CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate)
+        note.name = "note"
         
-        //we need to cache the text so we don't have to load it every time
+        //cache note data for later use
+        let noteData = NoteData()
+        let noteDetail = noteData.getNote(forEncounterId: encounter.id)
+        notes.append(noteDetail)
+        
+        note.userData = NSMutableDictionary()
+        note.userData?.setValue(encounter.id, forKey: "encounterId")
+        
+        let notePosition = CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate)
         
         //  -1,-1 puts the anchor point at the top right.   0,0 at the bottom left
         //  but this does not move the physics body!  so keep it at default which is 0.5, 0.5
