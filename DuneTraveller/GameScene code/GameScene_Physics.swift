@@ -70,12 +70,27 @@ extension GameScene {
         //    fadeOutInfoText(waitTime: 33)
         } else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.note.rawValue) {
             print("Contact with note")
-            splitTextIntoFields(theText: "You found a note: \"Search the right angles.\"")
-            fadeOutInfoText(waitTime: 5)
+            
+            let note = contact.bodyA.node
+            if let noteEncounterId = note?.userData?.value(forKey: "encounterId") as? Int {
+                //move this to a func, make sure to check the volatility of the encounter and set it appropriately
+                if let userNote = notes.first(where: { $0.encounterId == noteEncounterId} ) {
+                    splitTextIntoFields(theText: userNote.content)
+                    fadeOutInfoText(waitTime: 5)
+                }
+            }
+            
         } else if(contact.bodyB.categoryBitMask == BodyType.note.rawValue && contact.bodyA.categoryBitMask == BodyType.player.rawValue) {
             print("Contact with note")
-            splitTextIntoFields(theText: "You found a note: \"Search the right angles.\"")
-            fadeOutInfoText(waitTime: 5)
+            
+            let note = contact.bodyB.node
+            if let noteEncounterId = note?.userData?.value(forKey: "encounterId") as? Int {
+                //move this to a func, make sure to check the volatility of the encounter and set it appropriately
+                if let userNote = notes.first(where: { $0.encounterId == noteEncounterId} ) {
+                    splitTextIntoFields(theText: userNote.content)
+                    fadeOutInfoText(waitTime: 5)
+                }
+            }
         }
         //Ranged - items
         else if(contact.bodyA.categoryBitMask == BodyType.item.rawValue && contact.bodyB.categoryBitMask == BodyType.projectile.rawValue)
