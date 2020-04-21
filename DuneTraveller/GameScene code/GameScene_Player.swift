@@ -263,10 +263,12 @@ extension GameScene {
             melee()
         case 0x03: // F, fire projectile
             ranged()
-        case 0x31: // Space, pause
-            break
         case 0x22: // I, inventory toggle
             toggleInventory()
+        case 0x01: // S, search
+            searchAround()
+        case 0x31: // Space, pause
+            break
         default:
             break
         }
@@ -731,6 +733,45 @@ extension GameScene {
             let idleAnimation:SKAction = SKAction(named: animationName, duration:1)!
             thePlayer.run(idleAnimation, withKey: "Idle")
         }
+    }
+    
+    //called when S is pressed
+    func searchAround() {
+        
+        //search 1 square all around the user's current place on the map
+        //we will throw a dialog of either nothing found, a dialog box with info, or adding an item to inventory
+        let (col, row) = tileCoordinates(in: wallTileMap!, at: thePlayer.position)
+        
+        searchAreas.forEach { area in
+            if searchArea(playerX: col, playerY: row, area: area) == true {
+                
+                splitTextIntoFields(theText: area.message)
+                fadeOutInfoText(waitTime: 5)
+                
+            }
+        }
+        
+        print("Search at \(col), \(row)!")
+    }
+    
+    func searchArea(playerX: Int, playerY: Int, area: SearchArea) -> Bool {
+        
+        var didFind: Bool = false
+        
+        //distance formula.  thanks Pythagoras!
+        let step1 = pow(Decimal(playerX - Int(area.tilePosition.x)), 2) +
+                    pow(Decimal(playerY - Int(area.tilePosition.y)), 2)
+        
+        let step2 = NSDecimalNumber(decimal: step1).doubleValue
+        
+        let step3 = sqrt(step2)
+            
+        if step3 <= Double(area.searchRadius) {
+            didFind = true
+        }
+            
+        return didFind
+        
     }
     
     func switchWeaponsIfNeeded(includingAddAmmo:Bool) {

@@ -20,6 +20,7 @@ enum BodyType:UInt32 {
     case wall = 256
     case door = 512
     case path = 1024
+    case note = 2048
 }
 
 enum Facing:Int {
@@ -31,12 +32,22 @@ enum Direction: Int {
     case North, South, East, West
 }
 
+enum Level: Int {
+    case prison = 0
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    //TODO: clean this up, remove unused, and group
     
     var thePlayer:Player = Player()
     var moveSpeed:TimeInterval = 1
 
+    //rename this to currentSceneName
     public var currentLevel:String = "PrisonLevel1"
+    
+    var level: Level = .prison
+    
     
     var infoLabel1:SKLabelNode = SKLabelNode()
     var infoLabel2:SKLabelNode = SKLabelNode()
@@ -126,6 +137,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var wallTileMap: SKTileMapNode?
     var fogNode:SKSpriteNode = SKSpriteNode()
     
+    //level specific cache
+    var overlay = [Overlay]()
+    var encounters = [Encounter]()
+    var notes = [Note]()
+    var searchAreas = [SearchArea]()
+    
     func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
         
         let deltaX = thePlayer.position.x - node.position.x
@@ -147,6 +164,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallTileMap = childNode(withName: "walltiles") as? SKTileMapNode
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
+        
+        setUpDatabasePath()
         
         self.enumerateChildNodes(withName: "//*") {
             node, stop in
@@ -234,7 +253,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         populateStats()
         showExistingInventory()
         toggleInventory()
+        setUpEncounters()
         
+        //can we set a tile position instead?  (6,7) ?
         thePlayer.position = CGPoint(x: -645, y: -630)
         
         fogOfWar(map: wallTileMap!, fromNode: thePlayer.position)
@@ -275,8 +296,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             y1 = playerY - offsetFromPlayer
             y2 = playerY + offsetFromPlayer
             
-            print("x1,y1 is at \(x1),\(y1)")
-            print("x2,y2 is at \(x2),\(y2)")
+      //      print("x1,y1 is at \(x1),\(y1)")
+      //      print("x2,y2 is at \(x2),\(y2)")
             
             direction = .North
             
@@ -346,12 +367,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 case .South:
                     if y - 1 == 0 || y - 1 < y1 {
                         direction = .West
-                        print("turn west 1, y=\(y), y1=\(y1)")
+                //        print("turn west 1, y=\(y), y1=\(y1)")
                         break
                     }
                     if wallMatrix[x][y - 1] == 1 {
                         direction = .West
-                        print("turn west 2, x=\(x), y=\(y)")
+              //          print("turn west 2, x=\(x), y=\(y)")
                         break;
                     }
                     if tileHasBarrier(map: map, x: x, y: y-1) {
@@ -359,10 +380,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                     if y - 1 >= y1 {
                         y = y - 1
-                        print("decrement y, y=\(y)")
+            //            print("decrement y, y=\(y)")
                     } else {
                         direction = .West
-                        print("turn west 3, y=\(y), y1=\(y1)")
+             //           print("turn west 3, y=\(y), y1=\(y1)")
                     }
                     break;
                 case .East:
@@ -472,7 +493,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         ///////////////////////////////
         
-        printMatrix(matrix: wallMatrix)
+   //     printMatrix(matrix: wallMatrix)
         
         var fog: SKSpriteNode?
         
@@ -542,25 +563,109 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func tileHasBarrier(map: SKTileMapNode?, x: Int, y: Int) -> Bool {
+    func setUpDatabasePath() {
         
-        var hasBarrier: Bool = false
+        let home = FileManager.default.homeDirectoryForCurrentUser
+                
+        let dbUrl = home.appendingPathComponent("ecalpon").appendingPathExtension("db")
+        let dbAbsoluteString = dbUrl.path
         
-        guard let tile = tile(in: map!,
-                              at: (x, y))
-            
-            else { return hasBarrier }
-        
-        if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
-          //  print("found door")
-            hasBarrier = true
-            
+        let fileManager = FileManager.default
+        if fileManager.fileExists(atPath: dbUrl.path) {
+            print("Exists")
+        } else {
+            print("Not exists")
         }
+                
+        Globals.SharedInstance.databaseUrl = dbAbsoluteString
         
-        return hasBarrier
+        
+        //test connection
+        //let encounterData = EncounterData()
+        //let encounter = encounterData.getEncounter(forId: 0)
+        //print("Encounter name = " + encounter.name)
+        
+        //let overlayData = OverlayData()
+        //let overlay = overlayData.getOverlayData(forLevel: 0)
+        //if overlay.count > 0 {
+        //    print("Overlay coords for first overlay row is (\(overlay[0].xCoordinate), \(overlay[0].yCoordinate))")
+        //}
+        
     }
     
+    func setUpEncounters() {
+        
+        let overlayData = OverlayData()
+        overlay = overlayData.getOverlayData(forLevel: level.rawValue)
+        encounters.removeAll()
+        searchAreas.removeAll()
+        
+        //test search area
+        //in the actual one, we will also need to trigger a dependent encounter that will happen after this event is found
+        //we will have to create a dialog box that is persistent until dismissed with a mouse click
+        
+        let searchArea = SearchArea()
+        searchArea.message = "You find a hidden note!"
+        searchArea.tilePosition = CGPoint(x: 9, y:9)
+        searchAreas.append(searchArea)
+        
+        let encounterData = EncounterData()
+        
+        overlay.forEach { item in
+            
+            let encounter = encounterData.getEncounter(forId: item.encounterId)
+            encounters.append(encounter)
+            
+            switch encounter.type {
+                
+            case "note":
+                setUpNote(forEncounter: encounter, overlayItem: item)
+                
+                //searchArea
+                
+            default:
+                break
+                
+            }
+        }
+        
+    }
     
+    func setUpNote(forEncounter encounter: Encounter, overlayItem: Overlay) {
+        
+        let note = SKSpriteNode(imageNamed: "note256")
+        note.name = "note"
+        
+        //cache note data for later use
+        let noteData = NoteData()
+        let noteDetail = noteData.getNote(forEncounterId: encounter.id)
+        notes.append(noteDetail)
+        
+        note.userData = NSMutableDictionary()
+        note.userData?.setValue(encounter.id, forKey: "encounterId")
+        
+        let notePosition = CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate)
+        
+        //  -1,-1 puts the anchor point at the top right.   0,0 at the bottom left
+        //  but this does not move the physics body!  so keep it at default which is 0.5, 0.5
+        
+        note.position = notePosition
+        note.zPosition = 50
+        
+        let physicsBody = SKPhysicsBody(circleOfRadius: note.size.width / 2)
+        physicsBody.isDynamic = false
+        physicsBody.friction = 0
+        physicsBody.allowsRotation = false
+        physicsBody.restitution = 1
+        physicsBody.affectedByGravity = false
+        physicsBody.categoryBitMask = BodyType.note.rawValue
+        
+        note.physicsBody = physicsBody
+        
+        //must add dynamically creat sprites to wallTileMap so that it is on top of the tilemaps
+        wallTileMap?.addChild(note)
+ 
+    }
     
     func setUpLevelTiles(wallTileMap: SKTileMapNode?) {
         
@@ -608,8 +713,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             thePlayer.physicsBody?.usesPreciseCollisionDetection = true
             thePlayer.physicsBody?.affectedByGravity = false
             thePlayer.physicsBody?.categoryBitMask = BodyType.player.rawValue
-            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue | BodyType.door.rawValue
-            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue | BodyType.door.rawValue
+            thePlayer.physicsBody?.collisionBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue | BodyType.wall.rawValue | BodyType.door.rawValue | BodyType.note.rawValue
+            thePlayer.physicsBody?.contactTestBitMask = BodyType.item.rawValue | BodyType.enemy.rawValue | BodyType.enemyAttackArea.rawValue |  BodyType.enemyProjectile.rawValue | BodyType.door.rawValue | BodyType.note.rawValue
             thePlayer.zPosition = 0
             
             if(defaults.string(forKey: "PlayerClass") == nil) {
@@ -664,6 +769,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return (col, row)
         
     }
+    
+    func tileHasBarrier(map: SKTileMapNode?, x: Int, y: Int) -> Bool {
+        
+        var hasBarrier: Bool = false
+        
+        guard let tile = tile(in: map!,
+                              at: (x, y))
+            
+            else { return hasBarrier }
+        
+        if (tile.userData?.object(forKey: "Wall") != nil || tile.userData?.object(forKey: "Door") != nil) {
+          //  print("found door")
+            hasBarrier = true
+            
+        }
+        
+        return hasBarrier
+    }
+    
+    
     
     override func update(_ currentTime: TimeInterval) {
         
