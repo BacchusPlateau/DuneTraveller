@@ -71,6 +71,8 @@ extension GameScene {
         } else if(contact.bodyB.categoryBitMask == BodyType.player.rawValue && contact.bodyA.categoryBitMask == BodyType.note.rawValue) {
             print("Contact with note")
             
+            thePlayer.removeAllActions()
+            
             let note = contact.bodyA.node
             if let noteEncounterId = note?.userData?.value(forKey: "encounterId") as? Int {
                 //move this to a func, make sure to check the volatility of the encounter and set it appropriately
@@ -82,6 +84,8 @@ extension GameScene {
             
         } else if(contact.bodyB.categoryBitMask == BodyType.note.rawValue && contact.bodyA.categoryBitMask == BodyType.player.rawValue) {
             print("Contact with note")
+            
+            thePlayer.removeAllActions()
             
             let note = contact.bodyB.node
             if let noteEncounterId = note?.userData?.value(forKey: "encounterId") as? Int {

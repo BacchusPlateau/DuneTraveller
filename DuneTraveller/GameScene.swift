@@ -141,6 +141,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var overlay = [Overlay]()
     var encounters = [Encounter]()
     var notes = [Note]()
+    var searchAreas = [SearchArea]()
     
     func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
         
@@ -597,6 +598,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let overlayData = OverlayData()
         overlay = overlayData.getOverlayData(forLevel: level.rawValue)
         encounters.removeAll()
+        searchAreas.removeAll()
+        
+        //test search area
+        //in the actual one, we will also need to trigger a dependent encounter that will happen after this event is found
+        //we will have to create a dialog box that is persistent until dismissed with a mouse click
+        
+        let searchArea = SearchArea()
+        searchArea.message = "You find a hidden note!"
+        searchArea.tilePosition = CGPoint(x: 9, y:9)
+        searchAreas.append(searchArea)
         
         let encounterData = EncounterData()
         
@@ -609,6 +620,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
             case "note":
                 setUpNote(forEncounter: encounter, overlayItem: item)
+                
+                //searchArea
                 
             default:
                 break
