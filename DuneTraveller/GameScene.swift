@@ -591,6 +591,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //    print("Overlay coords for first overlay row is (\(overlay[0].xCoordinate), \(overlay[0].yCoordinate))")
         //}
         
+        //let noteData = NoteData()
+        //let noteDetail = noteData.getNote(forEncounterId: 1)
+        
+        //print("Note message: \(noteDetail.content)")
     }
     
     func setUpEncounters() {
@@ -599,15 +603,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         overlay = overlayData.getOverlayData(forLevel: level.rawValue)
         encounters.removeAll()
         searchAreas.removeAll()
-        
-        //test search area
-        //in the actual one, we will also need to trigger a dependent encounter that will happen after this event is found
-        //we will have to create a dialog box that is persistent until dismissed with a mouse click
-        
-        let searchArea = SearchArea()
-        searchArea.message = "You find a hidden note!"
-        searchArea.tilePosition = CGPoint(x: 9, y:9)
-        searchAreas.append(searchArea)
         
         let encounterData = EncounterData()
         
@@ -621,7 +616,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             case "note":
                 setUpNote(forEncounter: encounter, overlayItem: item)
                 
-                //searchArea
+                
+            case "searchArea":
+                setUpSearchArea(forEncounter: encounter, overlayItem: item)
+                
                 
             default:
                 break
@@ -665,6 +663,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //must add dynamically creat sprites to wallTileMap so that it is on top of the tilemaps
         wallTileMap?.addChild(note)
  
+    }
+    
+    func setUpSearchArea(forEncounter encounter: Encounter, overlayItem: Overlay) {
+        
+        //TODO:
+        //we will also need to trigger a dependent encounter that will happen after this event is found
+        //we will have to create a dialog box that is persistent until dismissed with a mouse click
+        //we will need to load the inventory AND any notes found by encounter.typeId,
+        //which in this case is the searchArea.id also
+        
+        let searchAreaData = SearchAreaData()
+        let searchAreaDetail = searchAreaData.getSearchAreaDetail(forSearchAreaId: encounter.typeId)
+        let searchArea = SearchArea()
+        let (col, row) = tileCoordinates(in: wallTileMap!, at: CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate))
+        
+        searchArea.message = searchAreaDetail.message
+        searchArea.tilePosition = CGPoint(x: col, y:row)
+        searchArea.scenePosition = CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate)
+        searchAreas.append(searchArea)
+        
     }
     
     func setUpLevelTiles(wallTileMap: SKTileMapNode?) {

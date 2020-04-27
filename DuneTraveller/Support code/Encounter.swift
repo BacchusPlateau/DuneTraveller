@@ -14,8 +14,12 @@ class Encounter {
     var name: String
     var type: String
     
+    //this will hold a foreign key to the table indicated by 'type'
+    var typeId: Int
+    
     init() {
         id = 0
+        typeId = 0
         name = ""
         type = ""
     }
@@ -49,6 +53,7 @@ class EncounterData {
             encounter.id = Int(result[i][0])!
             encounter.name = result[i][1]
             encounter.type = result[i][2]
+            encounter.typeId = Int(result[i][3])!
             encounters.append(encounter)
       
         }
