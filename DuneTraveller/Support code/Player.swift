@@ -48,14 +48,14 @@ class Player : SKSpriteNode {
     var walkSpeedOnPath:TimeInterval = 0.5
     var walkSpeed:CGFloat = 2.0
     
-    var immunity:TimeInterval = 1
+   
     var armor:Int = 20
     var health:Int = 20
 
     var currentProjectile:String = ""
     var defaultProjectile:String = ""
     
-    var canBeDamaged:Bool = true
+
     var isDead:Bool = false
     
     func setUpWithDict( theDict: [String:Any]) {
@@ -309,20 +309,7 @@ class Player : SKSpriteNode {
         }
     }
         
-    func damaged() {
-        
-        canBeDamaged = false
-        
-        let wait:SKAction = SKAction.wait(forDuration: immunity)
-        let finish:SKAction = SKAction.run {
-            self.canBeDamaged = true
-        }
-            
-        let seq:SKAction = SKAction.sequence([wait, finish])
-        self.run(seq)
-        
-    }
-
+  
 
 
 }

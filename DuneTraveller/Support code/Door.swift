@@ -12,7 +12,6 @@ import SpriteKit
 class Door: SKSpriteNode {
 
     var isOpen: Bool = false
-    var isLocked: Bool = true
 
     init() {
         

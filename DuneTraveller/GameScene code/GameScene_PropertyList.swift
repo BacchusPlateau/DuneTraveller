@@ -97,10 +97,7 @@ extension GameScene {
                 if(value is CGFloat) {
                     pathAlpha = value as! CGFloat
                 }
-            case "WalkWithPath":
-                if(value is Bool) {
-                    walkWithPath = value as! Bool
-                }
+            
             case "AttackAnywhere":
                 if(value is Bool) {
                     attackAnywhere = value as! Bool
@@ -421,7 +418,7 @@ extension GameScene {
                         thePlayer.setUpWithDict(theDict: value as! [String:Any])
                         playerFacing = .front
                         runIdleAnimation()  
-                        setClassLabel()
+                 
                         break
                         
                     }

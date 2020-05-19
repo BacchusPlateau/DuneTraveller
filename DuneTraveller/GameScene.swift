@@ -41,7 +41,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //TODO: clean this up, remove unused, and group
     
     var thePlayer:Player = Player()
-    var moveSpeed:TimeInterval = 1
 
     //rename this to currentSceneName
     public var currentLevel:String = "PrisonLevel1"
@@ -52,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var infoLabel1:SKLabelNode = SKLabelNode()
     var infoLabel2:SKLabelNode = SKLabelNode()
     var speechIcon:SKSpriteNode = SKSpriteNode()
-    var isCollidable:Bool = false
+   
     var transitionInProgress:Bool = false
     
     let defaults:UserDefaults = UserDefaults.standard
@@ -75,36 +74,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var destinationPoint:CGPoint = CGPoint.zero
     
     var playerFacing:Facing = .front
-    var playerFacingWhenUnlocking:Facing = .none
-    var thingBeingUnlocked:String = ""
+ 
     var playerLastLocation:CGPoint = CGPoint.zero
     
     var walkTime:TimeInterval = 0
     
     var attackAnywhere:Bool = false
     var pathAlpha:CGFloat = 0.3
-    var walkWithPath:Bool = false
+
     var touchingDown:Bool = false
     var touchDownSprite:SKSpriteNode = SKSpriteNode()
-    var touchFollowSprite:SKSpriteNode = SKSpriteNode()
+
     var offsetFromTouchDownToPlayer:CGPoint = CGPoint.zero
     
     var hasCustomPadScene:Bool = false
     
     var projectilesDict = [String : Any]()
     var prevPlayerProjectileDict = [String : Any]()
-    var prevPlayerProjectileName:String = ""
+
     var prevPlayerProjectileImageName:String = ""
     
     var meleeAttackButton:SKSpriteNode = SKSpriteNode()
     var rangedAttackButton:SKSpriteNode = SKSpriteNode()
-    var dynamicSprite:SKSpriteNode = SKSpriteNode()
+
     
     var diagonalAmount:CGFloat = 0
     var walkDiagonal:Bool = true
     
-    var hasMeleeButton:Bool = false
-    var hasRangedButton:Bool = false
+
     
     var healthLabel:SKLabelNode = SKLabelNode()
     var armorLabel:SKLabelNode = SKLabelNode()
@@ -113,13 +110,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var currencyLabel:SKLabelNode = SKLabelNode()
     var classLabel:SKLabelNode = SKLabelNode()
     
-    var currentHealth:Int = 0
-    var currentArmor:Int = 0
-    
-    var currentXP:Int = 0
-    var maxXP:Int = 0
-    var currency:Int = 0
-    var xpLevel:Int = 0
     var xpArray = [[String:Any]]()
     
     var playerStartingClass:String = "Peasant"
@@ -160,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
-     //   print ("didMove")
+
         wallTileMap = childNode(withName: "walltiles") as? SKTileMapNode
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVector(dx:0, dy:0)
@@ -171,10 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             node, stop in
             
             if let theCamera:SKCameraNode = node as? SKCameraNode {
-                
-                
-              //  print("found camera")
-                
+                       
                 self.camera = theCamera
                 
                 if(theCamera.childNode(withName: "InfoLabel1") is SKLabelNode) {
@@ -249,9 +236,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         parsePropertyList()
         setUpPlayer()
         clearStuff(theArray:clearArray)
-        sortRewards(rewards:rewardDict)
-        populateStats()
-        showExistingInventory()
+       
         toggleInventory()
         setUpEncounters()
         
@@ -750,17 +735,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 thePlayer.currentProjectile = defaults.string(forKey: "CurrentProjectile")!
             }
             
-            if (defaults.integer(forKey: thePlayer.currentProjectile + "Ammo") != 0) {
-                
-                switchWeaponsIfNeeded(includingAddAmmo: false)
-                currentProjectileAmmo = defaults.integer(forKey: thePlayer.currentProjectile + "Ammo")
-                setAmmoLabel()
-                
-            } else {
-                
-                switchWeaponsIfNeeded(includingAddAmmo: true)
-                
-            }
+            
             
             if (entryNode != "") {
                 
@@ -919,11 +894,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if (walkWithPath) {
-            playerUpdate()
-        } else {
-            playerUpdateSansPath()
-        }
+
+        playerUpdate()
+
         
     }
     

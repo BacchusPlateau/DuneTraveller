@@ -33,8 +33,7 @@ class WorldItem : SKSpriteNode {
     var lockedTextArray = [String]()
     var unlockedTextArray = [String]()
     var openTextArray = [String]()
-    var currentInfo:String = ""
-    var currentUnlockedText:String = ""
+   
     var openAnimation:String = ""
     var openImage:String = ""
     
@@ -222,31 +221,7 @@ class WorldItem : SKSpriteNode {
         
     }
     
-    func afterOpenContact() {
-        
-        if (isOpen) {
-            if(deleteBody) {
-                self.physicsBody = nil
-            } else if (deleteFromLevel) {
-                self.removeFromParent()
-            }
-            
-            
-            
-            if(neverShowAgain) {
-                
-                defaults.set(true, forKey: self.name! + "NeverShowAgain")
-            }
-            
-            if(removeText) {
-                
-                defaults.set(true, forKey: self.name! + "RemoveText")
-            }
-            
-            
-        } // isOpen
-        
-    }
+   
     
     func sortRewards( theDict: [String:Any]) {
       
@@ -471,34 +446,7 @@ class WorldItem : SKSpriteNode {
         }
     }
         
-    func getInfo() -> String {
-        
-        if (currentInfo == "") {
-            
-            if (!isOpen && lockedTextArray.count > 0) {
-                
-                let randomLine:UInt32 = arc4random_uniform(UInt32( lockedTextArray.count))
-                currentInfo = lockedTextArray[ Int(randomLine)]
-                
-            } else {
-                
-                if(openTextArray.count > 0) {
-                    let randomLine:UInt32 = arc4random_uniform(UInt32( openTextArray.count))
-                    currentInfo = openTextArray[ Int(randomLine)]
-                }
-            }
-            
-            let wait:SKAction = SKAction.wait(forDuration: 3)
-            let run:SKAction = SKAction.run {
-                self.currentInfo = ""
-            }
-            
-            self.run(SKAction.sequence([wait,run]))
-        }
-        
-        
-        return currentInfo
-    }
+    
     
     func sortRequirements(theDict:[String:Any]) {
         
@@ -554,28 +502,6 @@ class WorldItem : SKSpriteNode {
         }
         
     }
-    
-    func getUnlockedInfo() -> String {
-        
-        if (currentUnlockedText == "") {
-            
-            let randomLine:UInt32 = arc4random_uniform(UInt32( unlockedTextArray.count))
-            currentUnlockedText = unlockedTextArray[ Int(randomLine)]
- 
-            let wait:SKAction = SKAction.wait(forDuration: 3)
-            let run:SKAction = SKAction.run {
-                self.currentUnlockedText = ""
-            }
-            
-            self.run(SKAction.sequence([wait,run]))
-        }
-        
-        return currentUnlockedText
-        
-    }
-    
-    
-    
-    
+   
     
 }

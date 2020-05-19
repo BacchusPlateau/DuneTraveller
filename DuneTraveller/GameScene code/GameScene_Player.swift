@@ -119,45 +119,7 @@ extension GameScene {
         
     }
     
-    func checkIfMeleeButtonPressed(pos:CGPoint) -> Bool {
-        
-        var pressed:Bool = false
-        
-        let meleeLocation:CGPoint = convert(meleeAttackButton.position, from:self.camera!)
-        let meleeFrame:CGRect = CGRect(x:meleeLocation.x - (meleeAttackButton.frame.size.width / 2),
-                                       y:meleeLocation.y - (meleeAttackButton.frame.size.height / 2),
-                                       width: meleeAttackButton.frame.size.width,
-                                       height: meleeAttackButton.frame.size.height)
-        
-        if(meleeFrame.contains(pos)) {
-            
-            pressed = true
-         
-            
-        }
-        
-        return pressed
-    }
-    
-    func checkIfRangedButtonPressed(pos:CGPoint) -> Bool {
-        
-        var pressed:Bool = false
-        
-        let rangedLocation:CGPoint = convert(rangedAttackButton.position, from:self.camera!)
-        let rangedFrame:CGRect = CGRect(x:rangedLocation.x - (rangedAttackButton.frame.size.width / 2),
-                                        y:rangedLocation.y - (rangedAttackButton.frame.size.height / 2),
-                                        width: rangedAttackButton.frame.size.width,
-                                        height: rangedAttackButton.frame.size.height)
-        
-        if(rangedFrame.contains(pos)) {
-            
-            pressed = true
-            
-            
-        }
-        
-        return pressed
-    }
+   
     
     func createLineWith(array:[CGPoint])  {
         
@@ -196,23 +158,7 @@ extension GameScene {
         
     }
     
-    func damagePlayer(with amount:Int) {
-        
-        if (thePlayer.canBeDamaged) {
-            
-            //print ("can be damaged")
-            
-            hurtAnimation()
-            thePlayer.damaged()
-            
-            if (currentArmor > 0) {
-                subtractArmor(amount: amount)
-            } else {
-                subtractHealth(amount: amount)
-            }
-        }
-        
-    }
+    
     
     func getDifference(point:CGPoint) -> CGPoint {
         
@@ -274,54 +220,7 @@ extension GameScene {
         }
     }
     
-    func killPlayer() {
-        
-        thePlayer.removeAllActions()
-        print("kill player")
-        
-        var theAnimation:String = ""
-        thePlayer.isDead = true
-        
-        
-        switch playerFacing {
-        case .right:
-            theAnimation = thePlayer.rightDying
-        case .left:
-            theAnimation = thePlayer.leftDying
-        case .back:
-            theAnimation = thePlayer.backDying
-        case .front:
-            theAnimation = thePlayer.frontDying
-        case .none:
-            break
-        }
-        
-        print (theAnimation)
-        if (theAnimation != "") {
-            
-            if let dyingAnimation:SKAction = SKAction(named: theAnimation) {
-                
-                let finish:SKAction = SKAction.run {
-                    self.resetLevel()
-                    print("running the sequence")
-                }
-                
-                let seq:SKAction = SKAction.sequence([dyingAnimation, finish])
-                thePlayer.run(seq)
-                
-            } else {
-                
-                self.resetLevel()
-                
-            }
-            
-        }  else {
-            
-            self.resetLevel()
-            
-        }
-        
-    }
+    
     
     func makePlayerFollowPath(path:CGMutablePath) {
         //      print ("walktime = " + String(walkTime))
@@ -474,83 +373,7 @@ extension GameScene {
         
     }
     
-    func orientCharacter(pos:CGPoint) {
-        
-        if (abs(touchDownSprite.position.x - pos.x) > abs(touchDownSprite.position.y - pos.y)) {
-            //greater movement x
-            
-            if (touchDownSprite.position.x < pos.x) {
-                
-                //right
-                playerFacing = .right
-                
-            } else {
-                
-                //left
-                playerFacing = .left
-                
-            }
-            
-            if (walkDiagonal) {
-                
-                diagonalAmount = ((touchDownSprite.position.y - pos.y) / 100) * (thePlayer.walkSpeed / 2)
-                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = (thePlayer.walkSpeed / 2)
-                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = -(thePlayer.walkSpeed / 2)
-                }
-                
-            }
-            
-        } else {
-            //greater movement y
-            
-            if (touchDownSprite.position.y < pos.y) {
-                //up / back
-                
-                playerFacing = .back
-                
-                
-            } else {
-                //down / forward
-                
-                playerFacing = .front
-                
-            }
-            
-            if (walkDiagonal) {
-                
-                diagonalAmount = -((touchDownSprite.position.x - pos.x) / 100) * (thePlayer.walkSpeed / 2)
-                if(diagonalAmount > 0 && diagonalAmount > (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = (thePlayer.walkSpeed / 2)
-                } else if (diagonalAmount < 0 && diagonalAmount < (thePlayer.walkSpeed / 2)) {
-                    diagonalAmount = -(thePlayer.walkSpeed / 2)
-                }
-                
-            }
-            
-        }
-        
-        if (thingBeingUnlocked != "") {
-            
-            if (playerFacingWhenUnlocking != playerFacing) {
-                //should refactor this to call removeTimer() in the _Physics file
-                
-                if (self.childNode(withName: thingBeingUnlocked + "Timer") == nil) {
-                    
-                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeAllActions()
-                    self.childNode(withName: thingBeingUnlocked + "Timer")?.removeFromParent()
-                    
-                }
-                
-                thingBeingUnlocked = ""
-                fadeOutInfoText(waitTime: 0.5)
-            }
-            
-        }
-        
-    }
-    
+  
     func ranged() {
         
         if(!disableAttack) {
@@ -644,19 +467,7 @@ extension GameScene {
             
             let attackAnimation:SKAction = SKAction(named: animationName)!
             let finish:SKAction = SKAction.run {
-                
-                if (!self.walkWithPath) {
-                    
-                    if (self.touchingDown) {
-                        
-                        self.animateWalkSansPath()
-                        
-                    }
-                } else {
-                    
-                    self.runIdleAnimation()
-                }
-                
+                self.runIdleAnimation()
                 self.restoreAndFadeInAttackButtons()
             }
             
@@ -664,40 +475,9 @@ extension GameScene {
             thePlayer.run(seq, withKey: "Attack")
         }
         
-        
-        if (currentProjectileRequiresAmmo) {
-            
-            subtractAmmo(amount: 1)
-            
-        }
-        
     }
     
-    
-    
-    func resetLevel() {
-        
-        var initialLevel:String = ""
-        var initialEntryNode:String = ""
-        
-        if (defaults.object(forKey: "ContinuePoint") != nil) {
-            
-            initialLevel = defaults.string(forKey: "ContinuePoint")!
-            
-        } else {
-            
-            initialLevel = currentLevel
-        }
-        
-        if (defaults.object(forKey: "ContinueWhere") != nil) {
-            
-            initialEntryNode = defaults.string(forKey: "ContinueWhere")!
-            
-        }
-        print ("Reset level")
-        loadLevel(theLevel: initialLevel, toWhere: initialEntryNode)
-        
-    }
+  
     
     func restoreAndFadeInAttackButtons() {
         
@@ -774,69 +554,6 @@ extension GameScene {
         
     }
     
-    func switchWeaponsIfNeeded(includingAddAmmo:Bool) {
-        
-        var foundAmmoEntry:Bool = false
-        
-        if(thePlayer.currentProjectile != "") {
-            
-            if (prevPlayerProjectileName != thePlayer.currentProjectile) {
-                
-                for (key, value) in projectilesDict {
-                    
-                    switch key {
-                        
-                    case thePlayer.currentProjectile:
-                        
-                        prevPlayerProjectileName = key
-                        prevPlayerProjectileDict = value as! [String : Any]
-                        defaults.set(thePlayer.currentProjectile, forKey: "CurrentProjectile")
-                        
-                        for (k,v) in prevPlayerProjectileDict {
-                            
-                            switch k {
-                            case "Image":
-                                if (v is String) {
-                                    
-                                    prevPlayerProjectileImageName = v as! String
-                                    
-                                }
-                            case "Icon":
-                                if (v is String) {
-                                    
-                                    projectileIcon.texture = SKTexture(imageNamed:v as! String)
-                                    
-                                }
-                            case "Ammo":
-                                if (v is Int) {
-                                    
-                                    foundAmmoEntry = true
-                                    if (includingAddAmmo) {
-                                        
-                                        addToAmmo(amount: v as! Int)
-                                        
-                                    }
-                                }
-                            default:
-                                continue
-                            }
-                        }
-                        
-                    default:
-                        continue
-                    }
-                    
-                    currentProjectileRequiresAmmo = foundAmmoEntry
-                    setAmmoLabel()
-                    
-                    break
-                    
-                }
-                
-            }
-        }
-        
-    }
     
     
     
@@ -926,15 +643,7 @@ extension GameScene {
         
     }
     
-    func touchMovedSansPath(toPoint pos : CGPoint) {
-        
-        if(touchingDown) {
-            
-            orientCharacter(pos:pos)
-            touchFollowSprite.position = pos
-        }
-        
-    }
+    
     
     
     
@@ -947,20 +656,7 @@ extension GameScene {
         
     }
     
-    func touchEndedSansPath(toPoint pos:CGPoint) {
-        
-        if(touchingDown) {
-            
-            thePlayer.removeAction(forKey: "PlayerMoving")
-            touchingDown = false
-            touchFollowSprite.removeFromParent()
-            touchDownSprite.removeFromParent()
-            
-            runIdleAnimation()
-            
-        }
-        
-    }
+   
     
     func touchUp(atPoint pos : CGPoint) {
         touchEnded(toPoint: pos)

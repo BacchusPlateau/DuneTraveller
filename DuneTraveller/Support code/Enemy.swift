@@ -38,7 +38,6 @@ class Enemy : SKSpriteNode {
     var hasRangedAttack:Bool = false
     var fireIfPlayerWIthin:CGFloat = -1
     var allowRangedAttack:Bool = false
-    var projectileName:String = ""
     var timeBetweenRangedAttacks:TimeInterval = 1
     var projectileDict = [String:Any]()
     var justDidRangedAttack:Bool = false

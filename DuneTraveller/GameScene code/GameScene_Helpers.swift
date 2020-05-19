@@ -18,36 +18,6 @@ extension GameScene {
         
     }
     
-    func showTimer(theAnimation:String, time:TimeInterval, theItem:WorldItem) {
-        
-        thingBeingUnlocked = theItem.name! + "Timer"
-        
-        if (self.childNode(withName: theItem.name! + "Timer") == nil) {
-            
-            let timerNode:SKSpriteNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 150, height:20))
-            
-            timerNode.position = CGPoint(x: theItem.position.x, y: theItem.position.y + theItem.frame.size.height / 2)
-            timerNode.zPosition = thePlayer.zPosition + 1
-            timerNode.name = theItem.name! + "Timer"
-            self.addChild(timerNode)
-            
-            let animateAction:SKAction = SKAction(named:theAnimation, duration:time)!
-            let runAction:SKAction = SKAction.run {
-                
-                theItem.open()
-                timerNode.removeFromParent()
-                self.contactWithItem(theItem: theItem)
-                self.fadeOutInfoText(waitTime: theItem.infoTime)
-                
-            }
-            
-            timerNode.run(SKAction.sequence([animateAction, runAction]))
-            
-        }
-        
-        
-    }
-    
     
     func putWithinRange(nodeName: String) -> CGPoint {
         
@@ -195,22 +165,5 @@ extension GameScene {
         
     }
     
-    func showAnimation(name: String, at point:CGPoint) {
-        
-      //  print("show animation name:" + name)
-        
-        let aniNode:SKSpriteNode = SKSpriteNode(color: SKColor.clear, size: CGSize(width: 50, height: 50))
-        aniNode.position = point
-        self.addChild(aniNode)
-        aniNode.zPosition = 200
-        
-        if let animation:SKAction = SKAction(named: name) {
-     //       print("running animation : " + name)
-            let finishAnimation:SKAction = SKAction.run {
-                 aniNode.removeFromParent()
-            }
-            aniNode.run(SKAction.sequence([animation, finishAnimation]))
-        }
-    }
 
 }
