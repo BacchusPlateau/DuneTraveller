@@ -10,6 +10,7 @@
 		BA2D42522447B218003177C7 /* Encounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2D42512447B218003177C7 /* Encounter.swift */; };
 		BA2D42542447B5A6003177C7 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2D42532447B5A6003177C7 /* Globals.swift */; };
 		BA2D42562447B789003177C7 /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA2D42552447B789003177C7 /* Overlay.swift */; };
+		BA4329D12475C12200125F4A /* InventoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4329D02475C12200125F4A /* InventoryItem.swift */; };
 		BA496A572444D13700C42E70 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA496A562444D13700C42E70 /* Assets.xcassets */; };
 		BA496A592444EC0900C42E70 /* SQLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA496A582444EC0900C42E70 /* SQLHelper.swift */; };
 		BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5B3F3121D6B1EB0091C3D7 /* Types.swift */; };
@@ -29,7 +30,6 @@
 		BAC1BF942083DF8A003DAEB5 /* GameScene_PropertyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAAEBDD42013D139008BC7B2 /* GameScene_PropertyList.swift */; };
 		BAC1BF952083E142003DAEB5 /* NonPlayerCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */; };
 		BAC1BF962083E142003DAEB5 /* AttackArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA005CFE1FF97F8100BA1311 /* AttackArea.swift */; };
-		BAC1BF972083E142003DAEB5 /* WorldItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA3FFEBD201E7074001E661C /* WorldItem.swift */; };
 		BAC1BF982083E142003DAEB5 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA4E9159204E08A0008F9E93 /* Player.swift */; };
 		BAC1BF992083E142003DAEB5 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5D00FE205DFAB400C0C1A7 /* Projectile.swift */; };
 		BAC1BF9A2083E142003DAEB5 /* Inventory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA22677D207044A700160C26 /* Inventory.swift */; };
@@ -52,8 +52,8 @@
 		BA2D42512447B218003177C7 /* Encounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encounter.swift; sourceTree = "<group>"; };
 		BA2D42532447B5A6003177C7 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		BA2D42552447B789003177C7 /* Overlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
-		BA3FFEBD201E7074001E661C /* WorldItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldItem.swift; sourceTree = "<group>"; };
 		BA3FFEBF202F70B4001E661C /* GameScene_Inventory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene_Inventory.swift; sourceTree = "<group>"; };
+		BA4329D02475C12200125F4A /* InventoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryItem.swift; sourceTree = "<group>"; };
 		BA496A562444D13700C42E70 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA496A582444EC0900C42E70 /* SQLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLHelper.swift; sourceTree = "<group>"; };
 		BA4E9159204E08A0008F9E93 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -141,7 +141,6 @@
 				BA5E31C4200AABE500670595 /* NonPlayerCharacter.swift */,
 				BA005CFE1FF97F8100BA1311 /* AttackArea.swift */,
 				BA496A582444EC0900C42E70 /* SQLHelper.swift */,
-				BA3FFEBD201E7074001E661C /* WorldItem.swift */,
 				BA4E9159204E08A0008F9E93 /* Player.swift */,
 				BA5D00FE205DFAB400C0C1A7 /* Projectile.swift */,
 				BA22677D207044A700160C26 /* Inventory.swift */,
@@ -155,6 +154,7 @@
 				BA2D42552447B789003177C7 /* Overlay.swift */,
 				BAAC073E244BA72D00860E26 /* Note.swift */,
 				BAAC0740244F76AD00860E26 /* SearchSupport.swift */,
+				BA4329D02475C12200125F4A /* InventoryItem.swift */,
 			);
 			path = "Support code";
 			sourceTree = "<group>";
@@ -262,13 +262,13 @@
 			files = (
 				BAC1BF992083E142003DAEB5 /* Projectile.swift in Sources */,
 				BA5B3F3421D6BB750091C3D7 /* Wall.swift in Sources */,
-				BAC1BF972083E142003DAEB5 /* WorldItem.swift in Sources */,
 				BAC1BF962083E142003DAEB5 /* AttackArea.swift in Sources */,
 				BA2D42522447B218003177C7 /* Encounter.swift in Sources */,
 				BA5B3F3221D6B1EB0091C3D7 /* Types.swift in Sources */,
 				BAC1BF9C2083E142003DAEB5 /* EnemyAttackArea.swift in Sources */,
 				BA496A592444EC0900C42E70 /* SQLHelper.swift in Sources */,
 				BA2D42562447B789003177C7 /* Overlay.swift in Sources */,
+				BA4329D12475C12200125F4A /* InventoryItem.swift in Sources */,
 				BAC1BF982083E142003DAEB5 /* Player.swift in Sources */,
 				BAC1BF952083E142003DAEB5 /* NonPlayerCharacter.swift in Sources */,
 				BAAC073F244BA72D00860E26 /* Note.swift in Sources */,

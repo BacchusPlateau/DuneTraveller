@@ -25,6 +25,20 @@ class Note {
 class NoteData {
     
     let getNoteDataSqlTemplate = "SELECT * FROM Note WHERE encounterId = %i;"
+    let getNoteByNoteIdSqlTemplate = "SELECT * FROM Note Where id = %i;"
+    
+    func getNote(forNoteId id:Int) -> Note {
+        
+        var note = Note()
+        let getNoteSql = String(format: getNoteByNoteIdSqlTemplate, id)
+        let sqlHelper = SQLHelper(databasePath: Globals.SharedInstance.databaseUrl)
+        let result = sqlHelper.select(sqlCommand: getNoteSql)
+        
+        note = mapResultToEntity(dataMatrix: result)[0]
+        
+        return note
+        
+    }
     
     func getNote(forEncounterId id:Int) -> Note {
         

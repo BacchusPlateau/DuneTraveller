@@ -525,8 +525,39 @@ extension GameScene {
         searchAreas.forEach { area in
             if searchArea(playerX: col, playerY: row, area: area) == true {
                 
-                splitTextIntoFields(theText: area.message)
-                fadeOutInfoText(waitTime: 5)
+                var showTheSearchResult: Bool = false
+                
+                //check for encounter volatility and act accordingly
+                if let encounter = overlay.first(where: { $0.encounterId == area.encounterId }) {
+                    
+                    if encounter.volatile && !encounter.completed {
+                        showTheSearchResult = true
+                        //assumption: only volatile searches will have inventory search results
+                        let searchData = SearchAreaData()
+                        let booty = searchData.getIventoryFoundInSearch(forSearchAreaId: area.id)
+                        if booty.getInventoryCount() > 0 {
+                            playerInventory.MergeInventory(withInventory: booty)
+                        }
+                    }
+                    
+                    if !encounter.volatile {
+                        showTheSearchResult = true
+                    }
+                    
+                    if showTheSearchResult {
+                        
+                        splitTextIntoFields(theText: area.message)
+                        fadeOutInfoText(waitTime: 5)
+                        
+                        encounter.completed = true
+                        
+                    } else {
+                        
+                        splitTextIntoFields(theText: "You look around but find nothing.")
+                        fadeOutInfoText(waitTime: 5)
+                        
+                    }
+                }
                 
             }
         }

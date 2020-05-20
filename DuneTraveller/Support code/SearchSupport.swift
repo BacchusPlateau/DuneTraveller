@@ -16,6 +16,7 @@ class SearchArea {
     var message: String
     var items: [Int]
     var searchRadius: Int
+    var encounterId: Int
     
     init() {
         
@@ -37,6 +38,11 @@ class SearchArea {
         searchRadius = 1
         
         id = -1
+        
+        //this is a pointer into the Encounter array.  We want to remove the SearchArea from the global array
+        //if the encounter.volatile == true if the searchArea was found
+        encounterId = -1
+        
     }
     
 }
@@ -44,12 +50,51 @@ class SearchArea {
 class SearchAreaData {
     
     let getSearchAreaDataSqlTemplate = "SELECT * FROM SearchArea WHERE id = %i;"
+    let getSearchResultDataSqlTemplate = "SELECT * FROM SearchResult WHERE id = %i;"
     
-    func getIventoryFoundInSearch() {
+    func getIventoryFoundInSearch(forSearchAreaId id:Int) -> Inventory {
      
-        //don't forget notes can be inventory too
+        var inventory = Inventory()
+        let getSearchResultSql = String(format: getSearchResultDataSqlTemplate, id)
+        let sqlHelper = SQLHelper(databasePath: Globals.SharedInstance.databaseUrl)
+        let result = sqlHelper.select(sqlCommand: getSearchResultSql)
+        
+        inventory = mapResultToItemTypes(dataMatrix: result)
+        
+        return inventory
         
     }
+    
+    func mapResultToItemTypes(dataMatrix result: [[String]]) -> Inventory {
+        
+        var typeId : Int = -1
+        var type : String = ""
+        let inventory : Inventory = Inventory()
+        
+        for i in 0...result.count {
+            
+            typeId = Int(result[i][1])!
+            type = result[i][2]
+            
+            switch type {
+            case "note":
+                let noteData = NoteData()
+                let note = noteData.getNote(forNoteId: typeId)
+                inventory.notes.append(note)
+            case "item":
+                let itemData = ItemData()
+                let item = itemData.getItem(forId: typeId)
+                inventory.items.append(item)
+            default:
+                break
+            }
+            
+        }
+        
+        return inventory
+        
+    }
+    
     
     func getSearchAreaDetail(forSearchAreaId id:Int) -> SearchArea {
         

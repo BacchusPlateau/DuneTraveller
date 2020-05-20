@@ -128,10 +128,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fogNode:SKSpriteNode = SKSpriteNode()
     
     //level specific cache
-    var overlay = [Overlay]()
+    var overlay = [Overlay]()   //we shouldn't clear the overlay out when transitioning to another view
     var encounters = [Encounter]()
     var notes = [Note]()
     var searchAreas = [SearchArea]()
+    var playerInventory = Inventory()
     
     func checkCircularIntersection(withNode node:SKNode, radius:CGFloat) -> Bool {
         
@@ -225,9 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         for node in self.children {
             
-            if let someItem:WorldItem = node as? WorldItem {
-                setUpItem(theItem:someItem)
-            } else if let someEnemy:Enemy = node as? Enemy {
+           if let someEnemy:Enemy = node as? Enemy {
                 setUpEnemy(theEnemy: someEnemy)
             }
         }
@@ -666,6 +665,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         searchArea.message = searchAreaDetail.message
         searchArea.tilePosition = CGPoint(x: col, y:row)
         searchArea.scenePosition = CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate)
+        searchArea.encounterId = encounter.id
         searchAreas.append(searchArea)
         
     }
