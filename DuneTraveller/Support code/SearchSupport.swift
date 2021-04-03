@@ -50,12 +50,15 @@ class SearchArea {
 class SearchAreaData {
     
     let getSearchAreaDataSqlTemplate = "SELECT * FROM SearchArea WHERE id = %i;"
-    let getSearchResultDataSqlTemplate = "SELECT * FROM SearchResult WHERE id = %i;"
+    let getSearchResultDataSqlTemplate = "SELECT * FROM SearchResult WHERE searchAreaId = %i;"
     
     func getIventoryFoundInSearch(forSearchAreaId id:Int) -> Inventory {
      
         var inventory = Inventory()
         let getSearchResultSql = String(format: getSearchResultDataSqlTemplate, id)
+        
+        print("Search result sql = " + getSearchResultSql)
+        
         let sqlHelper = SQLHelper(databasePath: Globals.SharedInstance.databaseUrl)
         let result = sqlHelper.select(sqlCommand: getSearchResultSql)
         
@@ -71,7 +74,7 @@ class SearchAreaData {
         var type : String = ""
         let inventory : Inventory = Inventory()
         
-        for i in 0...result.count {
+        for i in 0..<result.count {
             
             typeId = Int(result[i][1])!
             type = result[i][2]

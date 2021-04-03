@@ -212,6 +212,7 @@ extension GameScene {
         case 0x22: // I, inventory toggle
             toggleInventory()
         case 0x01: // S, search
+            print("s key was pressed")
             searchAround()
         case 0x31: // Space, pause
             break

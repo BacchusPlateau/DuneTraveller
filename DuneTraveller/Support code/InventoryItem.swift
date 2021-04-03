@@ -56,7 +56,7 @@ class ItemData {
         
         var items = [Item]()
         
-        for i in 0...result.count {
+        for i in 0..<result.count {
             
             let item = Item()
             

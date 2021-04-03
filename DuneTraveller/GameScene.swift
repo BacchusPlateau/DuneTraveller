@@ -555,6 +555,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let dbAbsoluteString = dbUrl.path
         
         let fileManager = FileManager.default
+        print("Database is at: " + dbUrl.path)
+        
         if fileManager.fileExists(atPath: dbUrl.path) {
             print("Exists")
         } else {
@@ -565,9 +567,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         //test connection
-        //let encounterData = EncounterData()
-        //let encounter = encounterData.getEncounter(forId: 0)
-        //print("Encounter name = " + encounter.name)
+        let encounterData = EncounterData()
+        let encounter = encounterData.getEncounter(forId: 0)
+        print("Encounter name = " + encounter.name)
         
         //let overlayData = OverlayData()
         //let overlay = overlayData.getOverlayData(forLevel: 0)
@@ -666,6 +668,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         searchArea.tilePosition = CGPoint(x: col, y:row)
         searchArea.scenePosition = CGPoint(x: overlayItem.xCoordinate, y: overlayItem.yCoordinate)
         searchArea.encounterId = encounter.id
+        searchArea.id = searchAreaDetail.id
         searchAreas.append(searchArea)
         
     }
